@@ -1,0 +1,16 @@
+.form-signin-regis{
+    max-width: 330px;
+    padding: 1rem;
+    margin-left: 390px ;
+    margin-right: 300;
+    width: 60%;
+    padding: 10px;
+}
+
+.center-regis{
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: rgba(255, 240, 219, 0.75);
+    width: 350px;
+    height: 900px;
+}

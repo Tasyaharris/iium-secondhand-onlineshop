@@ -1,0 +1,76 @@
+.box1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+    max-width: 330px;
+    padding: 1rem;
+    
+}
+
+.center{
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: rgba(255, 240, 219, 0.75);
+    width: 450px;
+    height: 325px;
+}
+
+a:link, a:visited{
+    color: black;
+    
+}
+
+.title{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+  margin-left: 360px ;
+  margin-right: 300px;
+  width: 60%;
+  padding: 10px;
+}
+
+.form-floating{
+    width: 415px;
+    height: 51px;
+    flex-shrink: 0;
+    margin-left: 15px;
+    margin-bottom: 35px;
+    margin-right: 15px;
+   
+}
+
+
+.button{
+    width: 100px;
+    height: 28.998px;
+    margin-left: 175px;
+    justify-content: center;
+    color: black;
+    font-size: 15px;
+    margin-bottom: 10px;
+  
+}
+
+.form-signin-regis{
+    max-width: 330px;
+    padding: 1rem;
+    margin-left: 340px ;
+    margin-right: 300;
+    width: 60%;
+    padding: 10px;
+}
+
+.center-regis{
+    border-radius: 20px;
+    border: 1px solid #000;
+    background: rgba(255, 240, 219, 0.75);
+    width: 450px;
+    height: 500px;
+}
