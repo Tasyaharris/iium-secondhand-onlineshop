@@ -67,9 +67,22 @@
 <nav class="navbar bg-body-tertiary border-bottom mt-0">
   <div class="container-fluid">
     <a href="/homepage" class=" p-3 text-secondary text-decoration-none d-inline" style="font-weight: bold ">IIUM SECOND-HAND ONLINE SHOP</a>
-    <form class="d-flex" role="search">
+    <form action="/sell" class="d-flex" role="search">
       <input class="form-control me-2 me-2" type="search" placeholder="Search for Item or User" aria-label="Search">
       <button class="btn btn-outline-success ms-auto p-2" type="submit" style="background-color: #A8B8D0; color: black; border: none; text-align: center;">SELL</button>
+      @if (Route::has('sell'))
+      <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+          @auth
+              <a href="{{ url('/sell') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
+          @else
+              <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+              @if (Route::has('register'))
+                  <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+              @endif
+          @endauth
+      </div>
+  @endif
     </form>
   </div>
 </nav>

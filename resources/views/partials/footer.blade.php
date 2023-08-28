@@ -1,10 +1,10 @@
-<footer class="bg-dark text-center  text-white text-lg-start">
+<footer class="bg-dark  footer expand-lg text-center  text-white text-lg-start">
     <!-- Grid container -->
     <div class="container p-4">
       <!--Grid row-->
       <div class="row" style="text-align: left; font-size:10px;">
         <!--Grid column-->
-        <div class="col-lg-2 col-md-8 mb-4 mb-md-0" style="text-align: left; font-size:10px;">
+        <div class="col-lg-2 col-md-8 mb-4 mb-md-0" >
             <h6 class="text-uppercase" >CATEGORIES</h6>
   
             <ul class="list-unstyled mb-0">
@@ -89,22 +89,9 @@
 
         <!--Grid column-->
         <div class="col-lg-2 col-md-8 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-0">Links</h5>
-    
-            <ul class="list-unstyled">
-              <li>
-                <a href="#!" class="text-white">Link 1</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 2</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 3</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 4</a>
-              </li>
-            </ul>
+            <h5 class="text-uppercase mb-0">About Us</h5>
+  
+            <p>IIUM Second-Hand Online Shop is a platform to help students to sell and find anything. </p>
           </div>
           <!--Grid column-->
         
