@@ -14,6 +14,4 @@ class MainpageController extends Controller
             "email" => "user email"
         ]);
     }
-
-    
 }

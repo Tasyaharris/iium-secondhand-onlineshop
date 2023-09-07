@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Profile;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
             'username'=> '1',
             'product_pic'=> '',
             'product_price' => '30',
+            'seller_option'=> 'negotiable',
             'category' => 'fashion',
             'condition' => 'Brand New',
             'dist_option'=> 'for sale',
@@ -52,6 +54,7 @@ class DatabaseSeeder extends Seeder
             'username'=> '1',
             'product_pic'=> '',
             'product_price' => '30',
+            'seller_option'=> 'negotiable',
             'category' => 'fashion',
             'condition' => 'Brand New',
             'dist_option'=> 'for sale',
@@ -60,5 +63,31 @@ class DatabaseSeeder extends Seeder
             'more_desc'=> ' test test', 
             'meetup_point'=> 'Mahallah Hafsa'
         ]);
+
+       
+        Profile::create([
+            'username'=> '2',
+            'profile_pic'=> '',
+            'first_name' => 'Tasya',
+            'last_name'=> 'Harris',
+            'mahallah' => 'Hafsa',
+            'kuliyyah' => 'KICT',
+            'gender'=> 'Female',
+            'phone_number'=> '0143296789',
+            'bio'=> 'lorem ipsum ....'
+        ]);
+
+        Profile::create([
+            'username'=> '1',
+            'profile_pic'=> '',
+            'first_name' => 'Test',
+            'last_name'=> 'Profile',
+            'mahallah' => 'Asiah',
+            'kuliyyah' => 'KENMS',
+            'gender'=> 'Female',
+            'phone_number'=> '0143296789',
+            'bio'=> 'lorem ipsum ....'
+        ]);
+        
     }
 }

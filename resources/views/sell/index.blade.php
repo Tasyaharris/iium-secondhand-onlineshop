@@ -11,7 +11,7 @@
   </head>
   <body>
 
-      @include('partials.header')
+    @include('partials.header')
     
     <div class="container mt-2">
        

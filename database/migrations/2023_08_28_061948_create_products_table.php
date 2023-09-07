@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId("username");
             $table->string("product_pic");
             $table->decimal("product_price");
+            $table->string("seller_option");
             $table->string("category");
             $table->string("condition");
             $table->string("dist_option");

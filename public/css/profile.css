@@ -21,7 +21,15 @@ body, h1, h2, p, ul, li {
 .uname{
     margin-left: 35px;
 }
+
+.lname{
+  margin-left: 2px;
+}
+
+.nameuser{
+  display: flex;
   
+}
 
 .user-info {
     text-align: center;

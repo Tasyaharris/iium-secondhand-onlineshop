@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -16,8 +17,9 @@ class ProfileController extends Controller
         //
         return view('userprofile.profile',[
             'title' => "Profile",
-            'profile' => User::where('id',auth()->user()->id)->get(),
-            'products' => Product::where('username',auth()->user()->id)->get()
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::where('username',auth()->user()->id)->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get()
             
         ]);
     }

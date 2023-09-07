@@ -6,6 +6,7 @@
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/footer.css">
   </head>
   <body>
 
@@ -16,10 +17,15 @@
         <div class="col-md-4">
           <div class="user-profile">
             <div class="user-info">
+              @foreach ($profiles as $profile)
               <div class="flex-container">
                 <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
                 <div class="uname">
-                  <h6>Name</h6>
+                  <div class="nameuser">
+                    <h6 >{{ $profile->first_name }} </h6>
+                    <h6>{{ $profile->last_name }}</h6>
+                  </div>
+                 
                   <p>{{ auth()->user()->username }}</p>
                 </div>
               </div>
@@ -28,8 +34,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                 <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                 </svg> 
-                <p>New York, USA</p>
+                <p>{{ $profile->mahallah }}</p>
                 </div>
+              @endforeach
             </div>
           </div>
           
@@ -79,7 +86,8 @@
                         
                         <div class="prod-desc">
                         <h6 id="product_name" >{{ $product->product_name }}</h6>
-                        <small id="price" id="price" >{{ $product->product_price }}</small>
+                        <small id="price" id="price" > RM {{ $product->product_price }}</small>
+                        <small id="seller_option"> ({{ $product->seller_option }})</small>
                         <br>
                         <small id="condition">{{ $product->condition}}</small>
                         </div>
