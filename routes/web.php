@@ -6,6 +6,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SellController;
+use App\Http\Controllers\ProfileController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +23,8 @@ use App\Http\Controllers\SellController;
 
 
 Route::get('/', [MainpageController:: class, 'index']);
+
+
 
 Route::get('/fashion', function () {
     return view('fashion', [
@@ -59,6 +64,8 @@ Route::get('/cond_details', function () {
 
 
 
+
+
 Route::get('/login', [LoginController:: class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController:: class, 'authenticate'] );
 Route::post('/logout', [LoginController:: class, 'logout'] );
@@ -68,4 +75,11 @@ Route::post('/register', [RegisterController:: class, 'store'] );
 
 Route::get('homepage',[HomePageController::class,'index'])->middleware('auth');
 
-Route::get('sell',[SellController::class,'index'])->middleware('auth');
+//Route::get('/sell', function(){
+//    return view('sell.index', [
+//        "title" => "Sell",
+//    ]);
+//})->middleware('auth');
+
+Route::resource('/sell',SellController::class)->middleware('auth');
+Route::resource('/profile',ProfileController::class)->middleware('auth');

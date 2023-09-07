@@ -24,6 +24,12 @@ a:link {
 
   }
 
+  .cond {
+    color: black;
+    background-color: transparent;
+
+  }
+
 .btn{
     border-radius: 30px;
     border: 1px solid rgba(0, 0, 0, 0.70);
@@ -36,5 +42,9 @@ a:link {
     background: rgba(168, 184, 208, 0.80);
     margin-top: 5px;
     margin-bottom: 5px;
-    justify-self: left;
+   justify-items: center;
+}
+
+.explanation{
+    justify-content: left;
 }
