@@ -153,3 +153,7 @@ td{
     justify-items: right;
     margin-left: 110px;
   }
+
+  .dropdown{
+    margin-bottom: 10px;
+  }

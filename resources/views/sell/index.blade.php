@@ -27,7 +27,8 @@
         
           <br><br>
         
-      <form>
+      <form method="post" action="/sell">
+        @csrf
             <!--Image-->
             <div class="inp_img mb-3" >
                 <div class="mb-4 mt-5 d-flex justify-content-center">
@@ -47,19 +48,27 @@
                 </div>
             </div>
         
-            <select class="form-select mb-3 mt-3" aria-label="Default select example">
+            
+            <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required  >
                 <option selected>Select Category</option>
-                <option value="1">Fashion</option>
-                <option value="2">Book</option>
-                <option value="3">Electronics</option>
-                <option value="4">Mahallah Equipment</option>
-                <option value="5">Cosmetics</option>
-                <option value="6">Others</option>
+                @foreach( $categories as $category)
+                    @if(old('category_id') === $category->id)
+                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                    @else
+                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                    @endif
+                @endforeach
             </select>
 
             <div class="form-floating mb-3 mt-3">
-                <input type="product_name" class="form-control" id="floatingInput" placeholder="Item Name">
-                <label for="floatingInput">Item Name</label>
+                
+                <input type="product_name" name="product_name" class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required  value="{{ old("product_name") }}" maxlength="255">
+                @error('product_name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+                <label for="product_name">Item Name</label>
             </div>
             <div class="abt_product">
                 <h5>About the product</h5>
@@ -68,67 +77,86 @@
                 <p><a href="/cond_details">Please refer to condition details here</a></p>
             </div>
            
-            <div class="condition mb-3 mt-3">
-                <input type="radio" class="btn-check"  name="options-outlined" id="option5-outlined" autocomplete="on">
-                <label class="btn btn-outline-secondary" for="option5-outlined">Brand New</label>
-
-                <input type="radio" class="btn-check" name="options-outlined" id="option6-outlined" autocomplete="off">
-                <label class="btn  btn-outline-secondary" for="option6-outlined">Like New</label>
-
-                <input type="radio" class="btn-check"  name="options-outlined" id="option7-outlined" autocomplete="off">
-                <label class="btn  btn-outline-secondary" for="option7-outlined">Lightly Used</label>
-
-                <input type="radio" class="btn-check" name="options-outlined" id="option8-outlined" autocomplete="off">
-                <label class="btn  btn-outline-secondary" for="option8-outlined">Used</label>
-
-                <input type="radio" class="btn-check"  name="options-outlined" id="option9-outlined" autocomplete="off">
-                <label class="btn  btn-outline-secondary" for="option9-outlined">Heavy Used</label>
+            <div class="condition">
+                @foreach($conditions as $condition)
+                    @if(old('condition_id') === $condition->id)
+                    <input type="radio" class="btn-check" name="condition_id"  id="{{ $condition->id }}" autocomplete="off" checked >
+                    @else
+                    <input type="radio" class="btn-check" name="condition_id"  id="{{ $condition->id }}" autocomplete="off"  >
+                    @endif   
+                <label class="btn btn-outline-secondary" for="{{ $condition->id }}">{{ $condition->condition }}</label>
+                @endforeach
             </div>
 
             <div class="pricing mb-3 mt-3">
-                <h6>Price</h6>
-                <div class="dist_opt">
-                <input type="radio" class="btn-check" name="options1-outlined"  id="btn-check-outlined" autocomplete="off">
-                <label class="btn btn-outline-secondary" for="btn-check-outlined">For Sale</label>
-
-                <input type="radio" class="btn-check" name="options1-outlined" id="btn-check-2-outlined" autocomplete="off">
-                <label class="btn  btn-outline-secondary" for="btn-check-2-outlined">For Free</label>
-                </div>
+                <h6>Price</h6>           
+                @foreach($selleroptions as $selleroption)
+                    <div class="form-check form-check-inline" name="selleroption_id">
+                        @if(old('selleroption_id') === $selleroption->id)
+                        <input class="form-check-input" type="radio" name="selleroption_id" id="{{ $selleroption->id }}" autocomplete="off" checked>
+                        @else
+                        <input class="form-check-input" type="radio" name="selleroption_id" id="{{ $selleroption->id }}" autocomplete="off">
+                        @endif
+                        <label class="form-check-label" for="{{ $selleroption->id }}">{{ $selleroption->name }}</label>
+                    </div>
+                @endforeach        
+            </div>
 
             <div class="inp_price mb-3 mt-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text">RM</span>
-                        <input type="text" class="form-control" name="price" id="price" aria-label="Text input with dropdown button">
-                        <select class="form-select" name="option_seller" id="inputGroupSelect01">
-                            <option selected value="1">Negotiable</option>
-                            <option value="2">Non-Negotiable</option>
+                        <input type="text" class="form-control @error('price') is-invalid @enderror" name="product_price" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}">
+                        @error('product_price')
+                            <div class="invalid-feedback">
+                             {{ $message }}
+                            </div>
+                         @enderror
+                        <select class="form-select" name="option_seller" id="inputGroupSelect01" required value="{{ old("option_seller") }}">
+                            <option selected value="Negotiable">Negotiable</option>
+                            <option value="Non-Negotiable">Non-Negotiable</option>
                           </select>
                     </div>
             </div>
 
             <div class="row mb-3">
-                <label for="inputEmail3" name="brand" class="col-sm-2 col-form-label">Brand</label>
+                <label for="brand" name="brand" class="col-sm-2 col-form-label">Brand</label>
                 <div class="col-sm-10">
-                  <input type="email" name="brand"  class="form-control" id="inputEmail3">
+                  <input type="brand" name="brand"  class="form-control @error('brand') is-invalid @enderror" id="brand" required value="{{ old("brand") }}" maxlength="255">
+                  @error('brand')
+                  <div class="invalid-feedback">
+                   {{ $message }}
+                  </div>
+               @enderror
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="material" name="material" class="col-sm-2 col-form-label">Material</label>
+                <div class="col-sm-10">
+                  <input type="material"  name="material" class="form-control @error('brand') is-invalid @enderror" id="material" required value="{{ old("material") }}" maxlength="255">
+                  @error('material')
+                  <div class="invalid-feedback">
+                   {{ $message }}
+                  </div>
+                 @enderror
                 </div>
             </div>
             <div class="row mb-3">
-                <label for="inputPassword3" name="material" class="col-sm-2 col-form-label">Material</label>
+                <label for="description"  name="description" class="col-sm-2 col-form-label" >More Description(Optional)</label>
                 <div class="col-sm-10">
-                  <input type="password"  name="material" class="form-control" id="inputPassword3">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <label for="inputPassword3"  name="description" class="col-sm-2 col-form-label">More Description(Optional)</label>
-                <div class="col-sm-10">
-                  <input type="password"   name="description" class="form-control" id="inputPassword3">
+                  <input type="description"   name="description" class="form-control" id="description" value="{{ old("description") }}" maxlength="255">
                 </div>
             </div>
 
             <div class="meetup">
                 <h6>Meet-Up Point</h6>
                 <div class="col-12">
-                    <input type="text" class="form-control" id="inputAddress" placeholder="KICT">
+                    <input type="text" class="form-control @error('meetup_point') is-invalid @enderror" name="meetup_point" id="meetup_point" placeholder="KICT" required value="{{ old("meetup_point") }}" maxlength="255">
+                    @error('meetup_point')
+                    <div class="invalid-feedback">
+                     {{ $message }}
+                    </div>
+                 @enderror
                   </div>
             </div>
             

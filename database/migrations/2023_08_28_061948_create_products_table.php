@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId("username");
             $table->string("product_pic");
             $table->decimal("product_price");
-            $table->string("seller_option");
-            $table->string("category");
-            $table->string("condition");
-            $table->string("dist_option");
+            $table->foreignId("option_id");
+            $table->foreignId("category_id");
+            $table->foreignId("condition_id");
+            $table->string("nego_option");
             $table->string("brand");
             $table->string("material");
             $table->string("more_desc");

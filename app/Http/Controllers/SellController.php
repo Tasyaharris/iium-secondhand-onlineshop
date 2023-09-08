@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Condition;
+use App\Models\Selleroption;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SellController extends Controller
@@ -13,8 +17,11 @@ class SellController extends Controller
     public function index()
     {
         return view('sell.index',[
-            "title" => "Sell Page"
-            //'sell' => Product::where('username', auth()->user()->username)->get()
+            "title" => "Sell Page",
+            'categories'=> Category::all(),
+            'conditions'=> Condition::all(),
+            'selleroptions'=> Selleroption::all(),
+            'sell' => Product::where('username', auth()->user()->username)->get()
         ]);
     }
 
@@ -23,7 +30,14 @@ class SellController extends Controller
      */
     public function create()
     {
-        //
+        return view('sell.index',[
+            'users' => User::where('username',auth()->user()->id)->get(),
+            'products' => Product::where('username',auth()->user()->id)->get(),
+            'categories'=> Category::all(),
+            'conditions'=> Condition::all(),
+            'selleroptions'=> Selleroption::all()
+           
+        ]);
     }
 
     /**
@@ -31,7 +45,24 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return $request;
+      
+        $validatedData = $request->validate([
+            'product_name'=>'required',
+            'product_price'=>'required',
+            'brand'=>'required',
+            'material'=>'required',
+            'meetup_point'=>'required'
+        ]);
+
+        $validatedData['username'] = auth()->user()->id;
+        //return $request;
+
+       Product::create($validatedData);
+
+        return redirect('/profile')->with('success','New item has been added!');
+
+
     }
 
     /**

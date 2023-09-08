@@ -7,6 +7,10 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Profile;
+use App\Models\Category;
+use App\Models\Condition;
+use App\Models\Selleroption;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -34,15 +38,67 @@ class DatabaseSeeder extends Seeder
             'password'=> bcrypt('tasya123')
         ]);
 
-        Product::create([
+        Category::create([
+            'name'=>'Fashion'
+         ]);
+ 
+         Category::create([
+             'name'=>'Books'
+          ]);
+ 
+         Category::create([
+             'name'=>'Electronics'
+          ]);
+ 
+          Category::create([
+             'name'=>'Mahallah Equipments'
+          ]);
+ 
+          Category::create([
+             'name'=>'Cosmetics'
+          ]);
+  
+          Category::create([
+             'name'=>'Others'
+          ]);
+
+          Condition::create([
+            'condition'=>'Brand New'
+         ]);
+
+         Condition::create([
+            'condition'=>'Like New'
+         ]);
+
+         Condition::create([
+            'condition'=>'Lightly Used'
+         ]);
+
+         Condition::create([
+            'condition'=>'Used'
+         ]);
+
+         Condition::create([
+            'condition'=>'Heavy Used'
+         ]);
+
+         Selleroption::create([
+            'name'=>'For Sale'
+         ]);
+
+         Selleroption::create([
+            'name'=>'For Free'
+         ]);
+
+         Product::create([
             'product_name'=> 'H&M cardigan',
             'username'=> '1',
             'product_pic'=> '',
             'product_price' => '30',
-            'seller_option'=> 'negotiable',
-            'category' => 'fashion',
-            'condition' => 'Brand New',
-            'dist_option'=> 'for sale',
+            'option_id'=> '1',
+            'category_id' => '1',
+            'condition_id' => '1',
+            'nego_option'=> 'negotiable',
             'brand'=> 'H&M',
             'material'=> 'cotton',
             'more_desc'=> ' test test', 
@@ -54,10 +110,10 @@ class DatabaseSeeder extends Seeder
             'username'=> '1',
             'product_pic'=> '',
             'product_price' => '30',
-            'seller_option'=> 'negotiable',
-            'category' => 'fashion',
-            'condition' => 'Brand New',
-            'dist_option'=> 'for sale',
+            'option_id'=> '1',
+            'category_id' => '1',
+            'condition_id' => '1',
+            'nego_option'=> 'negotiable',
             'brand'=> 'H&M',
             'material'=> 'cotton',
             'more_desc'=> ' test test', 
@@ -76,18 +132,21 @@ class DatabaseSeeder extends Seeder
             'phone_number'=> '0143296789',
             'bio'=> 'lorem ipsum ....'
         ]);
-
+        
         Profile::create([
             'username'=> '1',
             'profile_pic'=> '',
             'first_name' => 'Test',
-            'last_name'=> 'Profile',
-            'mahallah' => 'Asiah',
-            'kuliyyah' => 'KENMS',
+            'last_name'=> 'Laravel',
+            'mahallah' => 'Hafsa',
+            'kuliyyah' => 'KICT',
             'gender'=> 'Female',
             'phone_number'=> '0143296789',
             'bio'=> 'lorem ipsum ....'
         ]);
         
+
+          
+ 
     }
 }
