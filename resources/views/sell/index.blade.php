@@ -47,18 +47,19 @@
                     <p class="reminder">Please snap the item from different angle</p>
                 </div>
             </div>
-        
-            
+    
+            <label for="category_id">Product Category</label>
             <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required  >
                 <option selected>Select Category</option>
                 @foreach( $categories as $category)
-                    @if(old('category_id') === $category->id)
+                    @if(old('category_id') == $category->id)
                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                     @else
                         <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
                     @endif
                 @endforeach
             </select>
+
 
             <div class="form-floating mb-3 mt-3">
                 
@@ -77,29 +78,31 @@
                 <p><a href="/cond_details">Please refer to condition details here</a></p>
             </div>
            
-            <div class="condition">
-                @foreach($conditions as $condition)
-                    @if(old('condition_id') === $condition->id)
-                    <input type="radio" class="btn-check" name="condition_id"  id="{{ $condition->id }}" autocomplete="off" checked >
+           
+
+            <select class="form-select mb-3 mt-3" aria-label="Default select example" name="condition_id" id="condition_id" required  >
+                <option selected>Select Condition</option>
+                @foreach( $conditions as $condition)
+                    @if(old('condition_id') == $condition->id)
+                        <option value="{{ $condition->id }}" selected>{{ $condition->condition }}</option>
                     @else
-                    <input type="radio" class="btn-check" name="condition_id"  id="{{ $condition->id }}" autocomplete="off"  >
-                    @endif   
-                <label class="btn btn-outline-secondary" for="{{ $condition->id }}">{{ $condition->condition }}</label>
+                        <option value="{{ $condition->id }}" selected>{{ $condition->condition }}</option>
+                    @endif
                 @endforeach
-            </div>
+            </select>
 
             <div class="pricing mb-3 mt-3">
-                <h6>Price</h6>           
-                @foreach($selleroptions as $selleroption)
-                    <div class="form-check form-check-inline" name="selleroption_id">
-                        @if(old('selleroption_id') === $selleroption->id)
-                        <input class="form-check-input" type="radio" name="selleroption_id" id="{{ $selleroption->id }}" autocomplete="off" checked>
+                <h6>Price</h6>
+                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="option_id" id="option_id" required  >
+                    @foreach($selleroptions as $selleroption)
+                        @if(old('selleroption_id') == $selleroption->id)
+                            <option value="{{ $selleroption->id }}" selected>{{$selleroption->name }}</option>
                         @else
-                        <input class="form-check-input" type="radio" name="selleroption_id" id="{{ $selleroption->id }}" autocomplete="off">
+                            <option value="{{ $selleroption->id }}" selected>{{$selleroption->name }}</option>
                         @endif
-                        <label class="form-check-label" for="{{ $selleroption->id }}">{{ $selleroption->name }}</label>
-                    </div>
-                @endforeach        
+                    @endforeach
+                </select>
+                <label for="option">Seller Option</label>       
             </div>
 
             <div class="inp_price mb-3 mt-3">
@@ -111,10 +114,16 @@
                              {{ $message }}
                             </div>
                          @enderror
-                        <select class="form-select" name="option_seller" id="inputGroupSelect01" required value="{{ old("option_seller") }}">
-                            <option selected value="Negotiable">Negotiable</option>
-                            <option value="Non-Negotiable">Non-Negotiable</option>
-                          </select>
+
+                        <select class="form-select" name="nego_id" id="inputGroupSelect01" required value="{{ old("nego_id") }}">
+                            @foreach($negos as $nego)
+                                @if(old('nego_id') == $nego->id)
+                            <option value="{{ $nego->id }}" selected>{{$nego->option }}</option>
+                                @else
+                            <option value="{{ $nego->id }}" selected>{{$nego->option }}</option>
+                                 @endif
+                            @endforeach
+                        </select>
                     </div>
             </div>
 

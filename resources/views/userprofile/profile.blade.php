@@ -94,9 +94,10 @@
                         <div class="prod-desc">
                         <h6 id="product_name" >{{ $product->product_name }}</h6>
                         <small id="price" id="price" > RM {{ $product->product_price }}</small>
-                        <small id="seller_option"> ({{ $product->seller_option }})</small>
+                        <small id="seller_option"> ({{ $product->nego_option }})</small>
                         <br>
-                        <small id="condition">{{ $product->condition}}</small>
+                        <small id="condition">{{ $product->condition_name }}</small>    
+                       
                         </div>
                       
                       <br>

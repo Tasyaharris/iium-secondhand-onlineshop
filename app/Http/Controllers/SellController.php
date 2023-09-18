@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Selleroption;
 use App\Models\User;
+use App\Models\Nego;
 use Illuminate\Http\Request;
 
 class SellController extends Controller
@@ -21,6 +22,7 @@ class SellController extends Controller
             'categories'=> Category::all(),
             'conditions'=> Condition::all(),
             'selleroptions'=> Selleroption::all(),
+            'negos'=> Nego::all(),
             'sell' => Product::where('username', auth()->user()->username)->get()
         ]);
     }
@@ -35,7 +37,8 @@ class SellController extends Controller
             'products' => Product::where('username',auth()->user()->id)->get(),
             'categories'=> Category::all(),
             'conditions'=> Condition::all(),
-            'selleroptions'=> Selleroption::all()
+            'selleroptions'=> Selleroption::all(),
+            'negos'=> Nego::all()
            
         ]);
     }
@@ -48,8 +51,12 @@ class SellController extends Controller
         //return $request;
       
         $validatedData = $request->validate([
+            'category_id'=>'required',
             'product_name'=>'required',
+            'condition_id'=>'required',
+            'option_id'=>'required',
             'product_price'=>'required',
+            'nego_id'=> 'required',
             'brand'=>'required',
             'material'=>'required',
             'meetup_point'=>'required'
@@ -57,6 +64,7 @@ class SellController extends Controller
 
         $validatedData['username'] = auth()->user()->id;
         //return $request;
+        
 
        Product::create($validatedData);
 

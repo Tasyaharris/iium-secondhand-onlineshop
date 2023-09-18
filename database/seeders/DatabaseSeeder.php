@@ -10,7 +10,7 @@ use App\Models\Profile;
 use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Selleroption;
-
+use App\Models\Nego;
 
 class DatabaseSeeder extends Seeder
 {
@@ -82,6 +82,15 @@ class DatabaseSeeder extends Seeder
             'condition'=>'Heavy Used'
          ]);
 
+         Nego::create([
+            'option'=>'Negotiable'
+         ]);
+
+         Nego::create([
+            'option'=>'Non-Negotiable'
+         ]);
+
+
          Selleroption::create([
             'name'=>'For Sale'
          ]);
@@ -98,7 +107,7 @@ class DatabaseSeeder extends Seeder
             'option_id'=> '1',
             'category_id' => '1',
             'condition_id' => '1',
-            'nego_option'=> 'negotiable',
+            'nego_id'=> '1',
             'brand'=> 'H&M',
             'material'=> 'cotton',
             'more_desc'=> ' test test', 
@@ -113,7 +122,7 @@ class DatabaseSeeder extends Seeder
             'option_id'=> '1',
             'category_id' => '1',
             'condition_id' => '1',
-            'nego_option'=> 'negotiable',
+            'nego_id'=> '1',
             'brand'=> 'H&M',
             'material'=> 'cotton',
             'more_desc'=> ' test test', 
