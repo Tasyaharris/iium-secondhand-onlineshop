@@ -19,3 +19,12 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 }
+
+.card{
+    border-radius: 0;
+}
+
+.username{
+    margin-left: 10px;
+    margin-top: 10px;
+}

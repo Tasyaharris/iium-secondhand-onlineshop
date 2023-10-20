@@ -27,7 +27,7 @@
         
           <br><br>
         
-      <form method="post" action="/sell">
+      <form method="post" action="/sell" enctype="multipart/form-data">
         @csrf
             <!--Image-->
             <div class="inp_img mb-3" >
@@ -39,13 +39,36 @@
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="btn_upload">
-                    <label class="form-label m-1 " for="customFile1">Select Photos</label>
-                    <input type="file" class="form-control d-none" id="customFile1" />
+                    
+                    <label class="form-label m-1 " for="customFile1">
+                        Select Photos
+                    </label>
+
+                    <input type="file" class="form-control @error('image') is-invalid @enderror d-none" id="customFile1" name="image" required onchange="displaySelectedImage(this)" />
+                    @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                     </div>
                 </div>
                 <div class="d-flex mt-2 justify-content-center">
                     <p class="reminder">Please snap the item from different angle</p>
                 </div>
+
+                <div class="img">
+                    
+                    <!--to display the selected image -->
+                    <div class="d-flex justify-content-center">
+                    <img id="selectedImage" src="#" alt="Selected Image" style="max-width: 100%; max-height: 300px; display: none;">
+                    </div>
+                  
+                    
+                </div>
+           
+                
+                  
+                
             </div>
     
             <label for="category_id">Product Category</label>
@@ -53,9 +76,9 @@
                 <option selected>Select Category</option>
                 @foreach( $categories as $category)
                     @if(old('category_id') == $category->id)
-                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @else
-                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endif
                 @endforeach
             </select>
@@ -82,18 +105,23 @@
 
             <select class="form-select mb-3 mt-3" aria-label="Default select example" name="condition_id" id="condition_id" required  >
                 <option selected>Select Condition</option>
+                
                 @foreach( $conditions as $condition)
+                
                     @if(old('condition_id') == $condition->id)
-                        <option value="{{ $condition->id }}" selected>{{ $condition->condition }}</option>
+                        <option value="{{ $condition->id }}">{{ $condition->condition }}</option>
                     @else
-                        <option value="{{ $condition->id }}" selected>{{ $condition->condition }}</option>
+                        <option value="{{ $condition->id }}">{{ $condition->condition }}</option>
                     @endif
                 @endforeach
+                
+             
             </select>
 
             <div class="pricing mb-3 mt-3">
                 <h6>Price</h6>
                 <select class="form-select mb-3 mt-3" aria-label="Default select example" name="option_id" id="option_id" required  >
+                    
                     @foreach($selleroptions as $selleroption)
                         @if(old('selleroption_id') == $selleroption->id)
                             <option value="{{ $selleroption->id }}" selected>{{$selleroption->name }}</option>
@@ -177,6 +205,23 @@
     
     
     @include('partials.footer')
+    
+    <script>
+        function displaySelectedImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    var selectedImage = document.getElementById('selectedImage');
+                    selectedImage.src = e.target.result;
+                    selectedImage.style.display = 'block';
+                };
+    
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -82,7 +82,7 @@
               @endif
           @endauth
       </div>
-  @endif
+    @endif
     </form>
   </div>
 </nav>

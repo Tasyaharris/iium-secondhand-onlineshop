@@ -85,10 +85,10 @@
         
                     <div class="card p-2 py-3 text-center">
                       
-                        <div class="img mb-2 ">
-        
-                            <img src="https://i.imgur.com/LohyFIN.jpg" width="70" class="rounded-circle">
-                            
+                        <div class="img">
+                            @if ($product->product_pic)
+                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="70" class="rounded-circle">
+                            @endif
                         </div>
                         
                         <div class="prod-desc">

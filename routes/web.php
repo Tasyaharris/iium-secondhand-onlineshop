@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
 
 
 /*
@@ -24,7 +25,7 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [MainpageController:: class, 'index']);
 
-
+Route::get('/homepage', [MainpageController:: class, 'index']);
 
 Route::get('/fashion', function () {
     return view('fashion', [
@@ -62,6 +63,17 @@ Route::get('/cond_details', function () {
     ]);
 });
 
+//Route::get('/viewproduct', function () {
+//   return view('products.viewproduct',[
+//       "title" => "View Product",
+//  ]);
+//});
+
+
+//Route::get('/products/{id}', 'ProductController@show')->name('product.show');
+
+//Route::get('/products/{$product->id}', [ProductController::class,'show']);
+Route::resource('/products',ProductController::class)->middleware('auth');
 
 
 

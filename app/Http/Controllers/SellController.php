@@ -49,8 +49,11 @@ class SellController extends Controller
     public function store(Request $request)
     {
         //return $request;
-      
+       
+        //return $request->file('image')->store('post-images');
+
         $validatedData = $request->validate([
+            'product_pic'=>'image|file|max:1024',
             'category_id'=>'required',
             'product_name'=>'required',
             'condition_id'=>'required',
@@ -61,6 +64,10 @@ class SellController extends Controller
             'material'=>'required',
             'meetup_point'=>'required'
         ]);
+
+        if($request->file('image')){
+            $validatedData['product_pic']=$request->file('image')->store('post-images');
+        }
 
         $validatedData['username'] = auth()->user()->id;
         //return $request;
