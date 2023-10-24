@@ -118,7 +118,7 @@ td{
     margin-bottom: 30px;
     width: 740px;
     margin-left: 10px;;
-    height: auto; 
+    height:auto; 
     border-radius: 7px;
 
   }
@@ -133,11 +133,16 @@ td{
 
   .prod-desc{
     text-align: left;
-    margin-left: 10px;
+    
+  }
+
+  .img{
+    margin-top: 0;
   }
 
   .card{
     margin-left: 3px;
+    margin-right: 5px;
   }
 
   .location {

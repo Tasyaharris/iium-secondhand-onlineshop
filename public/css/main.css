@@ -28,3 +28,51 @@ line-height: normal;
     margin-left: 10px;
     margin-top: 10px;
 }
+
+.carousel-container {
+    display: flex;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s;
+}
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: 500px; /* Adjust as needed */
+    height: 250px; /* Adjust as needed */
+    margin-right: 20px; /* Adjust as needed */
+}
+
+.arrow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #007bff;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.arrow-button:hover {
+    background: #0056b3;
+}
+
+#left-arrow {
+    transform: rotate(180deg);
+}
+
+#carousel-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prod-desc{
+    margin-left: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}

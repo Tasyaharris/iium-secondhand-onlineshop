@@ -6,8 +6,8 @@
     <title>{{ $title }}</title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/footer.css">
   </head>
   <body>
 
@@ -79,19 +79,18 @@
             </div>
             
             <div class="products-listing">
-              <div class="row g-2">
+              <div class="row g-2" >
                 @foreach ($products as $product)
-                <div class="col-md-3">
-        
-                    <div class="card p-2 py-3 text-center">
-                      
-                        <div class="img">
+                <div class="col" >
+                    <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
+                      <div class="card-body d-flex flex-column">
+                        <div class="img mb-1">
                             @if ($product->product_pic)
-                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="70" class="rounded-circle">
+                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="90" height="100">
                             @endif
                         </div>
                         
-                        <div class="prod-desc">
+                        <div class="prod-desc mt-1 flex-grow-1">
                         <h6 id="product_name" >{{ $product->product_name }}</h6>
                         <small id="price" id="price" > RM {{ $product->product_price }}</small>
                         <small id="seller_option"> ({{ $product->nego_option }})</small>
@@ -100,10 +99,10 @@
                        
                         </div>
                       
-                      <br>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="margin-left: 10px">
+                        <br>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16" style="margin-left: 10px">
                         <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                      </svg>
+                        </svg>
                         <div class="options">
                            <div class="dropdown ms-auto">
                             <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
@@ -116,23 +115,29 @@
                               </li>
                               <li>
                                 <!--delete item button-->
-                                <span class="dropdown-item">
-                                  <form action="/sell" method="post">
-                                    @method('delete')
+                              
+                                  <form action="{{ route('sell.destroy', $product->id) }}"  method="post">
+                                    <span class="dropdown-item">
+                                    @method('DELETE')
                                     @csrf
-                                    <i class="fas fa-trash mx-2" onclick="return confirm('Are you sure to delete this item?')"></i> Delete
+                                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')">
+                                      <i class="fas fa-trash mx-2"></i> Delete
+                                    </button>
+                                    </span>
                                   </form>
-                                </span>
+                                
                               </li> 
                             </ul>
                         </div>
                         </div>
+                      </div> 
                     </div>
                     
                 </div>
                     
                 @endforeach
                 
+            
                 
       
               </div>

@@ -1,0 +1,43 @@
+.profile{
+    justify-items: left;
+}
+
+/* Custom button color */
+.button{
+    color: black;
+    font-size: 14px;
+    border-radius: 4px;
+    height: 37px;
+    width: 250px;
+    text-align: center;
+    border-width: 1px;
+    margin-left: 15px;
+}
+
+.button1{
+    background-color: #A8B8D0CC; 
+}
+
+.button2{
+    background-color: white; 
+}
+
+.button3{
+    background-color: white; 
+}
+
+.box{
+    
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+ 
+}
+
+/* Style for the parent element */
+.grey-icon {
+    color:#D9D9D9; /* Set the desired color (grey in this case) */
+}
+
+.card{
+    margin-right: 10px;
+}

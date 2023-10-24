@@ -27,7 +27,34 @@
         
           <br><br>
         
-      <form method="post" action="/sell" enctype="multipart/form-data">
+    <!-- Modal for terms and conditions -->
+    <div id="termsModal" class="modal">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Terms and Conditions</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Add your terms and conditions text here -->
+                <p style="font-weight: bold">By listing an item for sale on the platform, I understand and acknowledge the following:</p>
+                <p>1. I provided a detailed and accurate description of the item, including its condition, any damages, defects, or signs of wear and tear. I will also provide clear and high-quality images that represent the item's current state.</p>
+                <p>2. I am fully responsible for the condition of the item at the time of sale. I understand that any misrepresentation or false information provided about the item's condition can lead to consequences, including potential disputes and loss of trust from buyers</p>
+                <p>3. I disclosed any known damages, defects, or issues with the item to potential buyers. This includes visible damages, functionality concerns, missing parts, or any other significant information that may affect the buyer's decision to purchase the item.</p>
+                <p>4. I understand that buyers have the right to expect transparency and accurate information about the item they are purchasing. I will address any inquiries or requests for additional information from potential buyers promptly and honestly.</p>
+                <label>
+                    <input type="checkbox" id="acceptTerms" required> I agree all the points mentioned above
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="acceptButton">Accept</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+      <form method="post" action="/sell" enctype="multipart/form-data" id="myForm">
         @csrf
             <!--Image-->
             <div class="inp_img mb-3" >
@@ -197,7 +224,7 @@
                   </div>
             </div>
             
-            <button type="submit" class="btn_items mt-3 mb-3">Submit</button>
+            <button type="submit" class="btn_items mt-3 mb-3" id="submitBtn" >Submit</button>
         </form>
    
 
@@ -207,6 +234,31 @@
     @include('partials.footer')
     
     <script>
+        
+    // JavaScript to handle the modal and form submission
+    var termsModal = document.getElementById("termsModal");
+    var acceptCheckbox = document.getElementById("acceptTerms");
+    var acceptButton = document.getElementById("acceptButton");
+    var submitButton = document.getElementById("submitBtn");
+
+    submitButton.addEventListener("click", function () {
+        if (acceptCheckbox.checked) {
+            // Proceed with form submission
+            myForm.submit();
+        } else {
+            termsModal.style.display = "block";
+        }
+    });
+
+    acceptButton.addEventListener("click", function () {
+        if (acceptCheckbox.checked) {
+            termsModal.style.display = "none";
+            submitButton.disabled = false;
+        } else {
+            alert("Please accept the terms and conditions.");
+        }
+    });
+
         function displaySelectedImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
