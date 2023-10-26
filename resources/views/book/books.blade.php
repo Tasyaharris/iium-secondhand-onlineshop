@@ -13,7 +13,8 @@
   <body>
 
     @include('partials.header')
-    @include('partials.filtering')
+    @include('book.bookfiltering')
+ 
     <br>
     
     <div class="row g-2">

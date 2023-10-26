@@ -14,16 +14,35 @@
     margin-left: 15px;
 }
 
-.button1{
-    background-color: #A8B8D0CC; 
+.button.button1 {
+    border: 1px solid #000; /* Border style, color, and width */
+    padding: 7px 120px; /* Adjust the padding as needed for spacing inside the button */
+    text-decoration: none; /* Remove default link underline */
+    width: 10px;
+    margin-bottom: 3px;
+    background-color: rgba(168, 184, 208, 0.80);
+
+    
 }
 
-.button2{
+.button.button2{
     background-color: white; 
+    border: 1px solid #000; /* Border style, color, and width */
+    padding: 7px 95px; /* Adjust the padding as needed for spacing inside the button */
+    text-decoration: none; /* Remove default link underline */
+    width: 10px;
+    margin-bottom: 3px;
+    margin-top: 3px;
 }
 
-.button3{
+.button.button3{
     background-color: white; 
+    border: 1px solid #000; /* Border style, color, and width */
+    padding: 7px 118px; /* Adjust the padding as needed for spacing inside the button */
+    text-decoration: none; /* Remove default link underline */
+    width: 10px;
+    margin-bottom: 3px;
+    margin-top: 10px;
 }
 
 .box{
@@ -40,4 +59,16 @@
 
 .card{
     margin-right: 10px;
+}
+
+.custome-select{
+   
+    width: 130px;
+   border-radius: 15px;
+   border: 1px solid #000;
+   height: 40px;
+   font-weight: bold;
+  
+   
+  
 }

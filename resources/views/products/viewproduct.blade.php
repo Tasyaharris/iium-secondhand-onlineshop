@@ -71,11 +71,13 @@
                 <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
                 <h4 id="user" >{{ $product->user->username }}</h4>
                 <div class="box ">
-                <button class="button button1" >Buy</button>
-                <br>
-                <button class="button button2 mt-2">Add to Cart</button>
-                <br>
-                <button class="button button3 mt-2">Chat</button>
+                <a href="/buy" class="button button1">Buy</a>
+                <br><br>
+                <a href="/cart" class="button button2 mt-2">Add to Cart</a>
+                <br><br>
+               
+                <a href="{{ route('chat.show', $product->user->id) }}" class="button button3 mt-2">Chat</a>
+                
                 </div>
               </div>
             </div>
@@ -96,5 +98,6 @@
 
     
     @include('partials.footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -4,7 +4,7 @@
       <!--Grid row-->
       <div class="row" style="text-align: left; font-size:10px;">
         <!--Grid column-->
-        <div class="col-lg-2 col-md-8 mb-4 mb-md-0" >
+        <div class="col-lg-2 col-md-8 mb-4 mb-md-0 " >
             <h6 class="text-uppercase" >CATEGORIES</h6>
   
             <ul class="list-unstyled mb-0">

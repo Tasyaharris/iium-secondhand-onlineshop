@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Nego;
 use App\Models\Condition;
+use App\Models\Selleroption;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -20,8 +23,7 @@ class ProductController extends Controller
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-            ->get()
-            
+            ->get()    
         ]);
     }
 
@@ -30,7 +32,16 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.viewproduct',[
+            'users' => User::where('username',auth()->user()->id)->get(),
+            'products' => Product::where('username',auth()->user()->id)->get(),
+            'categories'=> Category::all(),
+            'conditions'=> Condition::all(),
+            'selleroptions'=> Selleroption::all(),
+            'negos'=> Nego::all()
+           
+        ]);
+
     }
 
     /**
@@ -81,7 +92,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        Product::destroy($product->id);
+
+        return redirect('/profile')->with('success','Item has been deleted!');
     }
 
 

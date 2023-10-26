@@ -1,0 +1,77 @@
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .half {
+    
+    flex: 1;
+ display: flex;
+  
+ 
+   
+  }
+
+.contact-chat{
+    margin-left: none;
+    background-color: white;
+    color: black;
+}
+
+.bg-body-tertiary {
+    background-color: white !important; /* Use !important to override any conflicting styles */
+  }
+
+  .border-right{
+    padding-right: 15px; /* Add some padding to separate the border from the content */
+    border-right:1px solid grey;
+  }
+  
+
+.list-contact{
+ 
+   
+    margin-bottom: 0px;
+}
+
+.seller{
+    margin-left: 0px;
+}
+
+.room-chat{
+    width: auto;
+ 
+
+}
+
+.typing-col{
+    margin-bottom: 0px;
+    margin-top: 2px;
+    display: flex; /* Display the icon and input bar inline */
+  align-items: center; /* Vertically center the content */
+}
+
+.typing-message-bar{
+    margin-left: 25px;
+}
+
+.typing-message-icon {
+    margin-right: 10px; /* Add spacing between the icon and input bar */
+  }
+
+  .btn_items{
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: rgba(168, 184, 208, 0.80);
+    margin-top: 5px;
+    margin-bottom: 5px;
+   justify-items: center;
+   margin-left: 1px;
+   width: 65px;
+}

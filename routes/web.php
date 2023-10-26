@@ -8,7 +8,11 @@ use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\FashionController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\ElectronicController;
+use App\Http\Controllers\CosmeticController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +31,7 @@ Route::get('/', [MainpageController:: class, 'index']);
 
 Route::get('/homepage', [MainpageController:: class, 'index']);
 
-Route::get('/fashion', function () {
-    return view('fashion', [
-        "title" => "Fashion",
-    ]);
-});
+
 
 Route::get('/books', function () {
     return view('books',[
@@ -57,6 +57,7 @@ Route::get('/others', function () {
     ]);
 });
 
+
 Route::get('/cond_details', function () {
     return view('cond_details',[
         "title" => "Condition Details",
@@ -75,7 +76,15 @@ Route::get('/cond_details', function () {
 //Route::get('/products/{$product->id}', [ProductController::class,'show']);
 Route::resource('/products',ProductController::class)->middleware('auth');
 
+Route::resource('/chat',MessageController::class)->middleware('auth');
+Route::get('/chat/user/{user}', 'MessageController@showUserDetails')->name('chat.showUserDetails');
 
+
+
+Route::get('/fashion',[FashionController::class,'index'])->middleware('auth');
+Route::get('/books',[BookController::class,'index'])->middleware('auth');
+Route::get('/electronics',[ElectronicController::class,'index'])->middleware('auth');
+Route::get('/cosmetics',[CosmeticController::class,'index'])->middleware('auth');
 
 
 Route::get('/login', [LoginController:: class, 'index'])->name('login')->middleware('guest');
@@ -94,4 +103,6 @@ Route::get('homepage',[HomePageController::class,'index'])->middleware('auth');
 //})->middleware('auth');
 
 Route::resource('/sell',SellController::class)->middleware('auth');
+//Route::put('/sell/{sell}', 'SellController@update')->name('sell.update');
+
 Route::resource('/profile',ProfileController::class)->middleware('auth');

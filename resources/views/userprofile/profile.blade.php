@@ -109,9 +109,16 @@
                             <ul class="dropdown-menu">
                               <li>
                                  <!--update item button-->
-                                <span class="dropdown-item">
-                                  <i class="fas fa-pen mx-2"></i> Update
-                                </span>
+
+                                  <!--update item button-->
+                                  <span class="dropdown-item">
+                                    <a href="/sell/index/edit" class="fas fa-pen mx-2"></a> Update
+                                  </span>
+                                </li>
+                                <li>
+                                  </span>
+                           
+                              
                               </li>
                               <li>
                                 <!--delete item button-->
@@ -120,7 +127,7 @@
                                     <span class="dropdown-item">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')">
+                                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
                                       <i class="fas fa-trash mx-2"></i> Delete
                                     </button>
                                     </span>

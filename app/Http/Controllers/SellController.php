@@ -93,15 +93,51 @@ class SellController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        //for displaying  the view
+        return view('sell.edit',[
+            'title'=> 'Update Product',
+            'product'=> $product,
+            'users' => User::where('username',auth()->user()->id)->get(),
+            'products' => Product::where('username',auth()->user()->id)->get(),
+            'categories'=> Category::all(),
+            'conditions'=> Condition::all(),
+            'selleroptions'=> Selleroption::all(),
+            'negos'=> Nego::all(),
+            
+           
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+     public function update(Request $request, $id)
     {
-        //
+        //for update process
+        $validatedData = $request->validate([
+            'product_pic'=>'image|file|max:1024',
+            'category_id'=>'required',
+            'product_name'=>'required',
+            'condition_id'=>'required',
+            'option_id'=>'required',
+            'product_price'=>'required',
+            'nego_id'=> 'required',
+            'brand'=>'required',
+            'material'=>'required',
+            'meetup_point'=>'required'
+        ]);
+
+    
+
+        $validatedData['username'] = auth()->user()->id;
+        //return $request;
+        
+
+       Product::where('id', $id)
+                ->update($validatedData);
+
+        return redirect('/profile')->with('success','New item has been updated!');
+
     }
 
     /**

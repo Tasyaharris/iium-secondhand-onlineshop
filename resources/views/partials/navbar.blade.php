@@ -1,4 +1,4 @@
-
+ 
 <section class="header border-bottom mt-0" id="header">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
     <div class="container-fluid">
@@ -14,48 +14,48 @@
             <a class="nav-link {{ ($title === "Fashion") ? 'active' : ' ' }}" aria-current="page" href="/fashion">FASHION</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Books") ? 'active' : ' ' }}"  href="/books">BOOKS</a>
+            <a class="nav-link {{ ($title === "Books") ? 'active' : ' ' }}"  aria-current="page" href="/books">BOOKS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Electronics") ? 'active' : ' ' }}" href="/electronics">ELECTRONICS</a>
+            <a class="nav-link {{ ($title === "Electronics") ? 'active' : ' ' }}"  aria-current="page" href="/electronics">ELECTRONICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Cosmetics") ? 'active' : ' ' }}" href="/cosmetics">COSMETICS</a>
+            <a class="nav-link {{ ($title === "Cosmetics") ? 'active' : ' ' }}"  aria-current="page" href="/cosmetics">COSMETICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Others") ? 'active' : ' ' }}" href="/others">OTHERS</a>
+            <a class="nav-link {{ ($title === "Others") ? 'active' : ' ' }}"  aria-current="page" href="/others">OTHERS</a>
           </li>
         </ul>
 
         <ul class="navbar-nav ms-auto" >
-            @auth
-             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ auth()->user()->username }}
-                </a>
-                <ul class="dropdown-menu">
-                 <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                 <li><hr class="dropdown-divider"></li>
-                 <li><a class="dropdown-item" href="/settings">Settings</a></li>
-                 <li><hr class="dropdown-divider"></li>
-                 <li>
-                    <form action="/logout" method="post">
-                      @csrf
-                      <button type="submit" class="dropdown-item">
-                        Logout
-                      </button>
-                    </form>
-                  </li>
-                </ul>
-             </li>
-            @else
-              <li class="nav-item">
-                      <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" >LOGIN</a>
-              </li>
+          @auth
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ auth()->user()->username }}
+             </a>
+              <ul class="dropdown-menu">
+               <li><a class="dropdown-item" href="/profile">Profile</a></li>
+               <li><hr class="dropdown-divider"></li>
+               <li><a class="dropdown-item" href="#">Settings</a></li>
+               <li><hr class="dropdown-divider"></li>
+               <li>
+                  <form action="/logout" method="post">
+                    @csrf
+                    <button type="submit" class="dropdown-item">
+                      Logout
+                    </button>
+                  </form>
+                </li>
+              </ul>
+           </li>
+          @else
+            <li class="nav-item">
+                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" >LOGIN</a>
+            </li>
+        
           
-            
-            @endauth
-        </ul>
+          @endauth
+          </ul>
             
         
         
