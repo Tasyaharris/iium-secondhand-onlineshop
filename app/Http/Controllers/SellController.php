@@ -1,14 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Http;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Condition;
 use App\Models\Selleroption;
 use App\Models\User;
 use App\Models\Nego;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class SellController extends Controller
 {
@@ -95,7 +95,7 @@ class SellController extends Controller
     {
         //for displaying  the view
         return view('sell.edit',[
-            'title'=> 'Update Product',
+            'title'=> 'Edit Product',
             'product'=> $product,
             'users' => User::where('username',auth()->user()->id)->get(),
             'products' => Product::where('username',auth()->user()->id)->get(),
@@ -111,7 +111,7 @@ class SellController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     public function update(Request $request, $id)
+    public function update(Request $request, Product $sell)
     {
         //for update process
         $validatedData = $request->validate([
@@ -127,13 +127,12 @@ class SellController extends Controller
             'meetup_point'=>'required'
         ]);
 
-    
 
         $validatedData['username'] = auth()->user()->id;
         //return $request;
         
 
-       Product::where('id', $id)
+       Product::where('id', $sell->id)
                 ->update($validatedData);
 
         return redirect('/profile')->with('success','New item has been updated!');

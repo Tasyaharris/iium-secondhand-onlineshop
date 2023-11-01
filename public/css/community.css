@@ -1,0 +1,264 @@
+.box1 {
+    display: flex;
+    justify-content: center; /* Horizontally center content */
+    height: 30vh; /* Optionally set a height to center vertically within the viewport */
+}
+
+.content {
+    display: flex;
+    justify-content: center; /* Horizontally center the logo and text within .content */
+    margin-top: 40px;
+}
+
+.logo {
+    margin-right: 10px; /* Add space between the logo and text if desired */
+}
+
+.containerc {
+    display: flex;    
+    margin-left:50px ;
+    margin-right: 40px;
+    margin-top: 0;
+    margin-bottom: 60px;
+  align-items: center;
+}
+
+.left, .right {
+    flex: 1;
+}
+
+.left {
+    width: 100px;
+    height: 250px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    border: 1px solid #000;
+    background: rgba(217, 217, 217, 0.33);
+}
+
+
+.right {
+    width: 100px;
+    height: 250px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: rgba(217, 217, 217, 0.33);
+    margin-left: 50px;
+}
+
+.discussion{
+    width: 445px;
+    height: 427px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: rgba(217, 217, 217, 0.33);
+}
+
+.feedback{
+    width: 445px;
+    height: 427px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: rgba(217, 217, 217, 0.33);
+}
+
+.com-pic{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; 
+    margin-top: 20px;
+    margin-bottom:40px;
+}
+
+.disc-box{
+    width: 300px;
+    height: 50px;
+    flex-shrink: 0;
+    background: rgba(168, 184, 208, 0.80);
+    margin-left: 60px;
+    margin-bottom: 100px;
+    display: inline-block;
+}
+
+.disc-title{
+    align-items: center;
+    text-align: center; 
+    margin-top: 5px;
+}
+
+.box-title{
+    display: flex;
+    align-items: center;
+    text-align: center; 
+}
+
+.detailed-box{
+    display: flex;
+    margin-top: 0;
+}
+
+/* Style for the side navbar */
+.side-navbar {
+    flex-basis: 600px; /* Set a fixed width for the sidebar */
+    color: black;
+    display: flex; /* Display the items in a horizontal line */
+    flex-direction: row;
+    margin-top: 0px;
+    margin-left: 0;
+
+}
+
+/* Style for the sidebar links */
+.side-navbar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-navbar li {
+    padding: 15px;
+    text-align: center;
+}
+
+.side-navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+
+.selection{
+    table-layout: fixed;
+}
+
+table, tr, td{
+    background-color: white;
+    text-align: center;
+}
+
+td{
+    padding: 10px;
+    border: 1px solid black;
+    width: 185px;
+
+}
+
+.clickable-row:active {
+    background-color: #D9D9D9; /* Change to the desired color when clicked */
+    cursor: pointer;
+  }
+
+  .clickable-row:hover {
+    background-color: #D9D9D9; /* Change to the desired hover background color */
+  }
+
+.active {
+    background-color: #D9D9D9; /* Change to the desired color */
+    font-weight: bold; /* Optionally, make the text bold */
+    /* Add any other styles you want to distinguish the active link */
+  }
+
+  .table-container {
+  
+    padding: 10px; /* Add padding for spacing inside the container */
+  }
+
+.detail-desc{
+width: 715px;
+height: 386px;
+flex-shrink: 0;
+border: 1px solid #000;
+background: #FFF;
+margin-left: 9px;
+padding: 0; /* Remove any padding */
+}
+
+  .btn-info {
+    background-color: #416A77; /* Change to your desired color */
+    color: #fff; /* Set text color to contrast with the background */
+    margin-right: 300px;
+    width: 150px;
+    margin-left: -400px;
+    font-weight: bold;
+  }
+  
+  .create-discussion {
+    display: flex;
+    justify-content: flex-start; /* Move the button to the left */
+    align-items: center; /* Vertical centering */
+    width: auto; /* Let it occupy available space */
+    margin: 0; /* Remove any margin */
+    padding: 0; /* Remove any padding */
+  }
+  
+  .create-discussion .no-hover-effect {
+    background-color: #416A77; /* Change to your desired color */
+    color: #fff; /* Set text color to contrast with the background */
+    transition: none; /* Disable transition effects on hover */
+  }
+  
+  .create-discussion .no-hover-effect:hover {
+    background-color: #416A77; /* Change to your desired color */
+    color: #fff; /* Set text color to contrast with the background */
+  }
+  
+  .type-title{
+    width: 904px;
+    border: 1px solid #000;    
+    justify-content: center;
+    align-items: center;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .type-desc{
+    width: 900px;
+    height: 200px;
+    
+  }
+  
+
+
+.containerd{
+        margin-left:50px ;
+        margin-right: 40px;
+        margin-top: 0;
+    
+      align-items: center;
+
+    
+}
+
+.detail-desc1{
+    margin-top: 20px; 
+}
+
+  
+.submit-discussion {
+    margin-top: 20px;
+    width: auto; /* Let it occupy available space */
+    
+  }
+
+  .submit-discussion .no-hover-effect {
+    background-color: #416A77; /* Change to your desired color */
+    color: #fff; /* Set text color to contrast with the background */
+    transition: none; /* Disable transition effects on hover */
+  }
+  
+  .submit-discussion .no-hover-effect:hover {
+    background-color: #416A77; /* Change to your desired color */
+    color: #fff; /* Set text color to contrast with the background */
+  }
+  
+  .btn_items {
+    background-color: #416A77; /* Change to your desired color */
+    color: #fff; /* Set text color to contrast with the background */
+    width: 100px;    
+    height: 30px;
+    border-radius: 10px;
+    border-style: none;
+    margin-left: 815px;
+    margin-bottom: 50px;
+  }

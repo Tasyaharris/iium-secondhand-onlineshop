@@ -112,7 +112,7 @@
 
                                   <!--update item button-->
                                   <span class="dropdown-item">
-                                    <a href="/sell/index/edit" class="fas fa-pen mx-2"></a> Update
+                                    <a href="{{ route('sell.edit',$product->id) }}" class="fas fa-pen mx-2"></a> Update
                                   </span>
                                 </li>
                                 <li>

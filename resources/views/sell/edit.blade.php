@@ -54,9 +54,10 @@
         </div>
     </div>
 
-    <form method="POST" action="{{ route('sell.update',  $product->id) }}" enctype="multipart/form-data" id="myForm">
+    <form method="post" action="/sell/{{ $product->id }}" enctype="multipart/form-data" id="myForm">
+        @method('put')
         @csrf
-        @method('PUT')
+        
             <!--Image-->
             <div class="inp_img mb-3" >
                 <div class="mb-4 mt-5 d-flex justify-content-center">
@@ -164,7 +165,7 @@
             <div class="inp_price mb-3 mt-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text">RM</span>
-                        <input type="text" class="form-control @error('price') is-invalid @enderror" name="product_price" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price", $product->price) }}">
+                        <input type="text" class="form-control @error('price') is-invalid @enderror" name="product_price" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price", $product->product_price) }}">
                         @error('product_price')
                             <div class="invalid-feedback">
                              {{ $message }}
@@ -225,7 +226,7 @@
                   </div>
             </div>
             
-            <button type="submit" class="btn_items mt-3 mb-3" id="submitBtn" >Update</button>
+            <button type="submit" class="btn_items mt-3 mb-3" id="submitBtn" >Edit</button>
         </form>
    
 

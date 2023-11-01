@@ -31,19 +31,47 @@
        
         <div class="col-md-6">
           <!-- Content for the second half of the page -->
-          <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey">
+          <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey; height:50px;">
             <div class="seller">
              <!--seller profile--> 
-              <div class="text-center">
-                <p> {{ $user->username }}</p>
+              <div class="text-center" style="margin-left: 10px;">
+                <p> {{ $product->user->username }}</p>
               </div>
             </div>
           </nav>
+
+          <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey; background: #D9D9D9">
+            <div class="product" style="display: flex; align-items: center;">
+             <!--product details--> 
+             <div class="col text-center" style="margin-left: 10px;">  
+              @if ($product->product_pic)
+              <img src="{{ asset('storage/' . $product->product_pic) }}" width="50" height="50" >
+              @endif
+              </div>
+              
+              
+              <div class="row" style="margin-left:7px;">
+                <div class="col-md-8 mb-0"  >
+                    <p>{{ $product->product_name }}</p>
+                </div>
+                <div class="col-md-8 mt-0" >
+                    <small>RM {{ $product->product_price }}</small>
+                    <button class="btn_items1 " id="send-button" >Negotiate</button>
+                  </div>
+              </div>
+              
+            </div>
+           
+            
+          </nav>
           
           <div class="container room-chat d-flex justify-content-center align-items-center mb-0" style="height: 290px ;">
-            <h6 class="p-3 text-decoration-none d-inline" >No Chat</h6>
+            <h6 class="p-3 text-decoration-none d-inline" ></h6>
           </div>
 
+
+
+          <!--typing message-->
           <div class="typing-col mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16" >
             <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
@@ -53,6 +81,7 @@
             <input type="text" id="message-input" placeholder="Type a message..." style="width: 500px;">
             <button class="btn_items " id="send-button">Send</button>
           </div>
+
 
         </div>
         </div>

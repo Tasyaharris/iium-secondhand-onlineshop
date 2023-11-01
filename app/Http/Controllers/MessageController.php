@@ -49,16 +49,20 @@ class MessageController extends Controller
     public function show($id)
     {
          // Retrieve the product details based on the $id
-         $users = User::find($id);
+        
+         $product = Product::find($id);
+         $user = User::find($id);
+         
 
-         if (!$users) {
-             abort(404);
-         }
-     
+
+         if (!$product) {
+            abort(404);
+        }
+
          // Append the product ID to the title
-         $title = 'User - ' . $users->id;
+         $title = 'User - ' . $product->id;
      
-         return view('chat', ['user' => $users, 'title' => $title]);
+         return view('chat', ['product' => $product, 'title' => $title]);
     }
 
     /**

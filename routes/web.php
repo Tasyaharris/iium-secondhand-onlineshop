@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\MainpageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -64,6 +65,36 @@ Route::get('/cond_details', function () {
     ]);
 });
 
+Route::get('/community', function () {
+    return view('community',[
+        "title" => "Community Forum",
+    ]);
+});
+
+Route::get('/discussion', function () {
+    return view('discussion',[
+        "title" => "Discussion",
+    ]);
+});
+
+Route::get('/feedback', function () {
+    return view('feedback',[
+        "title" => "Feedback",
+    ]);
+});
+
+Route::get('/createdisc', function () {
+    return view('createdisc',[
+        "title" => "Create Discussion",
+    ]);
+});
+
+Route::get('/buy', function () {
+    return view('buy',[
+        "title" => "Checkout",
+    ]);
+});
+
 //Route::get('/viewproduct', function () {
 //   return view('products.viewproduct',[
 //       "title" => "View Product",
@@ -77,7 +108,6 @@ Route::get('/cond_details', function () {
 Route::resource('/products',ProductController::class)->middleware('auth');
 
 Route::resource('/chat',MessageController::class)->middleware('auth');
-Route::get('/chat/user/{user}', 'MessageController@showUserDetails')->name('chat.showUserDetails');
 
 
 
@@ -102,7 +132,8 @@ Route::get('homepage',[HomePageController::class,'index'])->middleware('auth');
 //    ]);
 //})->middleware('auth');
 
-Route::resource('/sell',SellController::class)->middleware('auth');
-//Route::put('/sell/{sell}', 'SellController@update')->name('sell.update');
+Route::resource('/sell', SellController::class)->middleware('auth');
+//Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
+//Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');

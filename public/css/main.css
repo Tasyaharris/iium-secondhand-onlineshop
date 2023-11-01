@@ -34,6 +34,7 @@ line-height: normal;
     overflow: hidden;
 }
 
+
 .carousel {
     display: flex;
     transition: transform 0.5s;
@@ -64,6 +65,12 @@ line-height: normal;
 }
 
 
+#carousel-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .prod-desc{
     margin-left: 15px;
     justify-content: center;
@@ -73,4 +80,23 @@ line-height: normal;
 .main{
     margin-left:15px;
     margin-top: 1px;
+}
+
+/* Custom styles for the previous button */
+.custom-prev {
+    position: absolute;
+    top: 50%; /* Adjust the vertical position as needed */
+    left: -55px; /* Adjust the left position to move it more to the left */
+    
+    transform: translate(0, -50%); /* Vertically center the button */
+    z-index: 1; /* Ensure it's above the carousel content */
+}
+
+/* Custom styles for the next button */
+.custom-next {
+    position: absolute;
+    top: 50%; /* Adjust the vertical position as needed */
+    right: -55px; /* Adjust the right position to move it more to the right */
+    transform: translate(0, -50%); /* Vertically center the button */
+    z-index: 1; /* Ensure it's above the carousel content */
 }

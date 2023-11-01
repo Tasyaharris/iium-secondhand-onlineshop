@@ -76,7 +76,7 @@
                 <a href="/cart" class="button button2 mt-2">Add to Cart</a>
                 <br><br>
                
-                <a href="{{ route('chat.show', $product->user->id) }}" class="button button3 mt-2">Chat</a>
+                <a href="{{ route('chat.show', $product->id) }}" class="button button3 mt-2">Chat</a>
                 
                 </div>
               </div>
