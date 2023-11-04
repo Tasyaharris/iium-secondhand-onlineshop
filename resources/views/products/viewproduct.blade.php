@@ -71,7 +71,7 @@
                 <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
                 <h4 id="user" >{{ $product->user->username }}</h4>
                 <div class="box ">
-                <a href="/buy" class="button button1">Buy</a>
+                <a href="{{ route('buy.show',  ['id' => $product->id]) }}" class="button button1">Buy</a>
                 <br><br>
                 <a href="/cart" class="button button2 mt-2">Add to Cart</a>
                 <br><br>

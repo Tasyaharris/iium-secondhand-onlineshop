@@ -42,14 +42,11 @@
                 <p>2. I am fully responsible for the condition of the item at the time of sale. I understand that any misrepresentation or false information provided about the item's condition can lead to consequences, including potential disputes and loss of trust from buyers</p>
                 <p>3. I disclosed any known damages, defects, or issues with the item to potential buyers. This includes visible damages, functionality concerns, missing parts, or any other significant information that may affect the buyer's decision to purchase the item.</p>
                 <p>4. I understand that buyers have the right to expect transparency and accurate information about the item they are purchasing. I will address any inquiries or requests for additional information from potential buyers promptly and honestly.</p>
-                <label>
-                    <input type="checkbox" id="acceptTerms" required> I agree all the points mentioned above
-                </label>
+                <input type="checkbox" id="acceptTerms"> I agree to the Terms and Conditions
+                <br>
+                <button id="acceptButton">Accept</button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="acceptButton">Accept</button>
-            </div>
+            
         </div>
         </div>
     </div>
@@ -237,29 +234,29 @@
         
     // JavaScript to handle the modal and form submission
     var termsModal = document.getElementById("termsModal");
-    var acceptCheckbox = document.getElementById("acceptTerms");
-    var acceptButton = document.getElementById("acceptButton");
+    const acceptTermsCheckbox = document.getElementById("acceptTerms");
+    const acceptButton = document.getElementById("acceptButton");
     var submitButton = document.getElementById("submitBtn");
 
     submitButton.addEventListener("click", function () {
-        if (acceptCheckbox.checked) {
-            // Proceed with form submission
-            myForm.submit();
-        } else {
-            termsModal.style.display = "block";
-        }
+        termsModal.style.display = "block";
     });
 
     acceptButton.addEventListener("click", function () {
-        if (acceptCheckbox.checked) {
+        if (acceptTermsCheckbox.checked) {
             termsModal.style.display = "none";
-            submitButton.disabled = false;
-        } else {
-            alert("Please accept the terms and conditions.");
+            document.getElementById("myForm").submit();
+    
         }
     });
 
-        function displaySelectedImage(input) {
+    document.getElementById("myForm").addEventListener("submit", (e) => {
+            if (!acceptTermsCheckbox.checked) {
+                e.preventDefault();
+            }
+        });
+
+    function displaySelectedImage(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
     

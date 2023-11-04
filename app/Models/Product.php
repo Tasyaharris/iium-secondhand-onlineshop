@@ -25,6 +25,6 @@ class Product extends Model
 
      public function user()
      {
-         return $this->belongsTo(User::class, 'username');
+         return $this->belongsTo(User::class,'username');
      }
 }

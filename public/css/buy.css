@@ -3,5 +3,25 @@
 }
 
 .product1{
-    background-color: rgba(255, 240, 219, 0.35);
+    
+}
+
+.product-container {
+    display: flex; /* Use flexbox to align the image and product details horizontally */
+    align-items: center; /* Vertically center the content */
+    margin: 0; /* Remove any default margins */
+}
+
+.product-container .col {
+    margin-right: 10px; /* Adjust the right margin to control the spacing */
+}
+
+.justify-right {
+    text-align: right;
+    
+}
+
+/* Add this CSS to hide the pop-up by default */
+.popup {
+    display: none;
 }

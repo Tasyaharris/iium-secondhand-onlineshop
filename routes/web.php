@@ -14,6 +14,8 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\ElectronicController;
 use App\Http\Controllers\CosmeticController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\OrderController;
+use Illuminate\Contracts\Cache\Store;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,11 +91,7 @@ Route::get('/createdisc', function () {
     ]);
 });
 
-Route::get('/buy', function () {
-    return view('buy',[
-        "title" => "Checkout",
-    ]);
-});
+
 
 //Route::get('/viewproduct', function () {
 //   return view('products.viewproduct',[
@@ -108,6 +106,9 @@ Route::get('/buy', function () {
 Route::resource('/products',ProductController::class)->middleware('auth');
 
 Route::resource('/chat',MessageController::class)->middleware('auth');
+
+Route::resource('/buy',OrderController::class)->middleware('auth');
+Route::get('/buy/{id}', 'OrderController@show')->name('buy.show')->middleware('auth');
 
 
 
@@ -124,7 +125,7 @@ Route::post('/logout', [LoginController:: class, 'logout'] );
 Route::get('/register', [RegisterController:: class, 'index'] )->middleware('guest');
 Route::post('/register', [RegisterController:: class, 'store'] );
 
-Route::get('homepage',[HomePageController::class,'index'])->middleware('auth');
+Route::get('homepage',[HomePageController::class,'index'])->middleware('auth')->name('homepage');
 
 //Route::get('/sell', function(){
 //    return view('sell.index', [
@@ -135,5 +136,7 @@ Route::get('homepage',[HomePageController::class,'index'])->middleware('auth');
 Route::resource('/sell', SellController::class)->middleware('auth');
 //Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
 //Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
+Route::post('/sell',[ SellController::class,'store'])->middleware('auth')->name('sell.store');
+
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');

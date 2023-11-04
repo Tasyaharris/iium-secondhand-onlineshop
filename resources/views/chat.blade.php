@@ -57,7 +57,7 @@
                 <div class="col-md-8 mt-0" >
                     <small>RM {{ $product->product_price }}</small>
                     <button class="btn_items1 " id="send-button" >Negotiate</button>
-                  </div>
+                </div>
               </div>
               
             </div>
