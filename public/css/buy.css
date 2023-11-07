@@ -25,3 +25,33 @@
 .popup {
     display: none;
 }
+
+.order-button{
+    border: none; 
+    background: transparent;
+}
+
+.box1{
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.50);
+    background: #FFF0DB;
+    width: 550px;
+    height: 204px;
+    margin-top: 100px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+    margin-left: 350px;
+}
+
+.successful{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.links{
+
+}

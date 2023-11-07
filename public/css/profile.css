@@ -162,3 +162,31 @@ td{
   .dropdown{
     margin-bottom: 10px;
   }
+
+  .table-container1 {
+    margin-bottom: 30px; /* Add spacing between the table and the container */
+    
+    
+  }
+
+  /* Style for the sidebar1 links */
+.side-navbar1 ul {
+  list-style: none;
+  padding: 0;
+  margin-left: 20px;
+}
+
+.side-navbar1 li {
+  padding: 10px;
+  text-align: center;
+}
+
+.side-navbar1 a {
+  text-decoration: none;
+  color: black;
+}
+
+
+.selection1{
+  table-layout: fixed;
+}

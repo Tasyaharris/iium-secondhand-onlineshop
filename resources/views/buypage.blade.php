@@ -44,7 +44,9 @@
                 <p>3. In the event of any disputes or issues arising from a transaction, the website administration encourages buyers to engage in open communication with the seller directly. </p>
                 <input type="checkbox" id="acceptTerms"> I agree to the Terms and Conditions
                 <br>
+                <br>
                 <button id="acceptButton">Accept</button>
+                <a href="/buypage" style="margin-left:3px; text-decoration:none; color: black;">Cancel</a>
             </div>
         </div>
         </div>
@@ -112,8 +114,8 @@
                         <h6>{{ $product->product_name }}</h6>
                         <br>
                        <small>Item Price: RM {{ $product->product_price }}</small>
-                       <small>Platform Fee: RM 0.20</small>
-                       <small>Total Fee : </small>
+                       <small>Platform Fee: {{ $com }}</small>
+                       <small>Total Fee : {{ $totalPrice }}</small>
                      </div>
                      
                    </div>
@@ -149,7 +151,7 @@
         <!--submit button-->
         <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB;">
             <div class="product1" style="display:inline-block; margin-left: 590px;text-align: center; justify-content:center;">
-                <button type="submit" id="showTermsBtn" class="btn btn-primary">Place Order</button>
+                <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
             </div>
             
         </nav>
@@ -179,13 +181,14 @@
          if (paymentMethodSelected) {
             termsPopup.style.display = "block";
          }
-            });   
+        
+        });   
 
         acceptButton.addEventListener("click", () => {
             if (acceptTermsCheckbox.checked) {
                 termsPopup.style.display = "none";
                // Redirect to the home page when the "Accept" button is clicked
-               window.location.href = "{{ route('homepage') }}"; // Replace 'home' with the name of your route
+               window.location.href = "{{ route('agreebuy') }}"; // Replace 'home' with the name of your route
 
              }
           });

@@ -57,14 +57,14 @@ class OrderController extends Controller
         ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
         ->where('products.id', $id)
         ->first();
-    
-        
-
-    
 
     if (!$product) {
         abort(404);
     }
+    
+    $price = $product->product_price;
+    $com = 0.02 * $price;
+    $totalPrice = $price + $com;
 
       // Append the product ID to the title
       $title = 'Product - ' . $product->id;
@@ -73,7 +73,9 @@ class OrderController extends Controller
     return view('buypage', [
                 'product' => $product, 
                 'profiles'=> Profile::where('id',auth()->user()->id)->get(),
-                'title' => $title
+                'title' => $title,
+                'com'=> $com,
+                'totalPrice'=> $totalPrice
             ]);
 }
 
@@ -101,5 +103,14 @@ class OrderController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function calculateTotalPrice($productId, $quantity) {
+        $product = Product::find($productId);
+        $price = $product->product_price;
+        $com = 0.02 * $price;
+        $totalPrice = $price - $com;
+    
+        return view('buypage', compact('product', 'com', 'totalPrice'));
     }
 }

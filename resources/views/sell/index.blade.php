@@ -33,7 +33,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Terms and Conditions</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <!-- Add your terms and conditions text here -->
@@ -44,7 +46,11 @@
                 <p>4. I understand that buyers have the right to expect transparency and accurate information about the item they are purchasing. I will address any inquiries or requests for additional information from potential buyers promptly and honestly.</p>
                 <input type="checkbox" id="acceptTerms"> I agree to the Terms and Conditions
                 <br>
+                
+            </div>
+            <div class="modal-footer">
                 <button id="acceptButton">Accept</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
             
         </div>
@@ -110,7 +116,7 @@
 
             <div class="form-floating mb-3 mt-3">
                 
-                <input type="product_name" name="product_name" class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required  value="{{ old("product_name") }}" maxlength="255">
+                <input type="text" name="product_name"  class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required  value="{{ old("product_name") }}" maxlength="255">
                 @error('product_name')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -160,7 +166,7 @@
             <div class="inp_price mb-3 mt-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text">RM</span>
-                        <input type="text" class="form-control @error('price') is-invalid @enderror" name="product_price" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}">
+                        <input type="text" name="product_price" class="form-control @error('price') is-invalid @enderror"  id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}">
                         @error('product_price')
                             <div class="invalid-feedback">
                              {{ $message }}
@@ -182,7 +188,7 @@
             <div class="row mb-3">
                 <label for="brand" name="brand" class="col-sm-2 col-form-label">Brand</label>
                 <div class="col-sm-10">
-                  <input type="brand" name="brand"  class="form-control @error('brand') is-invalid @enderror" id="brand" required value="{{ old("brand") }}" maxlength="255">
+                  <input type="text" name="brand" class="form-control @error('brand') is-invalid @enderror" id="brand" required value="{{ old("brand") }}" maxlength="255">
                   @error('brand')
                   <div class="invalid-feedback">
                    {{ $message }}
@@ -194,7 +200,7 @@
             <div class="row mb-3">
                 <label for="material" name="material" class="col-sm-2 col-form-label">Material</label>
                 <div class="col-sm-10">
-                  <input type="material"  name="material" class="form-control @error('brand') is-invalid @enderror" id="material" required value="{{ old("material") }}" maxlength="255">
+                  <input type="text" name="material" class="form-control @error('brand') is-invalid @enderror" id="material" required value="{{ old("material") }}" maxlength="255">
                   @error('material')
                   <div class="invalid-feedback">
                    {{ $message }}
@@ -205,14 +211,14 @@
             <div class="row mb-3">
                 <label for="description"  name="description" class="col-sm-2 col-form-label" >More Description(Optional)</label>
                 <div class="col-sm-10">
-                  <input type="description"   name="description" class="form-control" id="description" value="{{ old("description") }}" maxlength="255">
+                  <input type="text"   name="description" class="form-control" id="description" value="{{ old("description") }}" maxlength="255">
                 </div>
             </div>
 
             <div class="meetup">
                 <h6>Meet-Up Point</h6>
                 <div class="col-12">
-                    <input type="text" class="form-control @error('meetup_point') is-invalid @enderror" name="meetup_point" id="meetup_point" placeholder="KICT" required value="{{ old("meetup_point") }}" maxlength="255">
+                    <input type="text" name="meetup_point" class="form-control @error('meetup_point') is-invalid @enderror"  id="meetup_point" placeholder="KICT" required value="{{ old("meetup_point") }}" maxlength="255">
                     @error('meetup_point')
                     <div class="invalid-feedback">
                      {{ $message }}
@@ -237,21 +243,34 @@
     const acceptTermsCheckbox = document.getElementById("acceptTerms");
     const acceptButton = document.getElementById("acceptButton");
     var submitButton = document.getElementById("submitBtn");
+    var textFieldFilled = false;
 
-    submitButton.addEventListener("click", function () {
-        termsModal.style.display = "block";
+    submitButton.addEventListener("click", () => {
+        
+
+        if (
+            document.getElementById('product_name').value === '' ||
+            document.getElementById('brand').value === '' ||
+            document.getElementById('material').value === '' ||
+            document.getElementById('meetup_point').value === ''
+        ){
+            e.preventDefault();
+        }else{
+            textFieldFilled = true;
+            termsModal.style.display = "block";
+        }
+        
     });
 
     acceptButton.addEventListener("click", function () {
         if (acceptTermsCheckbox.checked) {
             termsModal.style.display = "none";
             document.getElementById("myForm").submit();
-    
         }
     });
 
     document.getElementById("myForm").addEventListener("submit", (e) => {
-            if (!acceptTermsCheckbox.checked) {
+            if (!acceptTermsCheckbox.checked || !textFieldFilled) {
                 e.preventDefault();
             }
         });

@@ -64,12 +64,34 @@
                 <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>
                 </td>
-                <td class="clickable-row {{ Request::is('order') ? 'active' : ' ' }}" data-href="/order">
-                  <a href="/order">My Order</a>
+                <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" data-href="/myorder">
+                  <a href="/myorder">My Order</a>
                 </td>
               </tr>
             </table>
             </div>
+          </nav>
+
+          <nav class="side-navbar1" style="margin-left:10px;padding:0px; display:inline-block;">
+            <div class="order-title" style="display: inline-flex;">
+            <h5 style="margin-top:10px; text-align:center; margin-left: 45px; ">My Listings</h5>
+            <!-- Your sidebar content goes here -->
+            <div class="table-container1" style="margin-left:40px;">
+            <table class="selection1" >
+              <tr>
+                <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
+                  <a href="/listings">Sold</a>
+                </td>
+                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
+                  <a href="/reviews">Cancelled</a>
+                </td>
+                <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
+                  <a href="/cart">Completed</a>
+                </td>
+              </tr>
+            </table>
+            </div>
+          </div>
           </nav>
 
           <div class="container-under-table">
@@ -112,7 +134,7 @@
 
                                   <!--update item button-->
                                   <span class="dropdown-item">
-                                    <a href="{{ route('sell.edit',$product->id) }}" class="fas fa-pen mx-2"></a> Update
+                                    <a href="{{ route('sell.edit', $product->id) }}" class="fas fa-pen mx-2"></a> Update
                                   </span>
                                 </li>
                                 <li>

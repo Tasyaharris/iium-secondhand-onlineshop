@@ -15,6 +15,8 @@ use App\Http\Controllers\ElectronicController;
 use App\Http\Controllers\CosmeticController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SoldController;
+use App\Http\Controllers\MyOrderController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -85,13 +87,30 @@ Route::get('/feedback', function () {
     ]);
 });
 
+//Route::get('/order', function () {
+//    return view('order',[
+//        "title" => "Create Discussion",
+//    ]);
+//});
+
 Route::get('/createdisc', function () {
     return view('createdisc',[
         "title" => "Create Discussion",
     ]);
 });
 
+Route::get('/agreebuy', function () {
+    return view('afterbuy',[
+        "title" => "Confirm Order",
+    ]);
+})->name('agreebuy');;
 
+
+
+Route::resource('/productafterbuy',SoldController::class)->middleware('auth');
+Route::get('/productafterbuy/{id}','SoldController@show')->name('buy.show')->middleware('auth');
+
+Route::resource('/myorder',MyOrderController::class)->middleware('auth');
 
 //Route::get('/viewproduct', function () {
 //   return view('products.viewproduct',[
@@ -126,6 +145,7 @@ Route::get('/register', [RegisterController:: class, 'index'] )->middleware('gue
 Route::post('/register', [RegisterController:: class, 'store'] );
 
 Route::get('homepage',[HomePageController::class,'index'])->middleware('auth')->name('homepage');
+
 
 //Route::get('/sell', function(){
 //    return view('sell.index', [
