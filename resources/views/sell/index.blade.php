@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+    <link
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="/css/sell.css">
 
@@ -50,7 +55,9 @@
             </div>
             <div class="modal-footer">
                 <button id="acceptButton">Accept</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <a href="/homepage">
+                Cancel
+               </a>
             </div>
             
         </div>
@@ -60,46 +67,43 @@
       <form method="post" action="/sell" enctype="multipart/form-data" id="myForm">
         @csrf
             <!--Image-->
-            <div class="inp_img mb-3" >
-                <div class="mb-4 mt-5 d-flex justify-content-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
-                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-                      </svg>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="btn_upload">
-                    
-                    <label class="form-label m-1 " for="customFile1">
-                        Select Photos
-                    </label>
-
-                    <input type="file" class="form-control @error('image') is-invalid @enderror d-none" id="customFile1" name="image" required onchange="displaySelectedImage(this)" />
-                    @error('image')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                    </div>
-                </div>
-                <div class="d-flex mt-2 justify-content-center">
-                    <p class="reminder">Please snap the item from different angle</p>
-                </div>
-
-                <div class="img">
-                    
-                    <!--to display the selected image -->
-                    <div class="d-flex justify-content-center">
-                    <img id="selectedImage" src="#" alt="Selected Image" style="max-width: 100%; max-height: 300px; display: none;">
-                    </div>
-                  
-                    
-                </div>
            
-                
-                  
-                
+           <div class="inp_img mb-3" >
+            <div class="elements-box" id="elementsBox">
+            <div class="mb-4 mt-5 d-flex justify-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                    <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                  </svg>
             </div>
+            <div class="d-flex justify-content-center">
+                <div class="btn_upload">
+                
+                <label class="form-label m-1 " for="customFile1">
+                    Select Photos
+                </label>
+
+                <input type="file" class="form-control @error('image') is-invalid @enderror d-none" id="customFile1" name="images[]" multiple required onchange="displaySelectedImages(this)" />
+
+                @error('image')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+                </div>
+            </div>
+            <div class="d-flex mt-2 justify-content-center">
+                <p class="reminder">Please snap the item from different angle</p>
+            </div>
+         </div>
+
+            <div class="img" >
+                <div class="d-flex justify-content-center" id="selectedImagesContainer"></div>
+            </div>
+
+        </div>
+ 
+        
     
             <label for="category_id">Product Category</label>
             <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required  >
@@ -236,6 +240,10 @@
     
     @include('partials.footer')
     
+ <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+
     <script>
         
     // JavaScript to handle the modal and form submission
@@ -250,6 +258,7 @@
 
         if (
             document.getElementById('product_name').value === '' ||
+            document.getElementById('product_price').value === '' ||
             document.getElementById('brand').value === '' ||
             document.getElementById('material').value === '' ||
             document.getElementById('meetup_point').value === ''
@@ -275,19 +284,30 @@
             }
         });
 
-    function displaySelectedImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-    
-                reader.onload = function (e) {
-                    var selectedImage = document.getElementById('selectedImage');
-                    selectedImage.src = e.target.result;
-                    selectedImage.style.display = 'block';
-                };
-    
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+    function displaySelectedImages(input) {
+   var selectedImagesContainer = document.getElementById("selectedImagesContainer");
+   selectedImagesContainer.innerHTML = ""; // Clear existing images
+
+   var elementsBox = document.getElementById('elementsBox');
+ 
+
+   for (var i = 0; i < input.files.length; i++) {
+      var image = document.createElement("img");
+      image.src = URL.createObjectURL(input.files[i]);
+      image.style.maxWidth = "100%";
+      image.style.maxHeight = "150px";
+      image.style.display = "block";
+      selectedImagesContainer.appendChild(image);
+   }
+
+   // Check if there are selected images to display
+   if (input.files.length > 0) {
+      elementsBox.style.display = "none"; // Hide elementsBox
+   } else {
+      elementsBox.style.display = "block"; // Show elementsBox
+   }
+}
+
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

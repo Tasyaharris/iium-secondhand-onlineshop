@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Http;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Condition;
@@ -47,38 +46,39 @@ class SellController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //return $request;
-       
-        //return $request->file('image')->store('post-images');
+{
+    $validatedData = $request->validate([
+        'images.*' => 'image|file|max:1024', // Use 'images.*' to validate multiple images
+        'category_id' => 'required',
+        'product_name' => 'required',
+        'condition_id' => 'required',
+        'option_id' => 'required',
+        'product_price' => 'required',
+        'nego_id' => 'required',
+        'brand' => 'required',
+        'material' => 'required',
+        'meetup_point' => 'required'
+    ]);
 
-        $validatedData = $request->validate([
-            'product_pic'=>'image|file|max:1024',
-            'category_id'=>'required',
-            'product_name'=>'required',
-            'condition_id'=>'required',
-            'option_id'=>'required',
-            'product_price'=>'required',
-            'nego_id'=> 'required',
-            'brand'=>'required',
-            'material'=>'required',
-            'meetup_point'=>'required'
-        ]);
+    // Handle multiple image uploads
+    $imagePaths = [];
 
-        if($request->file('image')){
-            $validatedData['product_pic']=$request->file('image')->store('post-images');
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $imagePath = $image->store('post-images');
+            $imagePaths[] = $imagePath;
         }
-
-        $validatedData['username'] = auth()->user()->id;
-        //return $request;
-        
-
-       Product::create($validatedData);
-
-        return redirect('/profile')->with('success','New item has been added!');
-
-
     }
+
+    $validatedData['product_pic'] = json_encode($imagePaths); // Store paths as JSON
+
+    $validatedData['username'] = auth()->user()->id;
+
+    // Create a new Product record with the provided data
+    Product::create($validatedData);
+
+    return redirect('/profile')->with('success', 'New item has been added!');
+}
 
     /**
      * Display the specified resource.
@@ -104,7 +104,6 @@ class SellController extends Controller
             'selleroptions'=> Selleroption::all(),
             'negos'=> Nego::all(),
             
-           
         ]);
     }
 

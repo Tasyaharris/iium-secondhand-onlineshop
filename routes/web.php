@@ -156,7 +156,7 @@ Route::get('homepage',[HomePageController::class,'index'])->middleware('auth')->
 Route::resource('/sell', SellController::class)->middleware('auth');
 //Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
 //Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
-Route::post('/sell',[ SellController::class,'store'])->middleware('auth')->name('sell.store');
+Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
 
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');

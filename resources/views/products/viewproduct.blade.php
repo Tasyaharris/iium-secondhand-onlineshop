@@ -25,15 +25,38 @@
 
         <br>
 
-      <div class="container mt-2">
+       <div class="container mt-2">
 
         <div class="row">
-
+        
           <div class="text-center">
             @if ($product->product_pic)
-            <img src="{{ asset('storage/' . $product->product_pic) }}" width="200" height="200" >
-             @endif
-          </div>
+            @if (is_array(json_decode($product->product_pic)))
+            <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel" style="width: 250px; margin: 0 auto;">
+                <div class="carousel-inner" style="height: 200px;">
+                    @foreach(json_decode($product->product_pic) as $index => $imagePath)
+                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                            <img src="{{ asset('storage/' . $imagePath) }}" width="250" height="200" class="img-fit" alt="Image {{ $index + 1 }}">
+                        </div>
+                    @endforeach
+                </div>
+                <a class="carousel-control-prev" href="#imageCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#imageCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+                @else
+                    <img src="{{ asset('storage/' . $product->product_pic) }}" width="200" height="200">
+                @endif
+            @endif
+        </div>
+        
+        
+        
 
           <div class="col-md-6 mt-5 mb-5">
            
@@ -71,7 +94,7 @@
                 <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
                 <h4 id="user" >{{ $product->user->username }}</h4>
                 <div class="box ">
-                <a href="{{ route('buy.show',  ['id' => $product->id]) }}" class="button button1">Buy</a>
+                  <a href="{{ route('buy.show',  ['id' => $product->id]) }}" class="button button1">Buy</a>
                 <br><br>
                 <a href="/cart" class="button button2 mt-2">Add to Cart</a>
                 <br><br>
@@ -99,5 +122,6 @@
     
     @include('partials.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  
   </body>
 </html>
