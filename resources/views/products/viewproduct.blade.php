@@ -33,20 +33,22 @@
             @if ($product->product_pic)
             @if (is_array(json_decode($product->product_pic)))
             <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel" style="width: 250px; margin: 0 auto;">
-                <div class="carousel-inner" style="height: 200px;">
+                <div class="carousel-inner" style="height: 250px;">
                     @foreach(json_decode($product->product_pic) as $index => $imagePath)
                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $imagePath) }}" width="250" height="200" class="img-fit" alt="Image {{ $index + 1 }}">
+                            <img src="{{ asset('storage/' . $imagePath) }}" width="200" height="200" class="img-fit" alt="Image {{ $index + 1 }}">
                         </div>
                     @endforeach
                 </div>
-                <a class="carousel-control-prev" href="#imageCarousel" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                <a class="carousel-control-prev" href="#imageCarousel" role="button" data-bs-slide="prev" style="margin-left: -23px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                    <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                  </svg>
                 </a>
-                <a class="carousel-control-next" href="#imageCarousel" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                <a class="carousel-control-next" href="#imageCarousel" role="button" data-bs-slide="next" style="margin-left: 100px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+                    <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
+                  </svg>
                 </a>
             </div>
                 @else
@@ -122,6 +124,7 @@
     
     @include('partials.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  
   
   </body>
 </html>

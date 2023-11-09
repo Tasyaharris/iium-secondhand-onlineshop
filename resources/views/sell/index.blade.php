@@ -102,32 +102,49 @@
             </div>
 
         </div>
+
+        <div class="form-floating mb-3 mt-3">
+                
+            <input type="text" name="product_name"  class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required  value="{{ old("product_name") }}" maxlength="255">
+            @error('product_name')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+            <label for="product_name">Item Name</label>
+        </div>
  
         
-    
-            <label for="category_id">Product Category</label>
-            <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required  >
-                <option selected>Select Category</option>
-                @foreach( $categories as $category)
-                    @if(old('category_id') == $category->id)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @else
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endif
-                @endforeach
-            </select>
-
-
-            <div class="form-floating mb-3 mt-3">
-                
-                <input type="text" name="product_name"  class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required  value="{{ old("product_name") }}" maxlength="255">
-                @error('product_name')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-                <label for="product_name">Item Name</label>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <label for="category_id">Product Category</label>
+                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required>
+                    <option selected>Select Category</option>
+                    @foreach($categories as $category)
+                        @if(old('category_id') == $category->id)
+                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                        @else
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
+            <div class="col-md-6">
+                <label for="subcategory_id" style="color: white">Product Subcategory</label>
+                <select class="form-select mb-3  mt-3" aria-label="Default select example" name="subcategory_id" id="subcategory_id" required>
+                    <option selected>Select Type</option>
+                    @foreach($subcategories as $subcategory)
+                        @if(old('subcategory_id') == $subcategory->id)
+                            <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
+                        @else
+                            <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        
+
             <div class="abt_product">
                 <h5>About the product</h5>
                 <br>
@@ -306,7 +323,29 @@
    } else {
       elementsBox.style.display = "block"; // Show elementsBox
    }
-}
+   }
+
+   
+   document.getElementById('category_id').addEventListener('change', function () {
+        var selectedCategoryId = this.value;
+        var subcategorySelect = document.getElementById('subcategory_id');
+        subcategorySelect.innerHTML = '<option selected>Loading...</option>';
+
+        // Make an AJAX request to fetch subcategories based on the selected category
+        fetch('/get-subcategories/' + selectedCategoryId)
+            .then(response => response.json())
+            .then(data => {
+                subcategorySelect.innerHTML = ''; // Clear the "Loading..." option
+
+                data.forEach(subcategory => {
+                    var option = document.createElement('option');
+                    option.value = subcategory.id;
+                    option.textContent = subcategory.name;
+                    subcategorySelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
 
     </script>
     

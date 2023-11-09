@@ -107,6 +107,7 @@ Route::get('/agreebuy', function () {
 
 
 
+
 Route::resource('/productafterbuy',SoldController::class)->middleware('auth');
 Route::get('/productafterbuy/{id}','SoldController@show')->name('buy.show')->middleware('auth');
 
@@ -157,6 +158,7 @@ Route::resource('/sell', SellController::class)->middleware('auth');
 //Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
 //Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
 Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
+Route::get('/get-subcategories/{categoryId}', 'SellController@getSubcategories');
 
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');

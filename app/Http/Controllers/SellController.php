@@ -7,6 +7,7 @@ use App\Models\Condition;
 use App\Models\Selleroption;
 use App\Models\User;
 use App\Models\Nego;
+use App\Models\Subcategorie;
 use Illuminate\Http\Request; 
 
 class SellController extends Controller
@@ -16,13 +17,16 @@ class SellController extends Controller
      */
     public function index()
     {
+   
         return view('sell.index',[
             "title" => "Sell Page",
             'categories'=> Category::all(),
             'conditions'=> Condition::all(),
             'selleroptions'=> Selleroption::all(),
             'negos'=> Nego::all(),
-            'sell' => Product::where('username', auth()->user()->username)->get()
+            'sell' => Product::where('username', auth()->user()->username)->get(),
+            'subcategories'=> Subcategorie::all()
+       
         ]);
     }
 
@@ -31,16 +35,21 @@ class SellController extends Controller
      */
     public function create()
     {
-        return view('sell.index',[
-            'users' => User::where('username',auth()->user()->id)->get(),
-            'products' => Product::where('username',auth()->user()->id)->get(),
-            'categories'=> Category::all(),
-            'conditions'=> Condition::all(),
-            'selleroptions'=> Selleroption::all(),
-            'negos'=> Nego::all()
-           
-        ]);
+        
+    return view('sell.index', [
+        'users' => User::where('username', auth()->user()->id)->get(),
+        'products' => Product::where('username', auth()->user()->id)->get(),
+        'categories' => Category::all(),
+        'conditions' => Condition::all(),
+        'selleroptions' => Selleroption::all(),
+        'negos' => Nego::all(),
+        'subcategories'=> Subcategorie::all()
+       
+    ]);
+
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -50,6 +59,7 @@ class SellController extends Controller
     $validatedData = $request->validate([
         'images.*' => 'image|file|max:1024', // Use 'images.*' to validate multiple images
         'category_id' => 'required',
+        'subcategory_id'=> 'required',
         'product_name' => 'required',
         'condition_id' => 'required',
         'option_id' => 'required',
