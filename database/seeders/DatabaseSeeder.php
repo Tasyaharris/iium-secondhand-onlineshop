@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\Statuspayment;
 use App\Models\Statusproduct;
 use App\Models\Subcategorie;
+use App\Models\Discussion;
 
 
 class DatabaseSeeder extends Seeder
@@ -307,6 +308,14 @@ class DatabaseSeeder extends Seeder
             'category_id' => '6',
             'name' => "Others"
          ]);
+
+         Discussion::create([
+            'title'=>'Delivery System',
+            'slug'=> 'delivery-system',
+            'discussion'=> 'It is important to set the maximum days of delivery time',
+            'username'=>'1'
+         ]);
+
          
         Profile::create([
             'username'=> '2',
@@ -341,7 +350,6 @@ class DatabaseSeeder extends Seeder
          'option_id'=> '1',
          'username'=> '1',
          'product_price' => '30',
-         'paymentoption_id'=> '1',
          'nego_id'=> '1',
          'brand'=> 'H&M',
          'material'=> 'cotton',
@@ -358,7 +366,6 @@ class DatabaseSeeder extends Seeder
       'option_id'=> '1',
       'username'=> '1',
       'product_price' => '30',
-      'paymentoption_id'=> '1',
       'nego_id'=> '1',
       'brand'=> 'Book',
       'material'=> 'Book',

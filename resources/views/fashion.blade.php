@@ -20,7 +20,7 @@
     
     @foreach ($products as $product)
     <div class="col">
-      <div class="card w-70 mx-4 mb-3">
+      <div class="card w-50 mx-4 mb-3" style="border-radius: 10px">
 
         <div class="username">
           <h6>{{ $product->user_name }}</h6>

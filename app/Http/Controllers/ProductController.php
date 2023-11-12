@@ -21,8 +21,10 @@ class ProductController extends Controller
             'title'=> 'view product',
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
+            ->join('categories', 'category_id', '=', 'categories.id')
+            ->join('subcategories', 'subcategory_id', '=', 'subcategories.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name','subcategories.name as subcategory_name')
             ->get()    
         ]);
     }

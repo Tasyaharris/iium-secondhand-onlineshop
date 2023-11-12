@@ -103,13 +103,25 @@
             <div class="products-listing">
               <div class="row g-2" >
                 @foreach ($products as $product)
-                <div class="col" >
+                <div class="col">
                     <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
                       <div class="card-body d-flex flex-column">
                         <div class="img mb-1">
                             @if ($product->product_pic)
+                            @if (is_array(json_decode($product->product_pic)))
+                            <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                              <div class="carousel-inner">
+                                  @foreach(json_decode($product->product_pic) as $index => $imagePath)
+                                      <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                          <img src="{{ asset('storage/' . $imagePath) }}"width="90" height="100" class="img-fit" alt="Image {{ $index + 1 }}">
+                                      </div>
+                                  @endforeach
+                              </div>
+                            </div>
+                            @else
                             <img src="{{ asset('storage/' . $product->product_pic) }}" width="90" height="100">
                             @endif
+                           @endif
                         </div>
                         
                         <div class="prod-desc mt-1 flex-grow-1">

@@ -17,9 +17,10 @@
     
     <div>
 
-        <div class="filter_text">
+        <div class="filter_text" style="margin-left:30px;">
             <!-- THE FILTERING TEXT-->
-            <h6>FILTER TEXT HERE</h6>
+            <h5 id="category_id" >{{ $product->category->name}} >> {{ $product->subcategory->name }}</h5>
+           
         </div>
 
 

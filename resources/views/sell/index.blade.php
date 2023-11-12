@@ -66,9 +66,9 @@
 
       <form method="post" action="/sell" enctype="multipart/form-data" id="myForm">
         @csrf
-            <!--Image-->
+          <!--Image-->
            
-           <div class="inp_img mb-3" >
+          <div class="inp_img mb-3" >
             <div class="elements-box" id="elementsBox">
             <div class="mb-4 mt-5 d-flex justify-content-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
@@ -118,21 +118,25 @@
         <div class="row mt-3">
             <div class="col-md-6">
                 <label for="category_id">Product Category</label>
-                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required>
-                    <option selected>Select Category</option>
+                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required onchange="this.form.submit()">
+                    <option selected >Select Category</option>
                     @foreach($categories as $category)
                         @if(old('category_id') == $category->id)
-                            <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}"selected>{{ $category->name }}</option>
                         @else
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endif
                     @endforeach
                 </select>
+                
             </div>
             <div class="col-md-6">
+               <!-- Show subcategory dropdown only if a category is selected -->
+               
                 <label for="subcategory_id" style="color: white">Product Subcategory</label>
-                <select class="form-select mb-3  mt-3" aria-label="Default select example" name="subcategory_id" id="subcategory_id" required>
-                    <option selected>Select Type</option>
+                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="subcategory_id" id="subcategory_id" required>
+                    <option selected >Select Type</option>
+                    @if(!empty(old('category_id')))
                     @foreach($subcategories as $subcategory)
                         @if(old('subcategory_id') == $subcategory->id)
                             <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
@@ -140,6 +144,7 @@
                             <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
                         @endif
                     @endforeach
+                    @endif
                 </select>
             </div>
         </div>
@@ -154,8 +159,7 @@
            
            
 
-            <select class="form-select mb-3 mt-3" aria-label="Default select example" name="condition_id" id="condition_id" required  >
-                <option selected>Select Condition</option>
+            <select class="form-select mb-3 mt-3" aria-label="Default select example" name="condition_id" id="condition_id" required>
                 
                 @foreach( $conditions as $condition)
                 
@@ -257,12 +261,13 @@
     
     @include('partials.footer')
     
- <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
     <script>
         
+       
     // JavaScript to handle the modal and form submission
     var termsModal = document.getElementById("termsModal");
     const acceptTermsCheckbox = document.getElementById("acceptTerms");
@@ -325,28 +330,7 @@
    }
    }
 
-   
-   document.getElementById('category_id').addEventListener('change', function () {
-        var selectedCategoryId = this.value;
-        var subcategorySelect = document.getElementById('subcategory_id');
-        subcategorySelect.innerHTML = '<option selected>Loading...</option>';
-
-        // Make an AJAX request to fetch subcategories based on the selected category
-        fetch('/get-subcategories/' + selectedCategoryId)
-            .then(response => response.json())
-            .then(data => {
-                subcategorySelect.innerHTML = ''; // Clear the "Loading..." option
-
-                data.forEach(subcategory => {
-                    var option = document.createElement('option');
-                    option.value = subcategory.id;
-                    option.textContent = subcategory.name;
-                    subcategorySelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-    });
-
+ 
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

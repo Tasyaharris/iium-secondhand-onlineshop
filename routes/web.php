@@ -13,10 +13,12 @@ use App\Http\Controllers\FashionController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ElectronicController;
 use App\Http\Controllers\CosmeticController;
+use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\MyOrderController;
+
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -75,11 +77,7 @@ Route::get('/community', function () {
     ]);
 });
 
-Route::get('/discussion', function () {
-    return view('discussion',[
-        "title" => "Discussion",
-    ]);
-});
+
 
 Route::get('/feedback', function () {
     return view('feedback',[
@@ -108,8 +106,8 @@ Route::get('/agreebuy', function () {
 
 
 
-Route::resource('/productafterbuy',SoldController::class)->middleware('auth');
-Route::get('/productafterbuy/{id}','SoldController@show')->name('buy.show')->middleware('auth');
+//Route::resource('/productafterbuy',SoldController::class)->middleware('auth');
+//Route::get('/productafterbuy/{id}','SoldController@show')->name('buy.show')->middleware('auth');
 
 Route::resource('/myorder',MyOrderController::class)->middleware('auth');
 
@@ -119,6 +117,8 @@ Route::resource('/myorder',MyOrderController::class)->middleware('auth');
 //  ]);
 //});
 
+Route::resource('/discussion', DiscussionController::class)->middleware('auth');
+Route::get('/discussion/{discussion}',[DiscussionController::class,'show']);
 
 //Route::get('/products/{id}', 'ProductController@show')->name('product.show');
 
@@ -158,7 +158,8 @@ Route::resource('/sell', SellController::class)->middleware('auth');
 //Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
 //Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
 Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
-Route::get('/get-subcategories/{categoryId}', 'SellController@getSubcategories');
+Route::get('/getSubCategories/{categoryId}', 'SellController@getSubcategories');
+//Route::get('/sell/show/{id}','SellController@show')->middleware('auth');
 
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');
