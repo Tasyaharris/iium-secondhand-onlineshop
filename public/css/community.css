@@ -210,16 +210,34 @@ padding: 0; /* Remove any padding */
     border-top: none;
     border-left: none;
     border-right: none;
+    display: flex;
+    align-items: center;
+    height: 50px;
   }
+
+  .form-control,
+.form-control.no-hover-effect:hover {
+    border: 1px solid transparent; /* Set initial border color to transparent or match background */
+    transition: border 0.3s; /* Add a smooth transition for the border color change */
+}
+
+.form-control:focus,
+.form-control.no-hover-effect:hover:focus {
+    border: 1px solid transparent; /* Set the border color for focused state to transparent */
+    outline: none; /* Remove the default focus outline */
+}
+
+/* Add style for the invalid feedback */
+.invalid-feedback {
+    display: block;
+    color: #dc3545; /* Set the color for the invalid feedback */
+}
 
   .type-desc{
     width: 900px;
     height: 200px;
     
   }
-  
-
-
 .containerd{
         margin-left:50px ;
         margin-right: 40px;

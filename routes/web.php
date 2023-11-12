@@ -18,6 +18,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\CreateDiscController;
 
 use Illuminate\Contracts\Cache\Store;
 
@@ -96,6 +97,9 @@ Route::get('/createdisc', function () {
         "title" => "Create Discussion",
     ]);
 });
+
+Route::resource('/createdisc', CreateDiscController::class)->middleware('auth');
+
 
 Route::get('/agreebuy', function () {
     return view('afterbuy',[

@@ -9,6 +9,6 @@ class Discussion extends Model
 {
     use HasFactory;
 
-    protected $fillable =['title','slug','discussion'];
+    protected $fillable =['title','slug','discussion','username'];
     
 }

@@ -25,9 +25,17 @@ class SellController extends Controller
             'selleroptions'=> Selleroption::all(),
             'negos'=> Nego::all(),
             'sell' => Product::where('username', auth()->user()->username)->get(),
-            'subcategories'=> Subcategorie::where('category_id', old('category_id'))->get()
+            'subcategories' => Subcategorie::all()
        
         ]);
+    }
+
+    public function getSubcategories($categoryId)
+    {
+        // Replace 'default_category_id' with the actual default category ID or logic to get the default category ID.
+        // This will be used if no category is selected or if you want to initialize subcategories with a default category.
+
+        return Subcategorie::where('category_id', $categoryId)->get();
     }
 
     /**
