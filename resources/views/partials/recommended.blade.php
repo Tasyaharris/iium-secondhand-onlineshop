@@ -10,20 +10,23 @@
             @foreach ($products->chunk(4) as $chunk)
                 <div class="carousel-item{{ $loop->first ? ' active' : '' }}">
                     <div class="carousel" href="/products.viewproduct" id="myCarousel">
-                        @foreach ($chunk as $product)
+                      @foreach ($chunk as $product)
                             <div class="col" style="margin-left:55px;">
                                 <div class="card mx-4 mb-3" style="width: 200px; height: 310px; flex: 0 0; ">
                                     <!-- Product details -->
                                     <a class="card-body" href="{{ route('products.show', $product->id) }}">
-                                    <div class="username mb-0">
-                                        <h6>{{ $product->user_name }}</h6>
-                                    </div>
-                                    
+                                      <div class="username mb-0">
+                                          <h6>{{ $product->user_name }}</h6>
+                                      </div>
                                     
                                         <a class="img text-center mt-0 mb-4" href="{{ route('products.show', $product->id) }}">
-                                            @if ($product->product_pic)
-                                                <img src="{{ asset('storage/' . $product->product_pic) }}" width="70" height="90">
-                                            @endif
+                                          @if (is_array(json_decode($product->product_pic)))
+                                          @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
+                                                    <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
+                                                        <img src="{{ asset('storage/' . $firstImagePath) }}"width="100" height="100" >
+                                                    </div>
+                                                
+                                          @endif
                                         </a>
     
                                         <div class="prod-desc">

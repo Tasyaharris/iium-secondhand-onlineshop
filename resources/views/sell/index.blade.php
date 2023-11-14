@@ -102,6 +102,7 @@
             </div>
 
         </div>
+ 
 
         <div class="form-floating mb-3 mt-3">
                 
@@ -224,8 +225,17 @@
 
             <div class="row mb-3">
                 <label for="material" name="material" class="col-sm-2 col-form-label">Material</label>
-                 
+                <div class="col-sm-10">
+                  <input type="text" name="material" class="form-control @error('brand') is-invalid @enderror" id="material" required value="{{ old("material") }}" maxlength="255">
+                  @error('material')
+                  <div class="invalid-feedback">
+                   {{ $message }}
+                  </div>
+                 @enderror
+                </div>
             </div>
+                 
+           
             <div class="row mb-3">
                 <label for="description"  name="description" class="col-sm-2 col-form-label" >More Description(Optional)</label>
                 <div class="col-sm-10">
@@ -259,10 +269,8 @@
 
 
     <script>
-        
-       
-    // JavaScript to handle the modal and form submission
-    var termsModal = document.getElementById("termsModal");
+  // JavaScript to handle the modal and form submission
+  var termsModal = document.getElementById("termsModal");
     const acceptTermsCheckbox = document.getElementById("acceptTerms");
     const acceptButton = document.getElementById("acceptButton");
     var submitButton = document.getElementById("submitBtn");
@@ -299,7 +307,8 @@
             }
         });
 
-    function displaySelectedImages(input) {
+
+     function displaySelectedImages(input) {
    var selectedImagesContainer = document.getElementById("selectedImagesContainer");
    selectedImagesContainer.innerHTML = ""; // Clear existing images
 
@@ -321,27 +330,9 @@
    } else {
       elementsBox.style.display = "block"; // Show elementsBox
    }
-   }
-
-   function captureCategoryId(category_id) {
-    var selectedCategoryId = document.getElementById('category_id').value;
-    console.log("Selected Category ID: " + selectedCategoryId);
-
-   return selectedCategoryId;
-
     }
 
-    function getCategoryId()
-    // Call the captureCategoryId function to get the category ID
-    var categoryId = captureCategoryId();
-    
-    // Perform any additional processing if needed
 
-    // Log the category ID from the value
-    console.log("Category ID from value: " + categoryId);
-
-    // Return the category ID if needed
-    return categoryId;
 
  
     </script>
