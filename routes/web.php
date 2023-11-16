@@ -13,13 +13,14 @@ use App\Http\Controllers\FashionController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ElectronicController;
 use App\Http\Controllers\CosmeticController;
+use App\Http\Controllers\OthersController;
 use App\Http\Controllers\DiscussionController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SoldController;
 use App\Http\Controllers\MyOrderController;
 use App\Http\Controllers\CreateDiscController;
-
+use App\Http\Controllers\MahallahEquipmentController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -140,6 +141,8 @@ Route::get('/fashion',[FashionController::class,'index'])->middleware('auth');
 Route::get('/books',[BookController::class,'index'])->middleware('auth');
 Route::get('/electronics',[ElectronicController::class,'index'])->middleware('auth');
 Route::get('/cosmetics',[CosmeticController::class,'index'])->middleware('auth');
+Route::get('/mahallah',[MahallahEquipmentController::class,'index'])->middleware('auth');
+Route::get('/others',[OthersController::class,'index'])->middleware('auth');
 
 
 Route::get('/login', [LoginController:: class, 'index'])->name('login')->middleware('guest');
@@ -162,8 +165,8 @@ Route::resource('/sell', SellController::class)->middleware('auth');
 //Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
 //Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
 Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
-Route::get('/getSubCategories/{categoryId}', 'SellController@getSubcategories');
 //Route::get('/sell/show/{id}','SellController@show')->middleware('auth');
+Route::get('/get-subcategories/{categoryId}', 'SellController@getSubcategoriesAjax');
 
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');

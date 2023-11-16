@@ -55,9 +55,7 @@
             </div>
             <div class="modal-footer">
                 <button id="acceptButton">Accept</button>
-               <a href="/homepage">
-                Cancel
-               </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
             
         </div>
@@ -68,7 +66,7 @@
         @csrf
           <!--Image-->
            
-          <div class="inp_img mb-3" >
+          <div class="inp_img mb-3 mt-0" >
             <div class="elements-box" id="elementsBox">
             <div class="mb-4 mt-5 d-flex justify-content-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
@@ -83,7 +81,7 @@
                     Select Photos
                 </label>
 
-                <input type="file" class="form-control @error('image') is-invalid @enderror d-none" id="customFile1" name="images[]" multiple required onchange="displaySelectedImages(this)" />
+                <input type="file" class="form-control @error('image') is-invalid @enderror d-none" id="customFile1" name="images[]" multiple required  required accept=".png, .jpg, .jpeg" onchange="displaySelectedImages(this)" />
 
                 @error('image')
                 <div class="invalid-feedback">
@@ -98,7 +96,8 @@
          </div>
 
             <div class="img" >
-                <div class="d-flex justify-content-center" id="selectedImagesContainer"></div>
+                <div class="d-flex justify-content-center" id="selectedImagesContainer">
+                </div>
             </div>
 
         </div>
@@ -106,7 +105,7 @@
 
         <div class="form-floating mb-3 mt-3">
                 
-            <input type="text" name="product_name"  class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required  value="{{ old("product_name") }}" maxlength="255">
+            <input type="text" name="product_name" class="form-control @error('product_name') is-invalid @enderror" id="product_name" placeholder="Item Name" required value="{{ old("product_name") }}" maxlength="255" style="text-transform: capitalize;">
             @error('product_name')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -150,7 +149,6 @@
             </div>
         </div>
         
-
             <div class="abt_product">
                 <h5>About the product</h5>
                 <br>
@@ -192,7 +190,7 @@
             <div class="inp_price mb-3 mt-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text">RM</span>
-                        <input type="text" name="product_price" class="form-control @error('price') is-invalid @enderror"  id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}">
+                        <input type="text" name="product_price" class="form-control @error('price') is-invalid @enderror" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}" pattern="[0-9]+">
                         @error('product_price')
                             <div class="invalid-feedback">
                              {{ $message }}
@@ -265,20 +263,18 @@
     @include('partials.footer')
     
     
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
     <script>
   // JavaScript to handle the modal and form submission
-  var termsModal = document.getElementById("termsModal");
+    var termsModal = document.getElementById("termsModal");
     const acceptTermsCheckbox = document.getElementById("acceptTerms");
     const acceptButton = document.getElementById("acceptButton");
     var submitButton = document.getElementById("submitBtn");
     var textFieldFilled = false;
 
     submitButton.addEventListener("click", () => {
-        
-
         if (
             document.getElementById('product_name').value === '' ||
             document.getElementById('product_price').value === '' ||
@@ -306,37 +302,202 @@
                 e.preventDefault();
             }
         });
+       
+        function displaySelectedImages(input) {
+    var selectedImagesContainer = document.getElementById("selectedImagesContainer");
+    selectedImagesContainer.innerHTML = ""; // Clear existing images
 
+    var elementsBox = document.getElementById('elementsBox');
 
-     function displaySelectedImages(input) {
-   var selectedImagesContainer = document.getElementById("selectedImagesContainer");
-   selectedImagesContainer.innerHTML = ""; // Clear existing images
+    for (var i = 0; i < input.files.length; i++) {
+        var imageContainer = document.createElement("div");
+        imageContainer.className = "selected-image-container";
 
-   var elementsBox = document.getElementById('elementsBox');
- 
+        var image = document.createElement("img");
+        image.src = URL.createObjectURL(input.files[i]);
+        image.style.maxWidth = "100%";
+        image.style.maxHeight = "150px";
+        image.style.display = "block";
+        imageContainer.appendChild(image);
 
-   for (var i = 0; i < input.files.length; i++) {
-      var image = document.createElement("img");
-      image.src = URL.createObjectURL(input.files[i]);
-      image.style.maxWidth = "100%";
-      image.style.maxHeight = "150px";
-      image.style.display = "block";
-      selectedImagesContainer.appendChild(image);
-   }
+        // Add individual "Remove" SVG button for each image
+        var removeButton = createRemoveButton();
 
-   // Check if there are selected images to display
-   if (input.files.length > 0) {
-      elementsBox.style.display = "none"; // Hide elementsBox
-   } else {
-      elementsBox.style.display = "block"; // Show elementsBox
-   }
+        // Use a block-scoped variable to capture the correct imageContainer
+        let currentImageContainer = imageContainer;
+
+        removeButton.addEventListener("click", function () {
+            removeImage(currentImageContainer);
+        });
+
+        imageContainer.appendChild(removeButton);
+        selectedImagesContainer.appendChild(imageContainer);
     }
 
+    // Check if there are selected images to display
+    if (input.files.length > 0) {
+        elementsBox.style.display = "none"; // Hide elementsBox
+    } else {
+        elementsBox.style.display = "block"; // Show elementsBox
+    }
+}
 
+//to display images after selected
+function displaySelectedImages(input) {
+    var selectedImagesContainer = document.getElementById("selectedImagesContainer");
+    selectedImagesContainer.innerHTML = ""; // Clear existing images
 
- 
+    var elementsBox = document.getElementById('elementsBox');
+
+    for (var i = 0; i < input.files.length; i++) {
+        var imageContainer = document.createElement("div");
+        imageContainer.className = "selected-image-container";
+
+         // Add individual "Remove" SVG button for each image
+         var removeButton = createRemoveButton();
+
+        // Use a block-scoped variable to capture the correct imageContainer
+        let currentImageContainer = imageContainer;
+
+        removeButton.addEventListener("click", function () {
+            removeImage(currentImageContainer);
+        });
+
+        // Create a container for the image and the remove button
+        var containerWithRemove = document.createElement("div");
+        containerWithRemove.style.position = "relative";
+        containerWithRemove.style.display = "inline-block"; 
+        containerWithRemove.style.display="margin-top:0;"
+
+        var image = document.createElement("img");
+        image.src = URL.createObjectURL(input.files[i]);
+        image.style.maxWidth = "100%";
+        image.style.maxHeight = "200px";
+        image.style.display = "block";
+
+        // Append the image and the remove button to the container
+        containerWithRemove.appendChild(image);
+        containerWithRemove.appendChild(removeButton);
+
+        imageContainer.appendChild(containerWithRemove);
+        selectedImagesContainer.appendChild(imageContainer);
+    }
+
+    // Check if there are selected images to display
+    if (input.files.length > 0) {
+        elementsBox.style.display = "none"; // Hide elementsBox
+    } else {
+        elementsBox.style.display = "block"; // Show elementsBox
+    }
+}
+
+// Separate function to create the "Remove" SVG button
+function createRemoveButton() {
+    var removeButton = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    removeButton.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    removeButton.setAttribute("width", "25");
+    removeButton.setAttribute("height", "25");
+    removeButton.setAttribute("fill", "currentColor");
+    removeButton.setAttribute("class", "bi bi-x-circle remove-icon");
+    removeButton.setAttribute("viewBox", "0 0 16 16");
+
+    var path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path1.setAttribute("d", "M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z");
+
+    var path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path2.setAttribute("d", "M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z");
+
+    removeButton.appendChild(path1);
+    removeButton.appendChild(path2);
+
+    return removeButton;
+}
+
+    // Separate function to handle image removal
+    function removeImage(imageContainer) {
+        // Remove the corresponding image and button
+        imageContainer.remove();
+
+        // Show elementsBox if there are no selected images
+        var selectedImagesContainer = document.getElementById("selectedImagesContainer");
+        var elementsBox = document.getElementById('elementsBox');
+        elementsBox.style.display = selectedImagesContainer.children.length === 0 ? "block" : "none";
+    }
+
+    //to display subcategories based on category
+    $(document).ready(function() {
+        function updateSubcategories() {
+            var selectedCategoryId = $('#category_id').val();
+
+            $.ajax({
+                url: '/get-subcategories/' + selectedCategoryId,
+                type: 'GET',
+                success: function(response) {
+                    $('#subcategory_id option').hide();
+
+                    $.each(response, function(index, subcategory) {
+                        $('#subcategory_id option[value="' + subcategory.id + '"]').show();
+                    });
+
+                    $('#subcategory_id').val('Select Type');
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        updateSubcategories();
+
+        $('#category_id').on('change', function() {
+            updateSubcategories();
+        });
+    });
+
+    // to filled the prize with 0 if seller select for free
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to handle the change event of the seller option dropdown
+        function handleSellerOptionChange() {
+            var sellerOption = document.getElementById("option_id").value;
+            var priceInput = document.getElementById("product_price");
+
+             // Check if the selected seller option is "For Free"
+             if (sellerOption === "2") { // Assuming "1" is the value for the "For Free" option
+                // Set the price input value to 0 and disable the input
+                priceInput.value = "0";
+                priceInput.setAttribute("readonly", true);
+            } else {
+                // If a different option is selected, enable the input
+                priceInput.value = ""; // Clear the input value
+                priceInput.removeAttribute("readonly");
+            }
+        }
+
+        // Attach the handleSellerOptionChange function to the change event of the seller option dropdown
+        document.getElementById("option_id").addEventListener("change", handleSellerOptionChange);
+
+        // Trigger the initial execution of the function to set the initial state
+        handleSellerOptionChange();
+    });
+
+    //2 decimal digit in price
+    document.addEventListener("DOMContentLoaded", function () {
+        var priceInput = document.getElementById("product_price");
+
+        priceInput.addEventListener("input", function (event) {
+            // Remove non-numeric characters
+            var numericValue = event.target.value.replace(/[^0-9]/g, '');
+
+            // Format the numeric value with two decimal places
+            var formattedValue = (numericValue / 100).toFixed(2);
+
+            // Update the input value
+            event.target.value = formattedValue;
+        });
+    });
+
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+   
   </body>
 </html>

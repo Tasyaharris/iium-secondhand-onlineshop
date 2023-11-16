@@ -4,7 +4,7 @@
     flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid #000;
-    background: rgba(217, 217, 217, 0.33);
+    background: white;
     justify-content: center;
     align-items: center;
     margin-left: 75px;
@@ -75,4 +75,5 @@ a:link {
     align-items: center; /* Center child elements vertically */
     justify-content: center; /* Center child elements horizontally */
     height: 100%; /* Ensure full container height is used for vertical centering */
+  
   }

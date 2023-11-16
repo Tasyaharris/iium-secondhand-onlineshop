@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Discussion;
+use App\Models\User;
+use App\Models\Profile;
 use App\Http\Requests\StoreDiscussionRequest;
 use App\Http\Requests\UpdateDiscussionRequest;
 
@@ -15,8 +17,9 @@ class DiscussionController extends Controller
     {
         return view('discussion',[
             "title"=> "Discussion",
-            "discussion"=> Discussion::all(),
-          
+            "discussions"=> Discussion::join('users','discussions.username','=','users.id')
+            ->select('discussions.*','users.username as user_name')->get()
+            //'profiles'=> Profile::all()
         ]);
     }
 
@@ -41,12 +44,9 @@ class DiscussionController extends Controller
      */
     public function show(Discussion $discussion)
     {
-        //
-        return view('discussion',[
-            "title"=> "Discussion",
-            "discussion"=> $discussion
-        ]);
+
     }
+
 
     /**
      * Show the form for editing the specified resource.

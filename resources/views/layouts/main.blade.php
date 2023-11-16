@@ -17,7 +17,7 @@
 
       <div class="container mt-2">
        
-        @yield('container')
+      @yield('container')
 
       </div>
 

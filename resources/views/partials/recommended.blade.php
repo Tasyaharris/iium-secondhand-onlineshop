@@ -3,7 +3,7 @@
   <div class="max-width">
     <div class="explore-content">
       <div class="text-1">
-        <p class= "p-3"  style ="font-weight: bold"> RECOMMENDED </p>
+        <p class= "p-3"  style ="font-weight: bold;font-size:20px"> RECOMMENDED </p>
       </div>
       <div id="carouselExampleFade" class="carousel slide" style="height: 350px;">
         <div class="carousel-inner">
@@ -24,8 +24,7 @@
                                           @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
                                                     <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
                                                         <img src="{{ asset('storage/' . $firstImagePath) }}"width="100" height="100" >
-                                                    </div>
-                                                
+                                                    </div>   
                                           @endif
                                         </a>
     

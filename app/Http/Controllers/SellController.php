@@ -15,28 +15,30 @@ class SellController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
    
-        return view('sell.index',[
-            "title" => "Sell Page",
-            'categories'=> Category::all(),
-            'conditions'=> Condition::all(),
-            'selleroptions'=> Selleroption::all(),
-            'negos'=> Nego::all(),
-            'sell' => Product::where('username', auth()->user()->username)->get(),
-            'subcategories' => Subcategorie::all()
-       
-        ]);
-    }
-
-    public function getSubcategories($categoryId)
+     public function index()
     {
-        // Replace 'default_category_id' with the actual default category ID or logic to get the default category ID.
-        // This will be used if no category is selected or if you want to initialize subcategories with a default category.
+    
+    //$subcategories = $this->getSubcategoriesAjax();
 
-        return Subcategorie::where('category_id', $categoryId)->get();
+    return view('sell.index', [
+        "title" => "Sell Page",
+        'categories' => Category::all(),
+        'conditions' => Condition::all(),
+        'selleroptions' => Selleroption::all(),
+        'negos' => Nego::all(),
+        'sell' => Product::where('username', auth()->user()->username)->get(),
+        'subcategories' => Subcategorie::all()
+    ]);
     }
+
+    public function getSubcategoriesAjax($categoryId)
+    {
+        $subcategories = Subcategorie::where('category_id', $categoryId)->get();
+    
+        return response()->json($subcategories);
+    }
+
 
     /**
      * Show the form for creating a new resource.

@@ -44,8 +44,11 @@
             <div class="product" style="display: flex; align-items: center;">
              <!--product details--> 
              <div class="col text-center" style="margin-left: 10px;">  
-              @if ($product->product_pic)
-              <img src="{{ asset('storage/' . $product->product_pic) }}" width="50" height="50" >
+              @if (is_array(json_decode($product->product_pic)))
+              @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
+                  <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
+                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="50" height="50" >
+                  </div>
               @endif
               </div>
               

@@ -26,6 +26,21 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="termsModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body" style="text-align: center;">
+            <h6> Are you sure you want to submit this discussion? </h6>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="submitBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
    <div class="box-title" >
         <div class="disc-box" style="padding:0 ; margin-bottom:0;">
         <div class="disc-title" style="margin-top: 10px; padding: 0;">
@@ -49,8 +64,8 @@
             </div>
             @enderror
           </div>
-          <div class="col-md-8 mb-0 type-title"  >
-            <h6>Title: </h6>
+          <div class="col-md-8 mb-0 type-title">
+            <h6>Slug: </h6>
             <input class="form-control @error('slug') is-invalid @enderror" type="text"  name="slug" id="slug" maxlength="255" required style="margin-left: 5px; border:none;">
             @error('slug')
             <div class="invalid-feedback">
@@ -72,7 +87,7 @@
 
    <div class="containerd">
     <a class="submit-discussion" style="text-decoration:none;" href="/submitdisc">
-      <button type="submit" class="btn_items" id="submitBtn" >Submit</button>
+      <button type="submit" class="btn_items" id="submitBtn" data-bs-toggle="modal" data-bs-target="#termsModal" >Submit</button>
     </a>
    </div>
 
@@ -82,9 +97,40 @@
     @include('partials.footer')
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-   
+    document.addEventListener("DOMContentLoaded", function () {
+      var termsModal = document.getElementById("termsModal");
+        var submitButton = document.getElementById("submitBtn");
+        var textFieldFilled = false;
+
+        submitButton.addEventListener("click", function (e) {
+          if (
+            document.getElementById('title').value.trim() === '' ||
+            document.getElementById('slug').value.trim() === '' ||
+            document.getElementById('discussion').value.trim() === ''
+          ) {
+            e.preventDefault(); // Prevent form submission if any input is empty
+          } else {
+            textFieldFilled = true;
+            termsModal.style.display = "block";
+          }
+        });
+
+        document.getElementById("acceptButton").addEventListener("click", function () {
+          termsModal.style.display = "none";
+          document.getElementById("myForm").submit();
+        });
+      });
+
+      document.getElementById("myForm").addEventListener("submit", (e) => {
+            if (!textFieldFilled) {
+                e.preventDefault();
+            }
+        });
+
+
     </script>
 
   </body>

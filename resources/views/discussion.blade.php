@@ -61,9 +61,25 @@
         </div>
 
         <div class="detail-desc" style="width: 710px;" >
-            <h6>test</h6>
-
-        </div>
+            <!-- Content for the second half of the page -->
+            @foreach ($discussions->take(4) as $discussion)
+            <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey;">
+              <div class="discussion-bar">
+                  <!--seller profile--> 
+                  <div class="text-left" style="display: flex; align-items: center;">
+                    <div class="col text-center" style="margin-left: 10px;">
+                          <h6>{{ $discussion->user_name }}</h6>
+                    </div>
+                    <div class="row" style="margin-left:7px;">
+                          <h6>{{ $discussion->title }}</h6>
+                          <p>{{ $discussion->discussion }}</p>
+                    </div>
+                    
+                  </div>
+              </div>
+            </nav>
+            @endforeach
+          </div>
     </div>
         
     <a class="create-discussion" style="width:auto; padding:0; text-decoration:none;" href="/createdisc">
