@@ -21,6 +21,7 @@ use App\Http\Controllers\SoldController;
 use App\Http\Controllers\MyOrderController;
 use App\Http\Controllers\CreateDiscController;
 use App\Http\Controllers\MahallahEquipmentController;
+use App\Http\Controllers\CartController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -135,6 +136,9 @@ Route::resource('/chat',MessageController::class)->middleware('auth');
 Route::resource('/buy',OrderController::class)->middleware('auth');
 Route::get('/buy/{id}', 'OrderController@show')->name('buy.show')->middleware('auth');
 
+
+Route::resource('/cart',CartController::class)->middleware('auth');
+//Route::get('/cart/{id}', 'CartController@show')->name('cart.show')->middleware('auth');
 
 
 Route::get('/fashion',[FashionController::class,'index'])->middleware('auth');

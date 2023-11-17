@@ -23,8 +23,10 @@
         <br>
         <div class="links">
         <a href="/homepage" style="color:black; text-align: center;">Back to Main Page</a>
-        <a href="{{ route('productafterbuy.show',  ['id' => $product->id]) }}" style="color:black; margin-left:310px; text-align: center;">OK</a>
+        <a href="/homepage" style="color:black; margin-left:310px; text-align: center;">OK</a>
+      
         </div>
+
         </div>
     </div>
  
@@ -36,4 +38,4 @@
 
     
 </body>
-</html>
+</html> 

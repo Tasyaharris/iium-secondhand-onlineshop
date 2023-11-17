@@ -99,7 +99,7 @@
                 <div class="box ">
                   <a href="{{ route('buy.show',  ['id' => $product->id]) }}" class="button button1">Buy</a>
                 <br><br>
-                <a href="/cart" class="button button2 mt-2">Add to Cart</a>
+                <a href="{{ route('cart.show',  $product->id) }}" class="button button2 mt-2">Add to Cart</a>
                 <br><br>
                
                 <a href="{{ route('chat.show', $product->id) }}" class="button button3 mt-2">Chat</a>

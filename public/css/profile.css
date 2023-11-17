@@ -190,3 +190,35 @@ td{
 .selection1{
   table-layout: fixed;
 }
+
+
+/* Style for the side navbar */
+.side-navbar {
+    flex-basis: 400px; /* Set a fixed width for the sidebar */
+    color: black;
+    display: flex; /* Display the items in a horizontal line */
+    flex-direction: row;
+    margin-top: 20px;
+
+}
+
+/* Style for the sidebar links */
+.side-navbar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.side-navbar li {
+    padding: 15px;
+    text-align: center;
+}
+
+.side-navbar a {
+    text-decoration: none;
+    color: black;
+}
+
+
+.selection{
+    table-layout: fixed;
+}

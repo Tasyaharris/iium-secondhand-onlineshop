@@ -53,7 +53,9 @@
     </div>
 
 
-    <form action="/homepage" method="get" id="myForm">
+    <form method="post" action="/buy" id="myForm">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
     <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px;border: 1px solid #000;">
         <div class="address1" style="display: inline-block;">           
@@ -104,8 +106,11 @@
                 <div class="product" style="display: flex; align-items: center;">
                     <!--product details--> 
                     <div class="col text-center" style="margin-left: 10px;">  
-                        @if ($product->product_pic)
-                         <img src="{{ asset('storage/' . $product->product_pic) }}" width="130" height="130" >
+                        @if (is_array(json_decode($product->product_pic)))
+                        @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
+                                  <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
+                                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="130" height="130" >
+                                  </div>   
                         @endif
                      </div>
                      
@@ -131,15 +136,14 @@
             <div style="text-align: left;">
             <h6>Payment Method: </h6>
             </div>
-            <div style="text-align: center;">       
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"  required>
-                    <label class="form-check-label" for="inlineRadio1">Online Banking</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                    <label class="form-check-label" for="inlineRadio2">Cash on Delivery</label>
-                  </div>
+            <div style="text-align: center;">      
+                @foreach ($payments as $payment) 
+                <div class="form-check form-check-inline" id="paymentoption_id" name="paymentoption_id" required>   
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{ $payment->id }}" value="{{ $payment->id }}" required>
+                        <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
+                </div>
+                @endforeach
+                
                   <div id="paymentError" class="alert alert-danger" style="display: none;">
                     Please select a payment method.
                 </div>
@@ -151,7 +155,8 @@
         <!--submit button-->
         <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB;">
             <div class="product1" style="display:inline-block; margin-left: 590px;text-align: center; justify-content:center;">
-                <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
+                    <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
+           
             </div>
             
         </nav>
@@ -188,12 +193,12 @@
             if (acceptTermsCheckbox.checked) {
                 termsPopup.style.display = "none";
                // Redirect to the home page when the "Accept" button is clicked
-               window.location.href = "{{ route('agreebuy') }}"; // Replace 'home' with the name of your route
-
+               document.getElementById("myForm").submit();
              }
           });
 
     document.getElementById("myForm").addEventListener("submit", (e) => {
+        console.log("Form submitted!")
         if (!acceptTermsCheckbox.checked || !paymentMethodSelected) {
             e.preventDefault();
         }
