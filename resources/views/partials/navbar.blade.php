@@ -36,7 +36,7 @@
               <ul class="dropdown-menu">
                <li><a class="dropdown-item" href="/profile">Profile</a></li>
                <li><hr class="dropdown-divider"></li>
-               <li><a class="dropdown-item" href="#">Settings</a></li>
+               <li><a class="dropdown-item" href="/settings">Settings</a></li>
                <li><hr class="dropdown-divider"></li>
                <li>
                   <form action="/logout" method="post">

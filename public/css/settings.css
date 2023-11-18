@@ -1,0 +1,46 @@
+.profile-picture {
+    max-width: 100px;
+    border-radius: 50%;
+    height: 300px;
+}
+
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+.user-profile {
+    flex: 1;
+    max-width: 150px;
+    padding: 10px;
+    margin-left: 70px; /* Adjust the margin as needed */
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+  }
+
+  
+  .container-under-table {
+    background-color: white; /* Background color for the container under the table */
+    padding: 15px; /* Add padding for spacing inside the container */
+    border: 1px solid black;
+    margin-bottom: 30px;
+    width: 740px;
+    margin-left: 10px;;
+    height:auto; 
+    border-radius: 7px;
+
+  }
+
+  .btn_items{
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: rgba(168, 184, 208, 0.80);
+    margin-top: 5px;
+    margin-bottom: 5px;
+   justify-items: center;
+}

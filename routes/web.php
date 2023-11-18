@@ -22,6 +22,7 @@ use App\Http\Controllers\MyOrderController;
 use App\Http\Controllers\CreateDiscController;
 use App\Http\Controllers\MahallahEquipmentController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -135,6 +136,10 @@ Route::resource('/chat',MessageController::class)->middleware('auth');
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
 Route::get('/buy/{id}', 'OrderController@show')->name('buy.show')->middleware('auth');
+Route::post('/buy/{product_id}/{totalPrice}', [ OrderController::class,'store'])->middleware('auth');
+//Route::post('/order', 'OrderController@store')->name('order.store');
+//Route::post('/order',[ OrderController::class,'store'])->middleware('auth');
+
 
 
 Route::resource('/cart',CartController::class)->middleware('auth');
@@ -174,3 +179,5 @@ Route::get('/get-subcategories/{categoryId}', 'SellController@getSubcategoriesAj
 
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');
+
+Route::resource('/settings',UserProfileController::class)->middleware('auth');

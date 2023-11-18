@@ -52,52 +52,31 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $product_id, $totalPrice)
     {
-        // Validate the request data
-        $validatedData = $request->validate([
-            'payment_id' => 'required',
-            'product_id' => 'required',
-        ]);
-    
-        // Get the product details based on the product ID
-        $productId = $validatedData['product_id'];
-        $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
-            ->join('negos', 'nego_id', '=', 'negos.id')
-            ->join('users', 'products.username', '=', 'users.id')
-            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-            ->where('products.id', $productId)
-            ->first();
-    
-        // Ensure the product exists
-        if (!$product) {
-            // Handle the case where the product doesn't exist, redirect, show an error, etc.
-            return redirect('/')->with('error', 'Product not found');
-        }
-    
-        // Calculate the total price and other details
-        $price = $product->product_price;
-        $com = 0.02 * $price;
-        $totalPrice = $price + $com;
-    
-        // Create an order record
-        $order = new Order([
-            'product_id' => $productId,
-            'order_date' => now(),
-            'total_price' => $totalPrice,
-            'paymentoption_id' => $validatedData['payment_id'],
-            'paymentstatus_id' => 4,
-            'productstatus_id' => 1,
-        ]);
-    
-        // Set the username
-        $order->username = auth()->user()->id;
-    
-        // Save the order to the database
-        $order->save();
-    
-        // Redirect to the confirmation page or wherever you want to go after placing the order
-        return redirect('/afterbuy');
+
+    $product = Product::find($product_id);
+    // Validate the request data
+    $validatedData = $request->validate([
+        'paymentoption_id' => 'required'
+    ]);
+
+     // Calculate the total price and other details
+    $price = $product->product_price;
+    $com = 0.02 * $price;
+    $totalPrice = $price + $com;
+
+    $validatedData['product_id'] = $product;
+    $validatedData['username'] = auth()->user()->id;
+    $validatedData['order_date']= now();
+    $validatedData['total_price']= $totalPrice;
+    $validatedData['paymentstatus_id'] = 4;
+    $validatedData['productstatus_id'] = 1;
+
+    Order::create($validatedData);
+
+    return redirect('/homepage');
+
     }
     
 
@@ -123,8 +102,8 @@ class OrderController extends Controller
     $com = 0.02 * $price;
     $totalPrice = $price + $com;
 
-      // Append the product ID to the title
-      $title = 'Product - ' . $product->id;
+    // Append the product ID to the title
+    $title = 'Product - ' . $product->id;
       
     // Pass the product to the view
     return view('buypage', [
@@ -135,6 +114,7 @@ class OrderController extends Controller
                 'totalPrice'=> $totalPrice,
                 'payments'=> Payment::all()
             ]);
+
 }
 
 

@@ -53,7 +53,7 @@
     </div>
 
 
-    <form method="post" action="/buy" id="myForm">
+    <form method="post" action="{{ url("/buy/{$product->id}/{$totalPrice}") }}" id="myForm">
     @csrf
     <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
@@ -121,6 +121,8 @@
                        <small>Item Price: RM {{ $product->product_price }}</small>
                        <small>Platform Fee: {{ $com }}</small>
                        <small>Total Fee : {{ $totalPrice }}</small>
+                       <input type="hidden" name="product_id" value="{{ $totalPrice }}">
+
                      </div>
                      
                    </div>
