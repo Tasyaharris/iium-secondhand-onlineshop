@@ -23,6 +23,7 @@ use App\Http\Controllers\CreateDiscController;
 use App\Http\Controllers\MahallahEquipmentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\SellerProfileController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -111,6 +112,10 @@ Route::get('/agreebuy', function () {
 })->name('agreebuy');;
 
 
+Route::get('/product/search',[ProductController::class,'search']);
+
+
+
 
 
 //Route::resource('/productafterbuy',SoldController::class)->middleware('auth');
@@ -123,6 +128,10 @@ Route::resource('/myorder',MyOrderController::class)->middleware('auth');
 //       "title" => "View Product",
 //  ]);
 //});
+
+Route::get('/sellerprofile',[SellerProfileController::class,'index']);
+Route::get('/sellerprofile/{id}',[SellerProfileController::class,'show'])->name('sellerprofile.show');
+
 
 Route::resource('/discussion', DiscussionController::class)->middleware('auth');
 Route::get('/discussion/{discussion}',[DiscussionController::class,'show']);
@@ -146,12 +155,12 @@ Route::resource('/cart',CartController::class)->middleware('auth');
 //Route::get('/cart/{id}', 'CartController@show')->name('cart.show')->middleware('auth');
 
 
-Route::get('/fashion',[FashionController::class,'index'])->middleware('auth');
-Route::get('/books',[BookController::class,'index'])->middleware('auth');
-Route::get('/electronics',[ElectronicController::class,'index'])->middleware('auth');
-Route::get('/cosmetics',[CosmeticController::class,'index'])->middleware('auth');
-Route::get('/mahallah',[MahallahEquipmentController::class,'index'])->middleware('auth');
-Route::get('/others',[OthersController::class,'index'])->middleware('auth');
+Route::get('/fashion',[FashionController::class,'index']);
+Route::get('/books',[BookController::class,'index']);
+Route::get('/electronics',[ElectronicController::class,'index']);
+Route::get('/cosmetics',[CosmeticController::class,'index']);
+Route::get('/mahallah',[MahallahEquipmentController::class,'index']);
+Route::get('/others',[OthersController::class,'index']);
 
 
 Route::get('/login', [LoginController:: class, 'index'])->name('login')->middleware('guest');

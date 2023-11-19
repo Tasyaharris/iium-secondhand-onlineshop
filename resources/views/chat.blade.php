@@ -47,7 +47,7 @@
               @if (is_array(json_decode($product->product_pic)))
               @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
                   <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
-                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="50" height="50" >
+                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="90" height="90" >
                   </div>
               @endif
               </div>
@@ -59,7 +59,9 @@
                 </div>
                 <div class="col-md-8 mt-0" >
                     <small>RM {{ $product->product_price }}</small>
-                    <button class="btn_items1 " id="send-button" >Negotiate</button>
+                    @if ($product->nego_id != 2)
+                    <button class="btn_items1" id="send-button">Negotiate</button>
+                    @endif
                 </div>
               </div>
               

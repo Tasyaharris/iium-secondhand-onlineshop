@@ -24,7 +24,6 @@ class ProfileController extends Controller
             ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
             'profiles' => Profile::where('username',auth()->user()->id)->get()
             
-            
         ]);
     }
 

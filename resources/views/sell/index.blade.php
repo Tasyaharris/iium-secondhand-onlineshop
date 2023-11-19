@@ -303,44 +303,7 @@
             }
         });
        
-        function displaySelectedImages(input) {
-    var selectedImagesContainer = document.getElementById("selectedImagesContainer");
-    selectedImagesContainer.innerHTML = ""; // Clear existing images
-
-    var elementsBox = document.getElementById('elementsBox');
-
-    for (var i = 0; i < input.files.length; i++) {
-        var imageContainer = document.createElement("div");
-        imageContainer.className = "selected-image-container";
-
-        var image = document.createElement("img");
-        image.src = URL.createObjectURL(input.files[i]);
-        image.style.maxWidth = "100%";
-        image.style.maxHeight = "150px";
-        image.style.display = "block";
-        imageContainer.appendChild(image);
-
-        // Add individual "Remove" SVG button for each image
-        var removeButton = createRemoveButton();
-
-        // Use a block-scoped variable to capture the correct imageContainer
-        let currentImageContainer = imageContainer;
-
-        removeButton.addEventListener("click", function () {
-            removeImage(currentImageContainer);
-        });
-
-        imageContainer.appendChild(removeButton);
-        selectedImagesContainer.appendChild(imageContainer);
-    }
-
-    // Check if there are selected images to display
-    if (input.files.length > 0) {
-        elementsBox.style.display = "none"; // Hide elementsBox
-    } else {
-        elementsBox.style.display = "block"; // Show elementsBox
-    }
-}
+       
 
 //to display images after selected
 function displaySelectedImages(input) {

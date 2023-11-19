@@ -100,3 +100,14 @@ line-height: normal;
     transform: translate(0, -50%); /* Vertically center the button */
     z-index: 1; /* Ensure it's above the carousel content */
 }
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* or justify-content: space-around; */
+}
+
+.custom-card {
+    width: calc(33.33% - 16px); /* Adjust the width as needed */
+    box-sizing: border-box;
+}

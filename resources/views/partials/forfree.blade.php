@@ -7,7 +7,7 @@
       </div>
       <div id="carouselExampleFade" class="carousel slide" style="height: 350px;">
         <div class="carousel-inner">
-            @foreach ($products->chunk(4) as $chunk)
+            @foreach ($products1->chunk(4) as $chunk)
                 <div class="carousel-item{{ $loop->first ? ' active' : '' }}">
                     <div class="carousel" href="/products.viewproduct" id="myCarousel">
                       @foreach ($chunk as $product)
@@ -31,9 +31,7 @@
     
                                         <div class="prod-desc">
                                             <h6 id="product_name">{{ $product->product_name }}</h6>
-                                            <small id="price" id="price"> RM {{ $product->product_price }}</small>
-                                            <small id="seller_option"> ({{ $product->nego_option }})</small>
-                                            <br>
+  
                                             <small id="condition">{{ $product->condition_name }}</small>
                                             <br>
                                             

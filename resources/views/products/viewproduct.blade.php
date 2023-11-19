@@ -95,7 +95,10 @@
              
               <div class="card-body">
                 <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
-                <h4 id="user" >{{ $product->user->username }}</h4>
+                <a href="{{ route('sellerprofile.show',  ['id' => $product->user->id]) }}" style="color:black; text-decoration:none;">
+                  <h4 id="user" style="font-style: none;" >{{ $product->user->username }}</h4>
+                </a>
+                
                 <div class="box ">
                   <a href="{{ route('buy.show',  ['id' => $product->id]) }}" class="button button1">Buy</a>
                 <br><br>

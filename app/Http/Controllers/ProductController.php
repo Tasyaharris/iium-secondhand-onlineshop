@@ -25,7 +25,8 @@ class ProductController extends Controller
             ->join('subcategories', 'subcategory_id', '=', 'subcategories.id')
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name','subcategories.name as subcategory_name')
-            ->get()    
+            ->get(),
+           
         ]);
     }
 
@@ -97,6 +98,36 @@ class ProductController extends Controller
         Product::destroy($product->id);
 
         return redirect('/profile')->with('success','Item has been deleted!');
+    }
+
+    public function search(Request $request)
+    {
+
+        if($request->has('search')){
+            $product = Product::where('product_name','LIKE','%'.$request->search.'%')->get();
+            $title = 'Search Results for ' . $request->search;
+        }
+        else{
+            $product = Product::all();    
+            $title = 'Homepage';
+        }
+
+        return  view('homepage',[
+            'product'=>$product, 
+            'title' => $title,
+            'search' => $request->search,
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos', 'nego_id', '=', 'negos.id')
+            ->join('categories', 'category_id', '=', 'categories.id')
+            ->join('subcategories', 'subcategory_id', '=', 'subcategories.id')
+            ->join('users', 'products.username', '=', 'users.id')
+            ->where(function($query) use ($request) {
+                $query->where('product_name', 'LIKE', '%' . $request->search . '%')
+                      ->orWhere('brand', 'LIKE', '%' . $request->search . '%');
+            })
+            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name','subcategories.name as subcategory_name')
+            ->get()    
+            ]);
     }
 
 

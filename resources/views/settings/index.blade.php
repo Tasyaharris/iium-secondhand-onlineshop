@@ -40,11 +40,23 @@
                     @csrf
                     
                      <!-- Image-->
-                    <div class="inp-img" style="margin-top:40px;" >
-                       <h5>Profile Photo</h5>
-                       <img  class="profile-picture" src="" alt="User Profile Picture">
-                       <button type="button" class="btn btn-light" name="profile_pic" id="profile_pic" style="margin-left:30px;">Upload Photo</button>
-            
+                    <div class="inp-img" style="margin-top:30px;" >
+                      <h5>Profile Photo</h5>
+                     
+                      <div class="d-flex flex-column align-items-center justify-content-center">
+                      
+                        <div class="img">
+                        <div class="profile-picture" id="selectedImagesContainer"></div>
+                      </div>
+
+                      <div class="btn_upload mt-3">
+                        <label class="form-label m-1 " for="customFile1">
+                            Upload Photos
+                        </label>
+                        <input type="file" class="form-control d-none" id="customFile1" name="images[]" multiple required  required accept=".png, .jpg, .jpeg" onchange="displaySelectedImages(this)" />        
+                      </div>
+                      
+                      </div>
                     </div>
 
                     <div class="profile-details">
@@ -136,5 +148,33 @@
       @include('partials.footer')
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+
+      
+    function displaySelectedImages(input) {
+   var selectedImagesContainer = document.getElementById("selectedImagesContainer");
+   selectedImagesContainer.innerHTML = ""; // Clear existing images
+
+   var elementsBox = document.getElementById('elementsBox');
+ 
+
+   for (var i = 0; i < input.files.length; i++) {
+      var image = document.createElement("img");
+      image.src = URL.createObjectURL(input.files[i]);
+      image.style.maxWidth = "100%";
+      image.style.maxHeight = "150px";
+      image.style.display = "block";
+      selectedImagesContainer.appendChild(image);
+   }
+
+   // Check if there are selected images to display
+   if (input.files.length > 0) {
+      elementsBox.style.display = "none"; // Hide elementsBox
+   } else {
+      elementsBox.style.display = "block"; // Show elementsBox
+   }
+   
+}
+    </script>
   </body>
 </html>
