@@ -3,7 +3,7 @@
     <div class="max-width">
       <div class="searching-content">
         <div class="text-1">
-          <p class= "p-3"  style ="font-weight: bold; font-size:20px"> Search Result for " {{ $search }} "</p>
+          <p class= "p-3"  style ="font-weight: bold; font-size:20px"> Search result for " {{ $search }} "</p>
         </div>
 
         <div class="card-container" style="display: flex;  flex-wrap: wrap;justify-content: space-between; ">

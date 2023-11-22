@@ -134,18 +134,12 @@
                <!-- Show subcategory dropdown only if a category is selected -->
                
                <label for="subcategory_id" style="color: white">Product Subcategory</label>
-               <select class="form-select mb-3 mt-3" aria-label="Default select example" name="subcategory_id" id="subcategory_id" required onchange="getCategoryId()">
-                   <option selected >Select Type</option>
-               
+               <div class="form-check">
                    @foreach($subcategories as $subcategory)
-                       @if(old('subcategory_id') == $subcategory->id)
-                           <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
-                       @else
-                           <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                       @endif
+                       <input class="form-check-input" type="checkbox" name="subcategory_ids[]" id="subcategory_{{ $subcategory->id }}" value="{{ $subcategory->id }}">
+                       <label class="form-check-label" for="subcategory_{{ $subcategory->id }}">{{ $subcategory->name }}</label><br>
                    @endforeach
-                 
-               </select>
+               </div>
             </div>
         </div>
         

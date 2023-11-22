@@ -68,7 +68,7 @@
                               <div class="carousel-inner">
                                   @foreach(json_decode($product->product_pic) as $index => $imagePath)
                                       <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                          <img src="{{ asset('storage/' . $imagePath) }}"width="100" height="100"  alt="Image {{ $index + 1 }}">
+                                          <img src="{{ asset('storage/' . $imagePath) }}"  width="100" height="100" alt="Image {{ $index + 1 }}">
                                       </div>
                                   @endforeach
                               </div>

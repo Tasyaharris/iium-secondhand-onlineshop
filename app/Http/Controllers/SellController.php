@@ -80,7 +80,7 @@ class SellController extends Controller
             'meetup_point' => 'required'
         ]);
        // Handle multiple image uploads
-    $imagePaths = [];
+         $imagePaths = [];
     
        if ($request->hasFile('images')) {
            foreach ($request->file('images') as $image) {

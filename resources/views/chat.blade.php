@@ -47,7 +47,7 @@
               @if (is_array(json_decode($product->product_pic)))
               @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
                   <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
-                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="90" height="90" >
+                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="100" height="100" >
                   </div>
               @endif
               </div>
@@ -57,12 +57,19 @@
                 <div class="col-md-8 mb-0"  >
                     <p>{{ $product->product_name }}</p>
                 </div>
-                <div class="col-md-8 mt-0" >
-                    <small>RM {{ $product->product_price }}</small>
-                    @if ($product->nego_id != 2)
-                    <button class="btn_items1" id="send-button">Negotiate</button>
-                    @endif
-                </div>
+                <div class="col-md-12 mt-0">
+                  <small>RM {{ $product->product_price }}</small>
+                  <div id="negotiate-section">
+                      @if ($product->nego_id != 2)
+                          <button class="btn_items1" id="negotiate-button" onclick="toggleNegotiation()">Negotiate</button>
+                          <div class="negotiation-input " style="display: none; margin-top: 3px;" id="negotiation-input">
+                              <input type="text" class="form-control" id="negotiation-price" placeholder="RM 00.00">
+                              <button class="btn_items2" onclick="sendNegotiation()" style="margin-left: 5px;">Negotiate Price</button>
+                              <a href="#" onclick="cancelNegotiation()" style="text-decoration: none; color: black; margin-left: 3px; margin-top: 5px;">Cancel</a>
+                          </div>
+                      @endif
+                  </div>
+              </div>
               </div>
               
             </div>
@@ -97,10 +104,30 @@
     <br>
     
   
-
-
-
-    
     @include('partials.footer')
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+<script>
+   function toggleNegotiation() {
+        document.getElementById('negotiate-button').style.display = 'none';
+        document.getElementById('negotiation-input').style.display = 'flex';
+    }
+
+    function cancelNegotiation() {
+        document.getElementById('negotiate-button').style.display = 'block';
+        document.getElementById('negotiation-input').style.display = 'none';
+    }
+
+    function sendNegotiation() {
+        // Handle the negotiation price here
+        var negotiatedPrice = document.getElementById('negotiation-price').value;
+        // You can send the negotiatedPrice to the server or perform any other necessary action
+        // For example, you might want to make an AJAX request to handle the negotiation.
+
+        // After handling the negotiation, you might want to hide the negotiation section
+        document.getElementById('negotiate-section').style.display = 'none';
+    }
+</script>
   </body>
 </html>

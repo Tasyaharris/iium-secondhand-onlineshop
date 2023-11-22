@@ -52,28 +52,33 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $product_id, $totalPrice)
+    public function store(Request $request, $id, $totalPrice)
     {
 
-    $product = Product::find($product_id);
-    // Validate the request data
-    $validatedData = $request->validate([
-        'paymentoption_id' => 'required'
-    ]);
+        $validatedData = $request->validate([
+            'paymentoption_id' => 'required'
+        ]);
+
+
+       // For example, if you need to retrieve the product based on the ID:
+        $product = Product::find($id);
 
      // Calculate the total price and other details
     $price = $product->product_price;
     $com = 0.02 * $price;
     $totalPrice = $price + $com;
 
-    $validatedData['product_id'] = $product;
-    $validatedData['username'] = auth()->user()->id;
-    $validatedData['order_date']= now();
-    $validatedData['total_price']= $totalPrice;
-    $validatedData['paymentstatus_id'] = 4;
-    $validatedData['productstatus_id'] = 1;
+    $orderData = [
+        'product_id' => $product->id,
+        'username' => auth()->user()->id,
+        'order_date' => now(),
+        'total_price' => $totalPrice,
+        'paymentstatus_id' => 4,
+        'productstatus_id' => 1,
+        'paymentoption_id' => $validatedData['paymentoption_id'],
+    ];
 
-    Order::create($validatedData);
+    Order::create($orderData);
 
     return redirect('/homepage');
 
@@ -93,6 +98,7 @@ class OrderController extends Controller
         ->where('products.id', $id)
         ->first();
 
+    $payment = Payment::all();
     
     if (!$product) {
         abort(404);
@@ -108,11 +114,13 @@ class OrderController extends Controller
     // Pass the product to the view
     return view('buypage', [
                 'product' => $product, 
+                'payment'=> $payment,
                 'profiles'=> Profile::where('id',auth()->user()->id)->get(),
                 'title' => $title,
                 'com'=> $com,
                 'totalPrice'=> $totalPrice,
-                'payments'=> Payment::all()
+                'payments'=> Payment::all(),
+                'paymentoption_id' => request()->input('paymentoption_id')
             ]);
 
 }

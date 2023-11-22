@@ -145,7 +145,7 @@ Route::resource('/chat',MessageController::class)->middleware('auth');
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
 Route::get('/buy/{id}', 'OrderController@show')->name('buy.show')->middleware('auth');
-Route::post('/buy/{product_id}/{totalPrice}', [ OrderController::class,'store'])->middleware('auth');
+Route::post('/buy/{id}/{totalPrice}', [OrderController::class, 'store'])->name('buy.store')->middleware('auth');
 //Route::post('/order', 'OrderController@store')->name('order.store');
 //Route::post('/order',[ OrderController::class,'store'])->middleware('auth');
 

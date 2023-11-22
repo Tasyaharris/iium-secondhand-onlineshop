@@ -83,3 +83,20 @@ body, html {
   border-style:none;
   border-radius: 5px;
 }
+
+.btn_items2{
+  color: white; 
+  background-color: grey;
+  border-style:none;
+  border-radius: 5px;
+  width: 110px;
+  text-align: left;
+  
+  font-size: 14px;
+
+}
+
+#negotiation-price{
+  width: 100px;
+  height: 30px;
+}

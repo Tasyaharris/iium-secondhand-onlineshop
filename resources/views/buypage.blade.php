@@ -52,10 +52,9 @@
         </div>
     </div>
 
-
-    <form method="post" action="{{ url("/buy/{$product->id}/{$totalPrice}") }}" id="myForm">
+    <form method="post" action="{{ route('buy.store', ['id' => $product->id, 'totalPrice' => $totalPrice]) }}" id="myForm">
     @csrf
-    <input type="hidden" name="product_id" value="{{ $product->id }}">
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
     <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px;border: 1px solid #000;">
         <div class="address1" style="display: inline-block;">           
@@ -141,7 +140,7 @@
             <div style="text-align: center;">      
                 @foreach ($payments as $payment) 
                 <div class="form-check form-check-inline" id="paymentoption_id" name="paymentoption_id" required>   
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{ $payment->id }}" value="{{ $payment->id }}" required>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{ $payment->id }}" value="{{ $paymentoption_id}}" required>
                         <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
                 </div>
                 @endforeach
