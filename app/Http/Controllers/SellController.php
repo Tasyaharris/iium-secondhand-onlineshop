@@ -88,6 +88,8 @@ class SellController extends Controller
                $imagePaths[] = $imagePath;
            }
        }
+
+       $validatedData['product_name']= ucwords($validatedData['product_name']);
     
         $validatedData['product_pic'] = json_encode($imagePaths); // Store paths as JSON
     

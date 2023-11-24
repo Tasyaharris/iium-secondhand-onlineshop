@@ -52,8 +52,8 @@
         </div>
     </div>
 
-    <form method="post" action="{{ route('buy.store', ['id' => $product->id, 'totalPrice' => $totalPrice]) }}" id="myForm">
-    @csrf
+    <form method="post" action="/buy" id="myForm">
+        @csrf
         <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
     <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px;border: 1px solid #000;">

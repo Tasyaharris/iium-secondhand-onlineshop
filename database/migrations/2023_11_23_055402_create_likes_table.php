@@ -11,17 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("product_id");
             $table->foreignId("username");
-            $table->string("profile_pic")->nullable;
-            $table->string("first_name");
-            $table->string("last_name");
-            $table->string("mahallah");
-            $table->string("kuliyyah");
-            $table->string("gender")->nullable;
-            $table->string("phone_number");
-            $table->string("bio")->nullable;
             $table->timestamps();
         });
     }
@@ -31,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('likes');
     }
 };

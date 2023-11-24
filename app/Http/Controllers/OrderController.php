@@ -52,37 +52,38 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id, $totalPrice)
+    public function store(Request $request)
     {
 
         $validatedData = $request->validate([
-            'paymentoption_id' => 'required'
+            'paymentoption_id' => 'required',
+          
         ]);
+        // Retrieve the product_id from the request
+        $productId = $request->input('product_id');
+       
+        // Retrieve the product based on the ID
+        $product = Product::find($productId);
 
+        // Calculate the total price and other details
+        $price = $product->product_price;
+        $com = 0.02 * $price;
+        $totalPrice = $price + $com;
 
-       // For example, if you need to retrieve the product based on the ID:
-        $product = Product::find($id);
+        $orderData = [
+            'product_id' => $productId,
+            'username' => auth()->user()->id,
+            'order_date' => now(),
+            'total_price' => $totalPrice,
+            'paymentstatus_id' => 4,
+            'productstatus_id' => 1,
+            'paymentoption_id' => $validatedData['paymentoption_id'],
+        ];
 
-     // Calculate the total price and other details
-    $price = $product->product_price;
-    $com = 0.02 * $price;
-    $totalPrice = $price + $com;
+        Order::create($orderData);
 
-    $orderData = [
-        'product_id' => $product->id,
-        'username' => auth()->user()->id,
-        'order_date' => now(),
-        'total_price' => $totalPrice,
-        'paymentstatus_id' => 4,
-        'productstatus_id' => 1,
-        'paymentoption_id' => $validatedData['paymentoption_id'],
-    ];
-
-    Order::create($orderData);
-
-    return redirect('/homepage');
-
-    }
+        return redirect('/fashion');
+     }
     
 
     /**

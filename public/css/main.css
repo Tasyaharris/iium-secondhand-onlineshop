@@ -111,3 +111,16 @@ line-height: normal;
     width: calc(33.33% - 16px); /* Adjust the width as needed */
     box-sizing: border-box;
 }
+
+/* Default styles */
+.heart-button {
+    /* Your default styles here */
+    fill: none;
+    stroke: black;
+}
+
+/* Styles when liked */
+.heart-button.liked {
+    fill: red; /* Change this to your liked color */
+    stroke: red; /* Change this to your liked color */
+}

@@ -224,3 +224,7 @@ td{
 .selection{
     table-layout: fixed;
 }
+
+.heart-red {
+  color: red;
+}

@@ -100,7 +100,7 @@
                 </a>
                 
                 <div class="box ">
-                  <a href="{{ route('buy.show',  ['id' => $product->id]) }}" class="button button1">Buy</a>
+                  <a href="{{ route('buy.show',   $product->id) }}" class="button button1">Buy</a>
                 <br><br>
                 <a href="{{ route('cart.show',  $product->id) }}" class="button button2 mt-2">Add to Cart</a>
                 <br><br>

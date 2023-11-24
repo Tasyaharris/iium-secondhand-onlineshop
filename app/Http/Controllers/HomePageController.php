@@ -23,8 +23,6 @@ class HomePageController extends Controller
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->get(),
-
-            
             //for free filtering
             'products1' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')

@@ -24,6 +24,7 @@ use App\Http\Controllers\MahallahEquipmentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SellerProfileController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -129,6 +130,11 @@ Route::resource('/myorder',MyOrderController::class)->middleware('auth');
 //  ]);
 //});
 
+Route::resource('likes', LikeController::class)->middleware('auth');
+Route::post('/likes', [LikeController::class,'store'])->middleware('auth');
+Route::post('/like.destroy', 'LikeController@destroy')->name('like.destroy')->middleware('auth');
+
+
 Route::get('/sellerprofile',[SellerProfileController::class,'index']);
 Route::get('/sellerprofile/{id}',[SellerProfileController::class,'show'])->name('sellerprofile.show');
 
@@ -139,16 +145,12 @@ Route::get('/discussion/{discussion}',[DiscussionController::class,'show']);
 //Route::get('/products/{id}', 'ProductController@show')->name('product.show');
 
 //Route::get('/products/{$product->id}', [ProductController::class,'show']);
-Route::resource('/products',ProductController::class)->middleware('auth');
+Route::resource('/products',ProductController::class);
 
 Route::resource('/chat',MessageController::class)->middleware('auth');
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
-Route::get('/buy/{id}', 'OrderController@show')->name('buy.show')->middleware('auth');
-Route::post('/buy/{id}/{totalPrice}', [OrderController::class, 'store'])->name('buy.store')->middleware('auth');
-//Route::post('/order', 'OrderController@store')->name('order.store');
-//Route::post('/order',[ OrderController::class,'store'])->middleware('auth');
-
+Route::post('buy/{id}/{totalPrice}',[OrderController::class,'store'])->middleware('auth')->name('buy.store');
 
 
 Route::resource('/cart',CartController::class)->middleware('auth');

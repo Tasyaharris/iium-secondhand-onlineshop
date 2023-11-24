@@ -118,7 +118,7 @@
         <div class="row mt-3">
             <div class="col-md-6">
                 <label for="category_id">Product Category</label>
-                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required >
+                <select class="form-select mb-3 mt-3" aria-label="Default select example" name="category_id" id="category_id" required  >
                     <option selected >Select Category</option>
                     @foreach($categories as $category)
                         @if(old('category_id') == $category->id)
@@ -134,12 +134,18 @@
                <!-- Show subcategory dropdown only if a category is selected -->
                
                <label for="subcategory_id" style="color: white">Product Subcategory</label>
-               <div class="form-check">
+               <select class="form-select mb-3 mt-3" aria-label="Default select example" name="subcategory_id" id="subcategory_id" required onchange="getCategoryId()">
+                   <option selected >Select Type</option>
+               
                    @foreach($subcategories as $subcategory)
-                       <input class="form-check-input" type="checkbox" name="subcategory_ids[]" id="subcategory_{{ $subcategory->id }}" value="{{ $subcategory->id }}">
-                       <label class="form-check-label" for="subcategory_{{ $subcategory->id }}">{{ $subcategory->name }}</label><br>
+                       @if(old('subcategory_id') == $subcategory->id)
+                           <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
+                       @else
+                           <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
+                       @endif
                    @endforeach
-               </div>
+                 
+               </select>
             </div>
         </div>
         
@@ -184,7 +190,7 @@
             <div class="inp_price mb-3 mt-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text">RM</span>
-                        <input type="text" name="product_price" class="form-control @error('price') is-invalid @enderror" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}" pattern="[0-9]+">
+                        <input type="text" name="product_price" class="form-control @error('price') is-invalid @enderror" id="product_price" aria-label="Text input with dropdown button" required value="{{ old("product_price") }}">
                         @error('product_price')
                             <div class="invalid-feedback">
                              {{ $message }}
