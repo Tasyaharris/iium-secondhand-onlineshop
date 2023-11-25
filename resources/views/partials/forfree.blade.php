@@ -72,27 +72,3 @@
   </div>
 
 </section>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-var heartIcon = document.getElementById('heart-icon');
-
-// Check if the heart icon element exists
-if (heartIcon) {
-  // Add a click event listener to the heart icon
-  heartIcon.addEventListener('click', function() {
-    // Get the path element inside the heart icon
-    var heartPath = this.querySelector('path');
-
-    // Check the current color and toggle between red and the default color
-    if (heartPath.style.fill === 'red') {
-      heartPath.style.fill = 'none';
-      heartPath.style.stroke = 'black';
-    } else {
-      heartPath.style.fill = 'red';
-      heartPath.style.stroke = 'red';
-
-    }
-  });
-}
-});
-</script>

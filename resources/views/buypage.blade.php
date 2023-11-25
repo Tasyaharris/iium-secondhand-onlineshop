@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/buy.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js" integrity="sha512-bztGAvCE/3+a1Oh0gUro7BHukf6v7zpzrAb3ReWAVrt+bVNNphcl2tDTKCBr5zk7iEDmQ2Bv401fX3jeVXGIcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  
 
   </head>
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <form method="post" action="/buy" id="myForm">
+    <form method="post" action="{{ url('buy') }}" id="myForm">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
@@ -120,7 +120,7 @@
                        <small>Item Price: RM {{ $product->product_price }}</small>
                        <small>Platform Fee: {{ $com }}</small>
                        <small>Total Fee : {{ $totalPrice }}</small>
-                       <input type="hidden" name="product_id" value="{{ $totalPrice }}">
+                       <input type="hidden" name="total_price" value="{{ $totalPrice}}">
 
                      </div>
                      
@@ -139,8 +139,8 @@
             </div>
             <div style="text-align: center;">      
                 @foreach ($payments as $payment) 
-                <div class="form-check form-check-inline" id="paymentoption_id" name="paymentoption_id" required>   
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{ $payment->id }}" value="{{ $paymentoption_id}}" required>
+                <div class="form-check form-check-inline" id="paymentoption_id" required>   
+                        <input class="form-check-input" type="radio" name="paymentoption_id" id="inlineRadio{{ $payment->id }}" value="{{  $payment->id}}" required>
                         <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
                 </div>
                 @endforeach
@@ -165,46 +165,71 @@
  
     @include('partials.footer')
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <script>
-        const showTermsBtn = document.getElementById("showTermsBtn");
-        const termsPopup = document.getElementById("termsModal");
-        const acceptTermsCheckbox = document.getElementById("acceptTerms");
-        const acceptButton = document.getElementById("acceptButton");
-        const submitButton = document.getElementById("submitButton");
-        const paymentError = document.getElementById("paymentError");
-
-        showTermsBtn.addEventListener("click", () => {
-        const paymentMethods = document.getElementsByName("inlineRadioOptions");
-        let paymentMethodSelected = false;
-
-         for (const method of paymentMethods) {
-            if (method.checked) {
-            paymentMethodSelected = true;
-            break;
-            }
-        }
-
-         if (paymentMethodSelected) {
-            termsPopup.style.display = "block";
-         }
-        
-        });   
-
-        acceptButton.addEventListener("click", () => {
-            if (acceptTermsCheckbox.checked) {
-                termsPopup.style.display = "none";
-               // Redirect to the home page when the "Accept" button is clicked
-               document.getElementById("myForm").submit();
-             }
-          });
-
-    document.getElementById("myForm").addEventListener("submit", (e) => {
-        console.log("Form submitted!")
-        if (!acceptTermsCheckbox.checked || !paymentMethodSelected) {
-            e.preventDefault();
-        }
-    });
+        $(document).ready(function () {
+            const showTermsBtn = $("#showTermsBtn");
+            const termsPopup = $("#termsModal");
+            const acceptTermsCheckbox = $("#acceptTerms");
+            const acceptButton = $("#acceptButton");
+            const myForm = $("#myForm");
+            const paymentError = $("#paymentError");
+    
+            showTermsBtn.on("click", function () {
+                const paymentMethods = $("[name='paymentoption_id']");
+                let paymentMethodSelected = false;
+    
+                paymentMethods.each(function () {
+                    if ($(this).prop("checked")) {
+                        paymentMethodSelected = true;
+                        return false; // exit the loop
+                    }
+                });
+    
+                if (paymentMethodSelected) {
+                    // Append the product_id as a hidden input to the form
+                    const productIdInput = $("<input>").attr({
+                        type: "hidden",
+                        name: "product_id",
+                        value: "{{ $product->id }}" // Use your dynamic value here
+                    });
+    
+                    myForm.append(productIdInput);
+                    termsPopup.modal("show");
+                }
+            });
+    
+            acceptButton.on("click", function () {
+                if (acceptTermsCheckbox.prop("checked")) {
+                    termsPopup.modal("hide");
+    
+                    // Submit the form using AJAX
+                    $.ajax({
+                        type: myForm.attr("method"),
+                        url: myForm.attr("action"),
+                        data: myForm.serialize(),
+                        success: function (response) {
+                            // Handle the success response if needed
+                            console.log(response);
+                        },
+                        error: function (error) {
+                            // Handle the error response if needed
+                            console.error(error);
+                        }
+                    });
+                }
+            });
+    
+            myForm.on("submit", function (e) {
+                console.log("Form submitted!");
+                if (!acceptTermsCheckbox.prop("checked") || !$("[name='paymentoption_id']:checked").length) {
+                    e.preventDefault();
+                }
+            });
+        });
     </script>
+    
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

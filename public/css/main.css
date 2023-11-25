@@ -112,15 +112,3 @@ line-height: normal;
     box-sizing: border-box;
 }
 
-/* Default styles */
-.heart-button {
-    /* Your default styles here */
-    fill: none;
-    stroke: black;
-}
-
-/* Styles when liked */
-.heart-button.liked {
-    fill: red; /* Change this to your liked color */
-    stroke: red; /* Change this to your liked color */
-}

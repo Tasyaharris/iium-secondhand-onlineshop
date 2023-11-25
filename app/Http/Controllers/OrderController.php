@@ -54,6 +54,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
 
         $validatedData = $request->validate([
             'paymentoption_id' => 'required',
@@ -61,26 +62,21 @@ class OrderController extends Controller
         ]);
         // Retrieve the product_id from the request
         $productId = $request->input('product_id');
-       
+        $totalPrice = $request->input('total_price');
+
         // Retrieve the product based on the ID
         $product = Product::find($productId);
 
-        // Calculate the total price and other details
-        $price = $product->product_price;
-        $com = 0.02 * $price;
-        $totalPrice = $price + $com;
+        $validatedData['product_id'] =  $productId;
 
-        $orderData = [
-            'product_id' => $productId,
-            'username' => auth()->user()->id,
-            'order_date' => now(),
-            'total_price' => $totalPrice,
-            'paymentstatus_id' => 4,
-            'productstatus_id' => 1,
-            'paymentoption_id' => $validatedData['paymentoption_id'],
-        ];
+        $validatedData['username'] = auth()->user()->id;
+        $validatedData['total_price'] = $totalPrice;
+        $validatedData['order_date'] = now();
+        $validatedData['paymentstatus_id'] = '4';
+        $validatedData['productstatus_id'] = '1';
 
-        Order::create($orderData);
+
+        Order::create($validatedData);
 
         return redirect('/fashion');
      }

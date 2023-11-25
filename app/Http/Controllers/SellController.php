@@ -66,6 +66,8 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
+       dd($request->all());
+
         $validatedData = $request->validate([
             'images.*' => 'image|file|max:1024', // Use 'images.*' to validate multiple images
             'category_id' => 'required',

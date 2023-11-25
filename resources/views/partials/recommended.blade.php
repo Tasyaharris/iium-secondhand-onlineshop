@@ -80,8 +80,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function() {
+<script >
+  $(document).ready(function() {
     $(document).on('click', '.heart-button', function(event) {
         event.preventDefault();
 
@@ -96,24 +96,23 @@ $(document).ready(function() {
             data: { product_id: productId, _token: "{{ csrf_token() }}" },
             type: 'post',
             success: function(result) {
-
-              var heartIcons = document.querySelectorAll('.bi-heart-fill');
-
+              console.log(result);
                 var liked = result.liked;
-                // Find the heart icon at the same index within the product card
-                var heartIcon = clickedButton.querySelector('path');
+
+                // Find the heart icon within the clicked button
+                var heartIcon = clickedButton.querySelector('.bi-heart-fill');
 
                 if (liked) {
-                  heartIcon.style.fill = 'red';
-                  heartIcon.style.stroke = 'red';
+                    // If liked, change the heart icon color to red
+                    heartIcon.style.fill = 'red';
+                    heartIcon.style.stroke = 'red';
                 } else {
-                  heartIcon.style.fill = 'none';
-                  heartIcon.style.stroke = 'black';
+                    // If not liked, reset the heart icon color to default
+                    heartIcon.style.fill = 'none';
+                    heartIcon.style.stroke = 'black';
                 }
             }
         });
     });
 });
-
-
 </script>
