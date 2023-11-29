@@ -68,7 +68,8 @@ class LikeController extends Controller
         }
     
       
-        return back()->with('liked', $liked);
+        return response()->json(['liked' => $liked]);
+
     }
 
     public function destroy(Like $like)

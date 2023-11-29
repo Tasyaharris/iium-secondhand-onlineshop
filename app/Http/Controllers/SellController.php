@@ -32,13 +32,13 @@ class SellController extends Controller
     ]);
     }
 
-    public function getSubcategoriesAjax($categoryId)
-    {
-        $subcategories = Subcategorie::where('category_id', $categoryId)->get();
-    
-        return response()->json($subcategories);
-    }
+   // Update the getSubcategoriesAjax method in your SellController
+public function getSubcategoriesAjax($categoryId)
+{
+    $subcategories = Subcategorie::where('category_id', $categoryId)->get();
 
+    return response()->json($subcategories);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -66,7 +66,7 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
-       dd($request->all());
+      // dd($request->all());
 
         $validatedData = $request->validate([
             'images.*' => 'image|file|max:1024', // Use 'images.*' to validate multiple images

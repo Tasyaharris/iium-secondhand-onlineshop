@@ -122,9 +122,9 @@
                     <option selected >Select Category</option>
                     @foreach($categories as $category)
                         @if(old('category_id') == $category->id)
-                            <option value="{{ $category->id }}"selected>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" data-url="{{ url('/get-subcategories/' . $category->id) }}" selected>{{ $category->name }}</option>
                         @else
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" data-url="{{ url('/get-subcategories/' . $category->id) }}">{{ $category->name }}</option>
                         @endif
                      @endforeach
                 </select>
@@ -265,6 +265,37 @@
     
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            function updateSubcategories() {
+                var selectedCategoryOption = $('#category_id option:selected');
+                var subcategoryUrl = selectedCategoryOption.data('url');
+    
+                $.ajax({
+                    url: subcategoryUrl,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#subcategory_id option').hide();
+    
+                        $.each(response, function(index, subcategory) {
+                            $('#subcategory_id option[value="' + subcategory.id + '"]').show();
+                        });
+    
+                        $('#subcategory_id').val('Select Type');
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            }
+    
+            updateSubcategories();
+    
+            $('#category_id').on('change', function() {
+                updateSubcategories();
+            });
+        });
+    </script>
 
     <script>
   // JavaScript to handle the modal and form submission
@@ -386,36 +417,6 @@ function createRemoveButton() {
         var elementsBox = document.getElementById('elementsBox');
         elementsBox.style.display = selectedImagesContainer.children.length === 0 ? "block" : "none";
     }
-
-    //to display subcategories based on category
-    $(document).ready(function() {
-        function updateSubcategories() {
-            var selectedCategoryId = $('#category_id').val();
-
-            $.ajax({
-                url: '/get-subcategories/' + selectedCategoryId,
-                type: 'GET',
-                success: function(response) {
-                    $('#subcategory_id option').hide();
-
-                    $.each(response, function(index, subcategory) {
-                        $('#subcategory_id option[value="' + subcategory.id + '"]').show();
-                    });
-
-                    $('#subcategory_id').val('Select Type');
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        updateSubcategories();
-
-        $('#category_id').on('change', function() {
-            updateSubcategories();
-        });
-    });
 
     // to filled the prize with 0 if seller select for free
     document.addEventListener("DOMContentLoaded", function () {

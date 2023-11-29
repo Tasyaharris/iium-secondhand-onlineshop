@@ -186,7 +186,7 @@ Route::resource('/sell', SellController::class)->middleware('auth');
 //Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
 Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
 //Route::get('/sell/show/{id}','SellController@show')->middleware('auth');
-Route::get('/get-subcategories/{categoryId}', 'SellController@getSubcategoriesAjax');
+Route::get('/get-subcategories/{category}', [SellController::class, 'getSubcategoriesAjax']);
 
 
 Route::resource('/profile',ProfileController::class)->middleware('auth');
