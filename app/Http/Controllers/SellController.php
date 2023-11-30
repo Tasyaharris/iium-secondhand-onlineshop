@@ -66,12 +66,12 @@ public function getSubcategoriesAjax($categoryId)
      */
     public function store(Request $request)
     {
-      // dd($request->all());
+      //dd($request->all());
 
         $validatedData = $request->validate([
             'images.*' => 'image|file|max:1024', // Use 'images.*' to validate multiple images
             'category_id' => 'required',
-            'subcategory_id'=> 'required',
+            'subcategory_ids' => 'required',
             'product_name' => 'required',
             'condition_id' => 'required',
             'option_id' => 'required',
@@ -97,8 +97,13 @@ public function getSubcategoriesAjax($categoryId)
     
         $validatedData['username'] = auth()->user()->id;
     
-        // Create a new Product record with the provided data
-        Product::create($validatedData);
+          // Create a new Product record with the provided data
+         $product = Product::create($validatedData);
+
+        // Attach selected subcategories to the product
+        $product->subcategories()->attach($request->input('subcategory_ids'));
+
+    
     
         return redirect('/profile')->with('success', 'New item has been added!');
 
@@ -120,51 +125,60 @@ public function getSubcategoriesAjax($categoryId)
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Request $request,$id)
     {
-        //for displaying  the view
-        return view('sell.edit',[
-            'title'=> 'Edit Product',
+        $product = Product::find($id);
+
+        return view('sell.edit', [
             'product'=> $product,
-            'users' => User::where('username',auth()->user()->id)->get(),
-            'products' => Product::where('username',auth()->user()->id)->get(),
-            'categories'=> Category::all(),
-            'conditions'=> Condition::all(),
-            'selleroptions'=> Selleroption::all(),
-            'negos'=> Nego::all(),
-            
+            'title'=> 'Update Product',
+            'users' => User::where('username', auth()->user()->id)->get(),
+            'products' => Product::where('username', auth()->user()->id)->get(),
+            'categories' => Category::all(),
+            'conditions' => Condition::all(),
+            'selleroptions' => Selleroption::all(),
+            'negos' => Nego::all(),
+            'subcategories'=> Subcategorie::all()
+        
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $sell)
+    public function update(Request $request, $id)
     {
-        //for update process
         $validatedData = $request->validate([
-            'product_pic'=>'image|file|max:1024',
-            'category_id'=>'required',
-            'product_name'=>'required',
-            'condition_id'=>'required',
-            'option_id'=>'required',
-            'product_price'=>'required',
-            'nego_id'=> 'required',
-            'brand'=>'required',
-            'material'=>'required',
-            'meetup_point'=>'required'
+          
+            'category_id' => 'required',
+            'product_name' => 'required',
+            'condition_id' => 'required',
+            'option_id' => 'required',
+            'product_price' => 'required',
+            'nego_id' => 'required',
+            'brand' => 'required',
+            'material' => 'required',
+            'meetup_point' => 'required',
         ]);
-
-
-        $validatedData['username'] = auth()->user()->id;
-        //return $request;
+    
+        $rules = $request->validate([
+            'subcategory_ids' => 'required',
+        ]);
         
-
-       Product::where('id', $sell->id)
-                ->update($validatedData);
-
-        return redirect('/profile')->with('success','New item has been updated!');
-
+        $validatedData['product_name'] = ucwords($validatedData['product_name']);
+     
+        $validatedData['username'] = auth()->user()->id;
+    
+        // Update product data
+        Product::where('id', $id)->update($validatedData);
+    
+        // Fetch the updated product
+        $product = Product::find($id);
+    
+        // Update relationships
+        $product->subcategories()->sync($request->input('subcategory_ids'));
+    
+        return redirect('/profile')->with('success', 'Item has been updated!');
     }
 
     /**

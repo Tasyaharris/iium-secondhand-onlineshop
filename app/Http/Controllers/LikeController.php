@@ -26,7 +26,6 @@ class LikeController extends Controller
             ->join('categories', 'category_id', '=', 'categories.id')
             ->join('users', 'products.username', '=', 'users.id')
             ->join('likes', 'products.id', '=', 'likes.product_id')
-            ->join('subcategories','subcategory_id','=','subcategories.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'categories.name as categories_name','users.username as user_name')
             ->where('likes.username', auth()->user()->id)
             ->get(),

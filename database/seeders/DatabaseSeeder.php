@@ -344,7 +344,6 @@ class DatabaseSeeder extends Seeder
         Product::create([
          'product_pic'=> '/images/H&M.jpg',
          'category_id' => '1',
-         'subcategory_id'=> '2',
          'product_name'=> 'H&M Blouse',
          'condition_id' => '1',
          'option_id'=> '1',
@@ -360,7 +359,6 @@ class DatabaseSeeder extends Seeder
      Product::create([
       'product_pic'=> '/images/novelhp.jpg',
       'category_id' => '2',
-      'subcategory_id'=> '2',
       'product_name'=> 'Harry Potter Novel',
       'condition_id' => '1',
       'option_id'=> '1',

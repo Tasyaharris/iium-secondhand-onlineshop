@@ -19,7 +19,7 @@
 
         <div class="filter_text" style="margin-left:30px;">
             <!-- THE FILTERING TEXT-->
-            <h5 id="category_id" >{{ $product->category->name}} >> {{ $product->subcategory->name }}</h5>
+            <h5 id="category_id" >{{ $product->category->name}} </h5>
            
         </div>
 

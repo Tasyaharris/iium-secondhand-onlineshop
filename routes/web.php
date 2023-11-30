@@ -142,9 +142,7 @@ Route::get('/sellerprofile/{id}',[SellerProfileController::class,'show'])->name(
 Route::resource('/discussion', DiscussionController::class)->middleware('auth');
 Route::get('/discussion/{discussion}',[DiscussionController::class,'show']);
 
-//Route::get('/products/{id}', 'ProductController@show')->name('product.show');
 
-//Route::get('/products/{$product->id}', [ProductController::class,'show']);
 Route::resource('/products',ProductController::class);
 
 Route::resource('/chat',MessageController::class)->middleware('auth');
@@ -182,8 +180,8 @@ Route::get('homepage',[HomePageController::class,'index'])->middleware('auth')->
 //})->middleware('auth');
 
 Route::resource('/sell', SellController::class)->middleware('auth');
-//Route::put('/sell', [SellController::class, 'update'])->middleware('auth');
-//Route::put('/sell/{{$product->id}}/edit', 'SellController@update')->name('sell.update');
+Route::put('/sell/{id}', [SellController::class, 'update'])->middleware('auth');
+Route::get('/sell/{id}/edit', [ SellController::class,'edit'])->name('sell.edit')->middleware('auth');
 Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
 //Route::get('/sell/show/{id}','SellController@show')->middleware('auth');
 Route::get('/get-subcategories/{category}', [SellController::class, 'getSubcategoriesAjax']);

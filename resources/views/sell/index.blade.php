@@ -130,24 +130,26 @@
                 </select>
 
             </div>
+
             <div class="col-md-6">
-               <!-- Show subcategory dropdown only if a category is selected -->
-               
-               <label for="subcategory_id" style="color: white">Product Subcategory</label>
-               <select class="form-select mb-3 mt-3" aria-label="Default select example" name="subcategory_id" id="subcategory_id" required onchange="getCategoryId()">
-                   <option selected >Select Type</option>
-               
-                   @foreach($subcategories as $subcategory)
-                       @if(old('subcategory_id') == $subcategory->id)
-                           <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
-                       @else
-                           <option value="{{ $subcategory->id }}">{{ $subcategory->name }}</option>
-                       @endif
-                   @endforeach
-                 
-               </select>
+               <!-- Show subcategory dropdown only if a category is selected -->               
+               <label for="subcategory_id" style="color: white">Product Subcategory</label> 
+               <div  class="form-check mb-3 mt-3" aria-label="Default checkbox example" id="subcategoryCheckboxes"> 
+                <div id="checkBoxes" > 
+                    @foreach($subcategories as $subcategory)
+                    <input type="checkbox" class="form-check-input" value="{{ $subcategory->id }}" id="flexCheckDefault{{ $subcategory->id }}" name="subcategory_ids[]" @if(old('subcategory_ids') && in_array($subcategory->id, old('subcategory_ids'))) checked @endif>
+                    <label class="form-check-label" for="flexCheckDefault{{ $subcategory->id }}">
+                        {{ $subcategory->name }}
+                    </label>
+                    @endforeach
+                </div> 
+                    
+                </div> 
+
             </div>
+
         </div>
+    
         
             <div class="abt_product">
                 <h5>About the product</h5>
@@ -266,36 +268,46 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script>
-        $(document).ready(function() {
-            function updateSubcategories() {
-                var selectedCategoryOption = $('#category_id option:selected');
-                var subcategoryUrl = selectedCategoryOption.data('url');
-    
-                $.ajax({
-                    url: subcategoryUrl,
-                    type: 'GET',
-                    success: function(response) {
-                        $('#subcategory_id option').hide();
-    
-                        $.each(response, function(index, subcategory) {
-                            $('#subcategory_id option[value="' + subcategory.id + '"]').show();
-                        });
-    
-                        $('#subcategory_id').val('Select Type');
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            }
-    
-            updateSubcategories();
-    
-            $('#category_id').on('change', function() {
-                updateSubcategories();
+        $(document).ready(function () {
+        function updateSubcategories() {
+            // Assuming you have a route to get subcategories based on selected categories
+            var selectedCategoryOption = $('#category_id option:selected');
+            var subcategoryUrl = selectedCategoryOption.data('url');
+
+            $.ajax({
+                url: subcategoryUrl,
+                type: 'GET',
+                success: function (response) {
+                    // Remove existing checkboxes
+                    $('#subcategoryCheckboxes').empty();
+
+                    $.each(response, function (index, subcategory) {
+                        $('#subcategoryCheckboxes').append(`
+                            <div class="form-check mb-2">
+                                <input type="checkbox" class="form-check-input" value="${subcategory.id}" id="flexCheckDefault${subcategory.id}" name="subcategory_ids[]" ${subcategory.checked ? 'checked' : ''}>
+                                <label class="form-check-label" for="flexCheckDefault${subcategory.id}">
+                                    ${subcategory.name}
+                                </label>
+                            </div>
+                        `);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
             });
+        }
+
+        $('#category_id').on('change', function () {
+            updateSubcategories();
         });
+
+        // Call the function initially to handle the case where no category is selected
+        updateSubcategories();
+    });
     </script>
+
+
 
     <script>
   // JavaScript to handle the modal and form submission

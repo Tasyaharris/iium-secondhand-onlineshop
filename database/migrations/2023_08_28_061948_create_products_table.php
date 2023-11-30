@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id("id");
             $table->string("product_pic")->nullable();
             $table->foreignId("category_id");
-            $table->foreignId("subcategory_id");
             $table->string("product_name");
             $table->foreignId("condition_id");
             $table->foreignId("option_id");

@@ -148,15 +148,14 @@
                             <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
                               <li>
-                                 <!--update item button-->
-
+                               
                                   <!--update item button-->
                                   <span class="dropdown-item">
                                     <a href="{{ route('sell.edit', $product->id) }}" class="fas fa-pen mx-2"></a> Update
                                   </span>
                                 </li>
                                 <li>
-                                  </span>
+                                  
                            
                               
                               </li>

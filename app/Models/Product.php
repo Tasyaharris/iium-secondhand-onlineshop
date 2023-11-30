@@ -11,6 +11,11 @@ class Product extends Model
     //protected $fillable = ['username'];
     protected $fillable = ['product_name','product_pic','category_id','subcategory_id','condition_id', 'option_id', 'product_price', 'nego_id', 'brand','material', 'meetup_point', 'username'];
 
+    public function getRouteKeyName()
+    {
+        return 'id';
+     }
+
      // Relationship with Condition model
 
      public function category()
@@ -18,10 +23,10 @@ class Product extends Model
          return $this->belongsTo(Category::class, 'category_id');
      }
 
-     public function subcategory()
-     {
-         return $this->belongsTo(Subcategorie::class, 'subcategory_id');
-     }
+     public function subcategories()
+    {
+        return $this->belongsToMany(Subcategorie::class, 'products_subcategories');
+    }
      public function condition()
      {
          return $this->belongsTo(Condition::class, 'condition_id');
