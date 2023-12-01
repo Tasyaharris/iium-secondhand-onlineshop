@@ -104,6 +104,10 @@
                 <br><br>
                 <a href="{{ route('cart.show',  $product->id) }}" class="button button2 mt-2">Add to Cart</a>
                 <br><br>
+                <form action="{{ route('cart.store', $product->id) }}"  method="post">
+                  @csrf
+                  <a href="{{ route('cart.show',  $product->id) }}" class="button button2 mt-2">Add to Cart</a>    
+                </form>
                
                 <a href="{{ route('chat.show', $product->id) }}" class="button button3 mt-2">Chat</a>
                 

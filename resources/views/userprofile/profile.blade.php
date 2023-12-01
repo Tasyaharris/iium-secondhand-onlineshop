@@ -151,14 +151,12 @@
                                
                                   <!--update item button-->
                                   <span class="dropdown-item">
-                                    <a href="{{ route('sell.edit', $product->id) }}" class="fas fa-pen mx-2"></a> Update
+                                    <a href="{{ route('sell.edit', $product->id) }}" style="color: black; text-decoration:none; font-style: normal;">
+                                      <i class="fas fa-pen mx-2 "></i>Update
+                                    </a>  
                                   </span>
-                                </li>
-                                <li>
-                                  
-                           
-                              
                               </li>
+                              
                               <li>
                                 <!--delete item button-->
                               

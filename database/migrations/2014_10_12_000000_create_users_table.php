@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('username')->unique();
             $table->string('email')->unique();
+            $table->string('usertype')->default(0);
             $table->string('password');
             $table->string('confirm_password')->nullable();
             $table->rememberToken();

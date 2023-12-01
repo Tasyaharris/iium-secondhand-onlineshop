@@ -6,10 +6,8 @@
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
-    <link
-        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-        rel="stylesheet"
-    />
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"/>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="/css/sell.css">
 
@@ -38,9 +36,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Terms and Conditions</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" id="closeBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close" >
                     <span aria-hidden="true">&times;</span>
                 </button>
+
             </div>
             <div class="modal-body">
                 <!-- Add your terms and conditions text here -->
@@ -54,8 +53,7 @@
                 
             </div>
             <div class="modal-footer">
-                <button id="acceptButton">Accept</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="acceptButton" class="btn btn-secondary" style="color: black">Accept</button>
             </div>
             
         </div>
@@ -199,7 +197,7 @@
                             </div>
                          @enderror
 
-                        <select class="form-select" name="nego_id" id="inputGroupSelect01" required value="{{ old("nego_id") }}">
+                        <select class="form-select" name="nego_id" id="nego_id" required value="{{ old("nego_id") }}">
                             @foreach($negos as $nego)
                                 @if(old('nego_id') == $nego->id)
                             <option value="{{ $nego->id }}" selected>{{$nego->option }}</option>
@@ -263,10 +261,23 @@
     
     
     @include('partials.footer')
+
+    <script src="path/to/jquery.min.js"></script>
+<script src="path/to/bootstrap/js/bootstrap.bundle.min.js"></script>
     
     
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+            var termsModal = document.getElementById("termsModal");
+           const closeBtn = document.getElementById("closeBtn");
+           closeBtn.addEventListener("click", function () {
+           
+                termsModal.style.display = "none";
+               
+            });
+    </script>
+
     <script>
         $(document).ready(function () {
         function updateSubcategories() {
@@ -436,22 +447,31 @@ function createRemoveButton() {
         function handleSellerOptionChange() {
             var sellerOption = document.getElementById("option_id").value;
             var priceInput = document.getElementById("product_price");
+            var negoOption = document.getElementById("nego_id");
+
 
              // Check if the selected seller option is "For Free"
-             if (sellerOption === "2") { // Assuming "1" is the value for the "For Free" option
-                // Set the price input value to 0 and disable the input
+             if (sellerOption === "2") { 
                 priceInput.value = "0";
                 priceInput.setAttribute("readonly", true);
+               
+                // Set nego_id value to 2 when seller option is 2
+                //negoOption.value = "2";
+                //negoOption.setAttribute("disabled", true);
             } else {
                 // If a different option is selected, enable the input
                 priceInput.value = ""; // Clear the input value
                 priceInput.removeAttribute("readonly");
+
+               // negoOption.value = ""; // Reset the nego_id value
+                //negoOption.removeAttribute("disabled");
             }
         }
 
         // Attach the handleSellerOptionChange function to the change event of the seller option dropdown
         document.getElementById("option_id").addEventListener("change", handleSellerOptionChange);
 
+    
         // Trigger the initial execution of the function to set the initial state
         handleSellerOptionChange();
     });

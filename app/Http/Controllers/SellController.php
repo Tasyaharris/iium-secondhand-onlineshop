@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Nego;
 use App\Models\Subcategorie;
 use Illuminate\Http\Request; 
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class SellController extends Controller
 {
@@ -149,7 +151,7 @@ public function getSubcategoriesAjax($categoryId)
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-          
+            'images.*' => 'image|file|max:1024',
             'category_id' => 'required',
             'product_name' => 'required',
             'condition_id' => 'required',
@@ -159,18 +161,35 @@ public function getSubcategoriesAjax($categoryId)
             'brand' => 'required',
             'material' => 'required',
             'meetup_point' => 'required',
-        ]);
-    
-        $rules = $request->validate([
             'subcategory_ids' => 'required',
         ]);
-        
-        $validatedData['product_name'] = ucwords($validatedData['product_name']);
-     
-        $validatedData['username'] = auth()->user()->id;
+    
+        // Handle multiple image uploads
+        $imagePaths = [];
+    
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('posts-images'); // Modify the storage path as needed
+                $imagePaths[] = $imagePath;
+            }
+        }
     
         // Update product data
-        Product::where('id', $id)->update($validatedData);
+        $productData = [
+            'product_pic' => json_encode($imagePaths),
+            'product_name' => ucwords($validatedData['product_name']),
+            'category_id' => $validatedData['category_id'],
+            'condition_id' => $validatedData['condition_id'],
+            'option_id' => $validatedData['option_id'],
+            'product_price' => $validatedData['product_price'],
+            'nego_id' => $validatedData['nego_id'],
+            'brand' => $validatedData['brand'],
+            'material' => $validatedData['material'],
+            'meetup_point' => $validatedData['meetup_point'],
+            'username' => auth()->user()->id,
+        ];
+    
+        Product::where('id', $id)->update($productData);
     
         // Fetch the updated product
         $product = Product::find($id);
@@ -180,15 +199,32 @@ public function getSubcategoriesAjax($categoryId)
     
         return redirect('/profile')->with('success', 'Item has been updated!');
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-       
-
-        Product::destroy($id);
-        return redirect('/profile')->with('success','Item has been deleted!');
+        try {
+            // Find the product by ID
+            $product = Product::findOrFail($id);
+    
+            // Detach subcategories related to the product
+            $product->subcategories()->detach();
+    
+            // Delete the product
+            $product->delete();
+            
+            return redirect('/profile')->with('success', 'Item has been deleted!');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            // Check for foreign key constraint violation
+            if ($errorCode == 1451) {
+                return redirect('/profile')->with('error', 'Cannot delete the item because it is associated with other records.');
+            }
+    
+            // Handle other database-related errors if needed
+            return redirect('/profile')->with('error', 'An error occurred while deleting the item.');
+        }
     }
 }
