@@ -45,7 +45,6 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-       
         $productId = $request->input('product_id');
         $userId = auth()->user()->id;
     

@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\Product;
 use App\Models\Payment;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -20,12 +21,12 @@ class CartController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos','nego_id','=','negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('subcategories','subcategory_id','=','subcategories.id')
-            ->select('products.*','conditions.condition as condition_name','negos.option as nego_option', 'users.username as user_name','subcategories.name as subcategory_name')->get(),
-            
-            'profiles' => Profile::where('username',auth()->user()->id)->get()
-            
-
+            ->select('products.*','conditions.condition as condition_name','negos.option as nego_option', 'users.username as user_name')->get(),     
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'carts'=> Cart::join('products','product_id','=','products.id')
+            ->join('users', 'carts.username', '=', 'users.id')
+            ->where('carts.username',auth()->user()->id)
+            ->select('carts.*')->get()
         ]);
     }
 
@@ -40,9 +41,25 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($id)
     {
-        //
+        $product = Product::find($id);
+        //dd($product);
+        $username = auth()->user()->id;
+        $productId = $product->id;
+
+          // Check if the product belongs to the authenticated user
+        if ($product->username == $username) {
+            return redirect()->back()->with('error', 'You cannot add your own product to the cart.');
+        }
+
+        Cart::create([
+            'product_id' => $productId,
+            'username' => $username,
+        ]);
+
+        return redirect()->back()->with('success', 'Added item into cart!');
+
     }
 
     /**
@@ -55,8 +72,7 @@ class CartController extends Controller
     $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
     ->join('negos', 'nego_id', '=', 'negos.id')
     ->join('users', 'products.username', '=', 'users.id')
-    ->join('subcategories','subcategory_id','=','subcategories.id')
-    ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name','subcategories.name as subcategory_name')
+    ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
     ->where('products.id', $id)
     ->first();
 

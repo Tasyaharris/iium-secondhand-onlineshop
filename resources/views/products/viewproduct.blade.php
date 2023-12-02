@@ -17,6 +17,13 @@
     
     <div>
 
+       <!--success messages; later will be replaced with pop up alert/messages-->
+       @if(session()->has('success'))
+       <div class="alert alert-success" role="alert">
+         {{ session('success') }}
+       </div>
+       @endif
+
         <div class="filter_text" style="margin-left:30px;">
             <!-- THE FILTERING TEXT-->
             <h5 id="category_id" >{{ $product->category->name}} </h5>
@@ -102,13 +109,14 @@
                 <div class="box ">
                   <a href="{{ route('buy.show',   $product->id) }}" class="button button1">Buy</a>
                 <br><br>
-                <a href="{{ route('cart.show',  $product->id) }}" class="button button2 mt-2">Add to Cart</a>
-                <br><br>
-                <form action="{{ route('cart.store', $product->id) }}"  method="post">
-                  @csrf
-                  <a href="{{ route('cart.show',  $product->id) }}" class="button button2 mt-2">Add to Cart</a>    
-                </form>
                
+                <form method="post" action="{{ url('cart', $product->id) }}">
+                  @csrf
+                  <input type="hidden" name="id" id="product_id" value="{{ $product->id }}">
+                  <button type="submit" class="button button2 mt-2">Add to Cart</button>
+              </form>
+              
+               <br>
                 <a href="{{ route('chat.show', $product->id) }}" class="button button3 mt-2">Chat</a>
                 
                 </div>

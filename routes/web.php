@@ -153,6 +153,7 @@ Route::post('buy/{id}/{totalPrice}',[OrderController::class,'store'])->middlewar
 
 Route::resource('/cart',CartController::class)->middleware('auth');
 //Route::get('/cart/{id}', 'CartController@show')->name('cart.show')->middleware('auth');
+Route::post('/cart/{id}', [CartController::class,'store'])->middleware('auth');
 
 
 Route::get('/fashion',[FashionController::class,'index']);
@@ -180,7 +181,7 @@ Route::get('homepage',[HomePageController::class,'index'])->middleware('auth')->
 //})->middleware('auth');
 
 Route::resource('/sell', SellController::class)->middleware('auth');
-Route::put('/sell/{id}', [SellController::class, 'update'])->middleware('auth');
+//Route::put('/sell/{id}', [SellController::class, 'update'])->middleware('auth');
 Route::get('/sell/{id}/edit', [ SellController::class,'edit'])->name('sell.edit')->middleware('auth');
 Route::post('image/upload/store',[ SellController::class,'store'])->middleware('auth');
 //Route::get('/sell/show/{id}','SellController@show')->middleware('auth');

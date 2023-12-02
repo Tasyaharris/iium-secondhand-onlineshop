@@ -53,8 +53,6 @@ class MessageController extends Controller
          $product = Product::find($id);
          $user = User::find($id);
          
-
-
          if (!$product) {
             abort(404);
         }

@@ -82,13 +82,16 @@
                 
                 <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey;">
                   <div class="discussion-bar">
+                    
                       <!--seller profile--> 
+                      @foreach($carts as $cart)
+                      
                       <div class="address1" style="display: inline-block; margin-bottom:20px;margin-top:10px; margin-left:10px;">
                         <div style="text-align: center;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16" style="margin-left: 10px;">
                             <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
                         </svg>
-                        <a  class="p-3 text-decoration-none d-inline" style="font-weight: bold; color: black;">{{ $product->user->username }}</a>
+                        <a  class="p-3 text-decoration-none d-inline" style="font-weight: bold; color: black;">{{ $cart->product->user->username }}</a>
                         </div>
                         <div style="text-align: center;">             
                         </div>
@@ -98,7 +101,7 @@
 
                       <div class="product" style="display: flex; align-items: center; margin-bottom:20px;">
                           <!--product details--> 
-
+                        
                           <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" style="margin-left:1px;">
                             <label class="form-check-label" for="flexCheckDefault">
@@ -107,8 +110,8 @@
                           </div>
 
                           <div class="col text-center" style="margin-left: 18px; ">  
-                              @if (is_array(json_decode($product->product_pic)))
-                              @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
+                              @if (is_array(json_decode($cart->product->product_pic)))
+                              @php $firstImagePath = json_decode($cart->product->product_pic)[0]; @endphp
                                         <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
                                             <img src="{{ asset('storage/' . $firstImagePath) }}"width="90" height="90" >
                                         </div>   
@@ -118,9 +121,10 @@
                                                
                           <div class="row" style="margin-left: 5px; display: inline; align-items: center;">
                             
-                            <small style="flex-basis: 40%; margin-right: 45px; font-weight: bold; font-size:15px;">{{ $product->product_name }}</small>
-                            <small style="flex-basis: 40%;margin-right: 45px;   font-size:15px;">{{ $product->subcategory->name }}</small>
-                            <small style="flex-basis: 40%; margin-right: 45px;font-size:15px;">RM{{ $totalPrice }}</small>
+                            <small style="flex-basis: 40%; margin-right: 45px; font-weight: bold; font-size:15px;">{{ $cart->product->product_name }}</small>
+                            
+                            
+                            <small style="flex-basis: 40%; margin-right: 45px;font-size:15px;">RM{{ $cart->product->product_price }}</small>
                             <div class="delete" style="display: inline; margin-left: 20px; flex-grow: 1;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
@@ -130,8 +134,11 @@
 
                           </div>
                      
-                     </div>
-            
+                        </div>
+                    
+                          @endforeach
+                    
+                  </div>
                 </nav>
                 
 
