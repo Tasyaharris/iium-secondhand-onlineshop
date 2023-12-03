@@ -6,6 +6,8 @@ use App\Models\Profile;
 use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Cart;
+use Illuminate\Database\QueryException;
+
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -15,7 +17,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('mycart',[
+        return view('cart.mycart',[
             'title' => "MyCart",
             'users' => User::where('id',auth()->user()->id)->get(),
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
@@ -89,7 +91,7 @@ class CartController extends Controller
       $title = 'MyCart - ' . $product->id;
     
     // Pass the product to the view
-    return view('mycart', [
+    return view('cart.mycart', [
                 'product' => $product, 
                 'profiles'=> Profile::where('id',auth()->user()->id)->get(),
                 'title' => $title,
@@ -118,8 +120,27 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        try {
+            // Find the product by ID
+            $cart = Cart::findOrFail($id);
+
+            // Delete the product
+            $cart->delete();
+            
+            return redirect()-> back();
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            // Check for foreign key constraint violation
+            if ($errorCode == 1451) {
+                return redirect('/cart.mycart')->with('error', 'Cannot delete the item because it is associated with other records.');
+            }
+    
+            // Handle other database-related errors if needed
+            return redirect('/cart.mycart')->with('error', 'An error occurred while deleting the item.');
+        }
     }
-}
+    }
+

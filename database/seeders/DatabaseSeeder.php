@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
          'email' => 'admin@gmail.com',
          'password'=> bcrypt('admin123'),
          'usertype'=> '1'
-     ]);
+      ]);
 
         Category::create([
             'name'=>'Fashion'
@@ -175,6 +175,10 @@ class DatabaseSeeder extends Seeder
             'status'=> 'Cancelled'
          ]);
        
+         Statusorder::create([
+            'status'=> 'Processing'
+         ]);
+
          Subcategorie::create([
             'category_id' => '1',
             'name' => "All Fashion"

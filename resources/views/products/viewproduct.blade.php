@@ -24,6 +24,13 @@
        </div>
        @endif
 
+      <!--error messages-->
+      @if(session()->has('error'))
+      <div class="alert alert-danger" role="alert">
+        {{ session('error') }}
+      </div>
+      @endif
+
         <div class="filter_text" style="margin-left:30px;">
             <!-- THE FILTERING TEXT-->
             <h5 id="category_id" >{{ $product->category->name}} </h5>

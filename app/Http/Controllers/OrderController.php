@@ -8,6 +8,8 @@ use App\Models\Profile;
 use App\Models\Condition;
 use App\Models\Payment;
 use App\Models\Order;
+use App\Models\Cart;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,7 +18,7 @@ class OrderController extends Controller
      * Display a listing of the resource.
      */public function index()
     {
-        return view('buypage',[
+        return view('cart.checkout',[
             'title' => "Checkout",
             'users' => User::where('id',auth()->user()->id)->get(),
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
@@ -26,6 +28,41 @@ class OrderController extends Controller
             ->get(),
             'profiles'=> Profile::where('id',auth()->user()->id)->get(),
             'payments'=> Payment::all()
+        ]);
+    }
+
+    public function showitems($ids)
+    {
+        // Convert the comma-separated string of IDs into an array
+        $idArray = explode(',', $ids);
+    
+        // Use the array of IDs in your query
+        $products = Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos', 'nego_id', '=', 'negos.id')
+            ->join('users', 'products.username', '=', 'users.id')
+            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+            ->whereIn('products.id', $idArray)
+            ->get();
+    
+            $totalOrder = 0; 
+            foreach ($products as $product) {
+                $price = $product->product_price;
+                $com = 0.02 * $price;
+                $totalPrice = $price+$com;
+              
+                $totalOrder += $totalPrice;
+            }
+ 
+    
+        return view('cart.checkout', [
+            'title' => "Checkout",
+            'users' => User::where('id', auth()->user()->id)->get(),
+            'products' => $products,
+            'profiles' => Profile::where('id', auth()->user()->id)->get(),
+            'payments' => Payment::all(),
+            'com'=>$com,
+            'totalPrice'=>$totalPrice,
+            'totalOrder' => $totalOrder
         ]);
     }
 
@@ -57,27 +94,38 @@ class OrderController extends Controller
         //dd($request->all());
 
         $validatedData = $request->validate([
-            'paymentoption_id' => 'required',
-          
+            'paymentoption_id' => 'required'
         ]);
-        // Retrieve the product_id from the request
-        $productId = $request->input('product_id');
-        $totalPrice = $request->input('total_price');
 
+        // Assuming product_ids is an array of product IDs
+    $productIds = $request->input('product_id');
+    $totalOrder = $request->input('totalOrder');
+    $validatedData['username'] = auth()->user()->id;
+    $validatedData['totalOrder'] = $totalOrder;
+    $validatedData['order_date'] = now();
+    $validatedData['paymentstatus_id'] = '4';
+    $validatedData['orderstatus_id'] = '5';
+
+    //dd($validatedData);
+
+    // Create the order
+    $order = Order::create($validatedData);
+
+   
+    // Associate products with the order
+    foreach ($productIds as $productId) {
         // Retrieve the product based on the ID
         $product = Product::find($productId);
 
-        $validatedData['product_id'] =  $productId;
+        // Create order item for each product in the order
+        $orderItem = new OrderItem([
+            'product_id' => $productId,    
+        ]);
 
-        $validatedData['username'] = auth()->user()->id;
-        $validatedData['total_price'] = $totalPrice;
-        $validatedData['order_date'] = now();
-        $validatedData['paymentstatus_id'] = '4';
-        $validatedData['productstatus_id'] = '1';
-
-
-        Order::create($validatedData);
-
+        // Save the order item
+        $order->orderItems()->save($orderItem);
+    }
+    
         return redirect('/fashion');
      }
     
