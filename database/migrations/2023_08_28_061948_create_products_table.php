@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string("material");
             $table->string("more_desc")->nullable();
             $table->string("meetup_point");
+            $table->foreignId("productstatus_id")->default(3);
             $table->timestamps();
             $table->timestamp('uploaded_at')->nullable();
         });

@@ -46,23 +46,39 @@ class CartController extends Controller
     public function store($id)
     {
         $product = Product::find($id);
-        //dd($product);
+    
+        // Check if the product exists
+        if (!$product) {
+            return redirect()->back()->with('error', 'Product not found.');
+        }
+    
         $username = auth()->user()->id;
         $productId = $product->id;
-
-          // Check if the product belongs to the authenticated user
+    
+        // Check if the product belongs to the authenticated user
         if ($product->username == $username) {
-            return redirect()->back()->with('error', 'You cannot add your own product to the cart.');
+            echo '<script>alert("You cannot add your own product to the cart.");</script>';
+            return redirect()->back();
         }
-
+    
+        // Check if a cart entry already exists for the given product ID and user
+        $existingCartEntry = Cart::where('product_id', $productId)
+            ->where('username', $username)
+            ->first();
+    
+        if ($existingCartEntry) {
+            return redirect()->back()->with('error', 'This item is already in your cart.');
+        }
+    
+        // Create a new cart entry
         Cart::create([
             'product_id' => $productId,
             'username' => $username,
         ]);
-
+    
         return redirect()->back()->with('success', 'Added item into cart!');
-
     }
+    
 
     /**
      * Display the specified resource.

@@ -19,8 +19,7 @@ class SellerProfileController extends Controller
         $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
         ->join('negos', 'nego_id', '=', 'negos.id')
         ->join('users', 'products.username', '=', 'users.id')
-        ->join('subcategories','subcategory_id','=','subcategories.id')
-        ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name','subcategories.name as subcategory_name', 'products.product_pic')
+        ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name','products.product_pic')
         ->where('products.username',$id)
         ->first();
         

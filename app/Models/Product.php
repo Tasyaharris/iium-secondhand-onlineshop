@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     //protected $fillable = ['username'];
-    protected $fillable = ['product_name','product_pic','category_id','subcategory_id','condition_id', 'option_id', 'product_price', 'nego_id', 'brand','material', 'meetup_point', 'username'];
+    protected $fillable = ['product_name','product_pic','category_id','subcategory_id','condition_id', 'option_id', 'product_price', 'nego_id', 'brand','material', 'meetup_point', 'username','productstatus_id'];
 
     public function getRouteKeyName()
     {
@@ -41,5 +41,10 @@ class Product extends Model
      public function user()
      {
          return $this->belongsTo(User::class,'username');
+     }
+
+     public function productstatus()
+     {
+         return $this->belongsTo(Statusproduct::class,'productstatus_id');
      }
 }

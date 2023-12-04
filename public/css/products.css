@@ -14,6 +14,18 @@
     margin-left: 15px;
 }
 
+.button.button0 {
+    border: 1px solid #000; /* Border style, color, and width */
+    padding: 7px 90px; /* Adjust the padding as needed for spacing inside the button */
+    text-decoration: none; /* Remove default link underline */
+    width: 10px;
+  
+    background-color: rgba(168, 184, 208, 0.80);
+    margin-top:20px;
+
+}
+
+
 .button.button1 {
     border: 1px solid #000; /* Border style, color, and width */
     padding: 7px 120px; /* Adjust the padding as needed for spacing inside the button */
@@ -22,7 +34,6 @@
     margin-bottom: 3px;
     background-color: rgba(168, 184, 208, 0.80);
 
-    
 }
 
 .button.button2{

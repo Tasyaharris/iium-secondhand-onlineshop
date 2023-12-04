@@ -45,6 +45,8 @@ class OrderController extends Controller
             ->get();
     
             $totalOrder = 0; 
+            $com = 0;
+            $totalPrice =0;
             foreach ($products as $product) {
                 $price = $product->product_price;
                 $com = 0.02 * $price;
@@ -87,7 +89,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage from cart 
      */
     public function store(Request $request)
     {
@@ -126,8 +128,63 @@ class OrderController extends Controller
         $order->orderItems()->save($orderItem);
     }
     
-        return redirect('/fashion');
+        return redirect('/afterbuy');
      }
+
+     /**
+     * Store a newly created resource in storage from viewproduct
+     */
+    public function addorder(Request $request)
+    {
+        $validatedData = $request->validate([
+            'paymentoption_id' => 'required',
+            // Add other validation rules as needed
+        ]);
+    
+        $productId = $request->input('product_id');
+        $totalOrder = $request->input('totalOrder');
+        $paymentoptionId = $request->input('paymentoption_id');
+    
+        $product = Product::find($productId);
+    
+        $validatedData['username'] = auth()->user()->id;
+        $validatedData['totalOrder'] = $totalOrder;
+        $validatedData['order_date'] = now();
+    
+        if ($paymentoptionId == 1) {
+            $validatedData['paymentstatus_id'] = 4;
+            $validatedData['orderstatus_id'] = 5;
+            //$product->statusproduct_id = 1;
+        } else {
+            $validatedData['paymentstatus_id'] = 1;
+            $validatedData['orderstatus_id'] = 5;
+            //$product->statusproduct_id = 2;
+        }
+    
+        $order = Order::create($validatedData);
+    
+        if (is_array($productId)) {
+            foreach ($productId as $productId) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $productId,
+                    
+                ]);
+            }
+        } else {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $productId,
+                
+            ]);
+        }
+    
+        // Delete cart entry for the current product and authenticated user
+        Cart::where('product_id', $productId)
+            ->delete();
+    
+        return redirect('/afterbuy');
+    }
     
 
     /**
@@ -153,6 +210,9 @@ class OrderController extends Controller
     $com = 0.02 * $price;
     $totalPrice = $price + $com;
 
+    $totalOrder = 0;
+    $totalOrder = $totalPrice;
+
     // Append the product ID to the title
     $title = 'Product - ' . $product->id;
       
@@ -165,7 +225,9 @@ class OrderController extends Controller
                 'com'=> $com,
                 'totalPrice'=> $totalPrice,
                 'payments'=> Payment::all(),
-                'paymentoption_id' => request()->input('paymentoption_id')
+                'paymentoption_id' => request()->input('paymentoption_id'),
+                'totalOrder' => $totalOrder
+
             ]);
 
 }

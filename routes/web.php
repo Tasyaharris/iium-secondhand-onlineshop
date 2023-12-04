@@ -106,11 +106,11 @@ Route::get('/createdisc', function () {
 Route::resource('/createdisc', CreateDiscController::class)->middleware('auth');
 
 
-Route::get('/agreebuy', function () {
+Route::get('/afterbuy', function () {
     return view('afterbuy',[
         "title" => "Confirm Order",
     ]);
-})->name('agreebuy');;
+});
 
 
 Route::get('/product/search',[ProductController::class,'search']);
@@ -148,7 +148,7 @@ Route::resource('/products',ProductController::class);
 Route::resource('/chat',MessageController::class)->middleware('auth');
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
-Route::post('buy/{id}/{totalOrder}',[OrderController::class,'store'])->middleware('auth');
+Route::post('buyproduct',[OrderController::class,'addorder'])->middleware('auth');
 Route::get('show_items/{ids}', [OrderController::class, 'showitems'])->middleware('auth');
 
 

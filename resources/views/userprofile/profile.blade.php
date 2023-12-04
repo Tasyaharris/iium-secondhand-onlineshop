@@ -85,9 +85,7 @@
                 <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
                   <a href="/reviews">Cancelled</a>
                 </td>
-                <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
-                  <a href="/cart">Completed</a>
-                </td>
+              
               </tr>
             </table>
             </div>

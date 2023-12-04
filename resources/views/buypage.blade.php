@@ -34,7 +34,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Terms and Conditions</h5>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" id="closeBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close" >
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <!-- Add your terms and conditions text here -->
@@ -45,14 +47,14 @@
                 <input type="checkbox" id="acceptTerms"> I agree to the Terms and Conditions
                 <br>
                 <br>
-                <button id="acceptButton">Accept</button>
-                <a href="/buypage" style="margin-left:3px; text-decoration:none; color: black;">Cancel</a>
+                <button id="acceptButton">Continue Order</button>
+              
             </div>
         </div>
         </div>
     </div>
 
-    <form method="post" action="{{ url('buy') }}" id="myForm">
+    <form method="post" action="{{ url('buyproduct') }}" id="myForm">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
@@ -122,9 +124,13 @@
                        <small>Total Fee : {{ $totalPrice }}</small>
                        <input type="hidden" name="total_price" value="{{ $totalPrice}}">
 
+                       <h6 style="margin-top:10px;margin-left:80px;">Total Order: RM{{ $totalOrder }} </h6>
+                       <input type="hidden" name="totalOrder" value="{{ $totalOrder }}">
                      </div>
                      
-                   </div>
+                    
+
+                </div>
             
             </div>
         </div>
@@ -233,7 +239,15 @@
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
+    <script>
+        var termsModal = document.getElementById("termsModal");
+       const closeBtn = document.getElementById("closeBtn");
+       closeBtn.addEventListener("click", function () {
+       
+            termsModal.style.display = "none";
+           
+        });
+</script>
     
 </body>
 </html>

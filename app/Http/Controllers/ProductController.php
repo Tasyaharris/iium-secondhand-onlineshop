@@ -62,6 +62,7 @@ class ProductController extends Controller
 {
     // Retrieve the product details based on the $id
     $product = Product::find($id);
+    
 
     if (!$product) {
         abort(404);
@@ -70,7 +71,10 @@ class ProductController extends Controller
     // Append the product ID to the title
     $title = 'Product - ' . $product->id;
 
-    return view('products.viewproduct', ['product' => $product, 'title' => $title]);
+    return view('products.viewproduct', ['product' => $product,
+     'title' => $title,
+     'seller'=> User::where('id',auth()->user()->id)->value('id')
+    ]);
 }
 
 
