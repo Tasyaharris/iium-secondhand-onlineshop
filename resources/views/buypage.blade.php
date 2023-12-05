@@ -124,7 +124,7 @@
                        <small>Total Fee : {{ $totalPrice }}</small>
                        <input type="hidden" name="total_price" value="{{ $totalPrice}}">
 
-                       <h6 style="margin-top:10px;margin-left:80px;">Total Order: RM{{ $totalOrder }} </h6>
+                       <h6 style="margin-top:10px;">Total Order: RM{{ $totalOrder }} </h6>
                        <input type="hidden" name="totalOrder" value="{{ $totalOrder }}">
                      </div>
                      

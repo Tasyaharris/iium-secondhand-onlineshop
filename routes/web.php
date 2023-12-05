@@ -25,6 +25,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SellerProfileController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\ProcessOrderController;
 use Illuminate\Contracts\Cache\Store;
 
 /*
@@ -91,11 +92,6 @@ Route::get('/feedback', function () {
     ]);
 });
 
-//Route::get('/order', function () {
-//    return view('order',[
-//        "title" => "Create Discussion",
-//    ]);
-//});
 
 Route::get('/createdisc', function () {
     return view('createdisc',[
@@ -115,6 +111,8 @@ Route::get('/afterbuy', function () {
 
 Route::get('/product/search',[ProductController::class,'search']);
 
+Route::get('/orders',[ProcessOrderController::class,'getOrder'])->middleware('auth');
+Route::get('/prepare',[ProcessOrderController::class,'prepare'])->middleware('auth');
 
 
 

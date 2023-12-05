@@ -55,7 +55,7 @@
             <div class="table-container">
             <table class="selection">
               <tr>
-                <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
+                <td class="clickable-row  active{{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/listings">My Listings</a>
                 </td>
                 <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
@@ -98,93 +98,70 @@
           <div class="container-under-table">
             <!-- Your container content under the table goes here -->
             <div class="selection-title">
-                <h5>Listings</h5>
+                <h5>Orders</h5>
             </div>
             
             <div class="products-listing">
               <div class="row g-2" >
-                @foreach ($products as $product)
-                <div class="col">
-                    <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
-                      <div class="card-body d-flex flex-column">
-                        <div class="img text-center mb-1">
-                            @if ($product->product_pic)
-                            @if (is_array(json_decode($product->product_pic)))
+            @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)
+                <div class="col">       
+                    <div class="card-body d-flex flex-column">
+                    <div class="card  text-center mt-1 " style="width: 670px; height: auto;">
+                        <div class="buyer mt-3" style="display: inline-block; margin-left:15px;">
+                            <div style="text-align: left;">
+                                @if($orderGroup->first() && $orderGroup->first()->order && $orderGroup->first()->order->user)
+                                <h6>Buyer: {{ $orderGroup->first()->order->user->username }}</h6>
+                            @else
+                                <h6>Buyer: N/A</h6>
+                            @endif
+                            </div>
+                        </div> 
+                        @foreach($orderGroup as $order_item)
+                         <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >
+                         <div class="img mb-1 ma-auto">
+                            @if ($order_item->product->product_pic)
+                            @if (is_array(json_decode($order_item->product->product_pic)))
                             <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                               <div class="carousel-inner">
-                                  @foreach(json_decode($product->product_pic) as $index => $imagePath)
+                                  @foreach(json_decode($order_item->product->product_pic) as $index => $imagePath)
                                       <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                          <img src="{{ asset('storage/' . $imagePath) }}"width="100" height="100"  alt="Image {{ $index + 1 }}">
+                                          <img src="{{ asset('storage/' . $imagePath) }}"width="50" height="50"  alt="Image {{ $index + 1 }}">
                                       </div>
                                   @endforeach
                               </div>
                             </div>
                             @else
-                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="100" height="100">
+                            <img src="{{ asset('storage/' . $order_item->product->product_pic) }}" width="50" height="50">
                             @endif
                            @endif
                         </div>
                         
-                        <div class="prod-desc mt-1 flex-grow-1">
-                        <h6 id="product_name" >{{ $product->product_name }}</h6>
-                        <small id="price" id="price" > RM {{ $product->product_price }}</small>
-                        <small id="seller_option"> ({{ $product->nego_option }})</small>
-                        <br>
-                        <small id="condition">{{ $product->condition_name }}</small>    
+                        <div class="col" style="display: flex; align-items:center; margin-left:10px;">
+                            <small style="flex-basis: 60%; width: 250px; margin-left:5px;margin-right: 30px; font-weight: bold; font-size:15px;">
+                                {{ $order_item->product->product_name }}</small>
+                            <small style="flex-basis: 60%; margin-right: 30px;font-size:15px;">RM{{ $order_item->product->product_price }}
+                            </small>
+                        </div>
+                        </div>
+                        @endforeach
+
+                        <div style="text-align: left;">
+                            <h6 style="margin-top:10px;margin-left:15px;">Total Order: RM {{ $order_item->order->totalOrder}}</h6>
+                        </div>
                        
-                        </div>
-                      
-                        <br>
+                        <div class="processBtn" style="margin-left:15px; margin-top:10px; margin-bottom:20px;display:flex;">
+                            <a href="{{ url('prepare', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:130px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Process Delivery</a>
+                            <a href="" style="margin-left:30px; color:black;">Cancel Order</a>
+                            </div>
+                        </div> 
                         
-                        <!--if the product is sold, display status and button -->
-                        @if($product->productstatus_id == 1)
-                        <button type="button"  style="margin-bottom:20px;border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:180px; display:flex; align-items: center;">Sold - Process Delivery</button>
-                        @else
-                        <!--like-->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="black"  class="bi bi-heart-fill" viewBox="-1 -1 18 14"  id="heart-icon">
-                          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                        </svg>
-
-                        <div class="options">
-                           <div class="dropdown ms-auto">
-                            <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                            <ul class="dropdown-menu">
-                              <li>
-                                  <!--update item button-->
-                                  <span class="dropdown-item">
-                                    <a href="{{ route('sell.edit', $product->id) }}" style="color: black; text-decoration:none; font-style: normal;">
-                                      <i class="fas fa-pen mx-2 "></i>Update
-                                    </a>  
-                                  </span>
-                              </li>
-                              <li>
-                                <!--delete item button-->
-                              
-                                  <form action="{{ route('sell.destroy', $product->id) }}"  method="post">
-                                    <span class="dropdown-item">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
-                                      <i class="fas fa-trash mx-2"></i> Delete
-                                    </button>
-                                    </span>
-                                  </form>  
-                              </li> 
-                            </ul>
-                        </div>
-                        </div>
-                            @endif
-
-                      </div> 
+                        
                     </div>
-                    
+                   
                 </div>
-                    
-                @endforeach
                 
-            
-                
-      
+             @endforeach
+           
               </div>
         
 
@@ -195,34 +172,9 @@
 
       </div>
       
-      
-      
-    
       @include('partials.footer')
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Get all heart icons on the page
-        var heartIcons = document.querySelectorAll('.bi-heart-fill');
-    
-        // Add a click event listener to each heart icon
-        heartIcons.forEach(function(heartIcon) {
-          heartIcon.addEventListener('click', function() {
-            // Get the path element inside the clicked heart icon
-            var heartPath = this.querySelector('path');
-    
-            // Check the current color and toggle between red and the default color
-            if (heartPath.style.fill === 'red') {
-              heartPath.style.fill = 'none';
-              heartPath.style.stroke = 'black';
-            } else {
-              heartPath.style.fill = 'red';
-              heartPath.style.stroke = 'red';
-            }
-          });
-        });
-      });
-    </script>
+   
   </body>
 </html>

@@ -15,6 +15,11 @@ class Order extends Model
           return $this->belongsTo(User::class,'username');
       }
 
+      public function product()
+      {
+          return $this->belongsTo(Product::class,'product_id');
+      }
+
       public function paymentstatus()
       {
           return $this->belongsTo(Statuspayment::class,'paymentstatus_id');

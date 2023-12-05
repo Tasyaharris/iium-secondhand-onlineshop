@@ -102,6 +102,7 @@ class OrderController extends Controller
         // Assuming product_ids is an array of product IDs
     $productIds = $request->input('product_id');
     $totalOrder = $request->input('totalOrder');
+    $paymentoptionId = $request->input('paymentoption_id');
     $validatedData['username'] = auth()->user()->id;
     $validatedData['totalOrder'] = $totalOrder;
     $validatedData['order_date'] = now();
@@ -110,9 +111,17 @@ class OrderController extends Controller
 
     //dd($validatedData);
 
-    // Create the order
-    $order = Order::create($validatedData);
+    if ($paymentoptionId == 1) {
+        $validatedData['paymentstatus_id'] = 4;
+        $validatedData['orderstatus_id'] = 5;
+       
+    } else {
+        $validatedData['paymentstatus_id'] = 2;
+        $validatedData['orderstatus_id'] = 5;
+    }
 
+     // Create the order
+     $order = Order::create($validatedData);
    
     // Associate products with the order
     foreach ($productIds as $productId) {
@@ -126,7 +135,12 @@ class OrderController extends Controller
 
         // Save the order item
         $order->orderItems()->save($orderItem);
+
+        $product->productstatus_id = 1;
+        $product->save();
     }
+
+        
     
         return redirect('/afterbuy');
      }
@@ -137,8 +151,7 @@ class OrderController extends Controller
     public function addorder(Request $request)
     {
         $validatedData = $request->validate([
-            'paymentoption_id' => 'required',
-            // Add other validation rules as needed
+            'paymentoption_id' => 'required'
         ]);
     
         $productId = $request->input('product_id');
@@ -154,11 +167,11 @@ class OrderController extends Controller
         if ($paymentoptionId == 1) {
             $validatedData['paymentstatus_id'] = 4;
             $validatedData['orderstatus_id'] = 5;
-            //$product->statusproduct_id = 1;
+            $product->productstatus_id = 1; // Set productstatus_id to 1
         } else {
-            $validatedData['paymentstatus_id'] = 1;
+            $validatedData['paymentstatus_id'] = 2;
             $validatedData['orderstatus_id'] = 5;
-            //$product->statusproduct_id = 2;
+            $product->productstatus_id = 1; // Set productstatus_id to 1
         }
     
         $order = Order::create($validatedData);
@@ -168,16 +181,17 @@ class OrderController extends Controller
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $productId,
-                    
                 ]);
             }
         } else {
             OrderItem::create([
                 'order_id' => $order->id,
-                'product_id' => $productId,
-                
+                'product_id' => $productId,            
             ]);
         }
+    
+        // Save changes to the product
+        $product->save();
     
         // Delete cart entry for the current product and authenticated user
         Cart::where('product_id', $productId)

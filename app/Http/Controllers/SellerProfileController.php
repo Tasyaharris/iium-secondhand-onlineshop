@@ -14,14 +14,6 @@ class SellerProfileController extends Controller
         ->select('profiles.*','users.username as user_name')
         ->where('profiles.username', $id)
         ->first(); 
-
-         // Retrieve the product details based on the $id
-        $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
-        ->join('negos', 'nego_id', '=', 'negos.id')
-        ->join('users', 'products.username', '=', 'users.id')
-        ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name','products.product_pic')
-        ->where('products.username',$id)
-        ->first();
         
         //if (!$profile) {
         //    abort(404);
@@ -33,7 +25,13 @@ class SellerProfileController extends Controller
         return view('sellerprofile.index', [
             'profile' => $profile, 
             'title' => $title,
-            'product' => $product
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+             ->join('negos', 'nego_id', '=', 'negos.id')
+             ->join('users', 'products.username', '=', 'users.id')
+             ->where('products.username',$id)
+             ->where('products.productstatus_id','!=','1')
+             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+             ->get()
 
         ]);
        
