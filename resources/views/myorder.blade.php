@@ -64,8 +64,8 @@
                 <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>
                 </td>
-                <td class="clickable-row active{{ Request::is('myorder') ? 'active' : ' ' }}" data-href="/myorder">
-                  <a href="/order">My Order</a>
+                <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" data-href="/myorder">
+                  <a href="/myorder">My Order</a>
                 </td>
               </tr>
             </table>
@@ -79,25 +79,25 @@
             <div class="table-container1" style="margin-left:52px;">
             <table class="selection1" >
               <tr>
-                <td class="clickable-row {{ Request::is('delivery') ? 'active' : ' ' }}" data-href="/listings" style="width: 139px; ">
+                <td class="clickable-row {{ Request::is('delivery') ? 'active' : ' ' }}" data-href="/delivery" style="width: 139px; ">
                   <a class="navbar-brand" href="/delivery" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
                       <img src="/images/delivery.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
                       Delivery
                   </a>
               </td>
-              <td class="clickable-row {{ Request::is('receive') ? 'active' : ' ' }}" data-href="/reviews" style="width: 139px; ">
+              <td class="clickable-row {{ Request::is('receive') ? 'active' : ' ' }}" data-href="/receiveorder" style="width: 139px; ">
                   <a class="navbar-brand" href="/receive" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
                       <img src="/images/receive.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
                       Receive
                   </a>
               </td>
-              <td class="clickable-row {{ Request::is('completed') ? 'active' : ' ' }}" data-href="/cart" style="width: 139px; ">
+              <td class="clickable-row {{ Request::is('completed') ? 'active' : ' ' }}" data-href="/completedorder" style="width: 139px; ">
                   <a class="navbar-brand" href="/completed" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
                       <img src="/images/completed.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
                       Completed
                   </a>
               </td>
-              <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/myorder" style="width: 139px; ">
+              <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelorder" style="width: 139px; ">
                   <a class="navbar-brand" href="/cancelled" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
                       <img src="/images/cancel.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
                       Cancelled
@@ -117,6 +117,50 @@
             
             <div class="products-listing">
               <div class="row g-2" >
+                <div class="row g-2" >
+                  @foreach ($order_items as $order_item)
+                  <div class="col">
+                      <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
+                        <div class="card-body d-flex flex-column">
+                          <div class="img text-center mb-1">
+                              @if ($order_item->product->product_pic)
+                              @if (is_array(json_decode($order_item->product->product_pic)))
+                              <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @foreach(json_decode($order_item->product->product_pic) as $index => $imagePath)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                            <img src="{{ asset('storage/' . $imagePath) }}"width="100" height="100"  alt="Image {{ $index + 1 }}">
+                                        </div>
+                                    @endforeach
+                                </div>
+                              </div>
+                              @else
+                              <img src="{{ asset('storage/' . $order_item->product->product_pic) }}" width="100" height="100">
+                              @endif
+                             @endif
+                          </div>
+                          
+                          <div class="prod-desc mt-1 flex-grow-1">
+                          <h6 id="product_name" >{{ $order_item->product->product_name }}</h6>
+                          <small id="price" id="price" > RM {{ $order_item->product->product_price }}</small>
+                         
+                         
+                          </div>
+                        
+                          <br>
+                          
+                      
+                        </div> 
+                      </div>
+                      
+                  </div>
+                      
+                  @endforeach
+              
+                  
+        
+                </div>
+          
                
             
                 

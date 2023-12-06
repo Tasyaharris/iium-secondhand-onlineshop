@@ -67,7 +67,7 @@
                   <a href="/cart">My Cart</a>
                 </td>
                 <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" data-href="/myorder">
-                  <a href="/order">My Order</a>
+                  <a href="/myorder">My Order</a>
                 </td>
               </tr>
             </table>

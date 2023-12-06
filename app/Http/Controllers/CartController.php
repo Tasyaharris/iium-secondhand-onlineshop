@@ -28,6 +28,7 @@ class CartController extends Controller
             'carts'=> Cart::join('products','product_id','=','products.id')
             ->join('users', 'carts.username', '=', 'users.id')
             ->where('carts.username',auth()->user()->id)
+            ->where('products.productstatus_id','!=',1)
             ->select('carts.*')->get()
         ]);
     }
@@ -92,6 +93,7 @@ class CartController extends Controller
     ->join('users', 'products.username', '=', 'users.id')
     ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
     ->where('products.id', $id)
+    ->where('products.productstatus_id','!=',1)
     ->first();
 
 

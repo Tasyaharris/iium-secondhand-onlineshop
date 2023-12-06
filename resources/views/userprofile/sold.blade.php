@@ -79,7 +79,7 @@
             <div class="table-container1" style="margin-left:40px;">
             <table class="selection1" >
               <tr>
-                <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
+                <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Sold</a>
                 </td>
                 <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
@@ -103,16 +103,16 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                @foreach ($products as $product)
+                @foreach ($order_items as $order_item)
                 <div class="col">
-                    <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
+                    <div class="card  text-center mb-3 " style="width: 210px; height: 250px;">
                       <div class="card-body d-flex flex-column">
                         <div class="img text-center mb-1">
-                            @if ($product->product_pic)
-                            @if (is_array(json_decode($product->product_pic)))
+                            @if ($order_item->product->product_pic)
+                            @if (is_array(json_decode($order_item->product->product_pic)))
                             <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                               <div class="carousel-inner">
-                                  @foreach(json_decode($product->product_pic) as $index => $imagePath)
+                                  @foreach(json_decode($order_item->product->product_pic) as $index => $imagePath)
                                       <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                           <img src="{{ asset('storage/' . $imagePath) }}"width="100" height="100"  alt="Image {{ $index + 1 }}">
                                       </div>
@@ -120,47 +120,29 @@
                               </div>
                             </div>
                             @else
-                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="100" height="100">
+                            <img src="{{ asset('storage/' . $order_item->product->product_pic) }}" width="100" height="100">
                             @endif
                            @endif
                         </div>
                         
                         <div class="prod-desc mt-1 flex-grow-1">
-                        <h6 id="product_name" >{{ $product->product_name }}</h6>
-                        <small id="price" id="price" > RM {{ $product->product_price }}</small>
-                        <small id="seller_option"> ({{ $product->nego_option }})</small>
-                        <br>
-                        <small id="condition">{{ $product->condition_name }}</small>    
+                        <h6 id="product_name" >{{ $order_item->product->product_name }}</h6>
+                        <small id="price" id="price" > RM {{ $order_item->product->product_price }}</small>
+                        
                        
                         </div>
                       
                         <br>
                         
-                        <!--if the product is sold, display status and button -->
-                        @if($product->productstatus_id == 1)
-                        <h6 style="text-align: left;margin-bottom:40px;color:red">Sold</h6>
-                        @else
-                        <!--like-->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="black"  class="bi bi-heart-fill" viewBox="-1 -1 18 14"  id="heart-icon">
-                          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                        </svg>
-
+                       
                         <div class="options">
                            <div class="dropdown ms-auto">
                             <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
                               <li>
-                                  <!--update item button-->
-                                  <span class="dropdown-item">
-                                    <a href="{{ route('sell.edit', $product->id) }}" style="color: black; text-decoration:none; font-style: normal;">
-                                      <i class="fas fa-pen mx-2 "></i>Update
-                                    </a>  
-                                  </span>
-                              </li>
-                              <li>
                                 <!--delete item button-->
                               
-                                  <form action="{{ route('sell.destroy', $product->id) }}"  method="post">
+                                  <form action="{{ route('sell.destroy', $order_item->product->id) }}"  method="post">
                                     <span class="dropdown-item">
                                     @method('DELETE')
                                     @csrf
@@ -173,7 +155,7 @@
                             </ul>
                         </div>
                         </div>
-                            @endif
+                          
 
                       </div> 
                     </div>

@@ -56,7 +56,7 @@
             <table class="selection">
               <tr>
                 <td class="clickable-row  active{{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                  <a href="/listings">My Listings</a>
+                  <a href="/profile">My Listings</a>
                 </td>
                 <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
                   <a href="/reviews">Reviews</a>
@@ -80,7 +80,7 @@
             <table class="selection1" >
               <tr>
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                  <a href="/listings">Sold</a>
+                  <a href="/sold">Sold</a>
                 </td>
                 <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
                   <a href="/reviews">Cancelled</a>

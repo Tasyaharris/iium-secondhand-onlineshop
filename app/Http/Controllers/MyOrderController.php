@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class MyOrderController extends Controller
@@ -20,11 +22,36 @@ class MyOrderController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos','nego_id','=','negos.id')
             ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
-            'profiles' => Profile::where('username',auth()->user()->id)->get()
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+            ->join('products','product_id','=','products.id')
+            ->where('orders.username',auth()->user()->id)
+            ->where('orders.orderstatus_id',5)
+            ->select('order_items.*')
+            ->get()
   
         ]);
     }
 
+    public function completed()
+    {
+        
+        return view('myorder.completedorder',[
+            'title' => "Completed Order",
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos','nego_id','=','negos.id')
+            ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+            ->join('products','product_id','=','products.id')
+            ->where('orders.username',auth()->user()->id)
+            ->where('orders.orderstatus_id',3)
+            ->select('order_items.*')
+            ->get()
+  
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

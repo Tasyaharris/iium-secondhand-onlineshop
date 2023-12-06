@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
+use App\Models\Profile;
 use App\Models\Product;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 class SoldController extends Controller
@@ -22,6 +24,24 @@ class SoldController extends Controller
         ]);
     }
 
+    public function sold()
+    {
+        return view('userprofile.sold', [
+            'title' => 'Sold Products',
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+                ->join('negos','nego_id','=','negos.id')
+                ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+                ->join('products','product_id','=','products.id')
+                ->join('users','orders.username','=','users.id')
+                ->where('orders.orderstatus_id', '=','3')
+                ->where('products.username', auth()->user()->id)
+                ->select('order_items.*')
+                ->get()
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

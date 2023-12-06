@@ -30,7 +30,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .hidden {
             display: none;
         }
@@ -38,14 +37,6 @@
         .displayed {
             display: block;
             margin-top: 10px; /* Adjust the margin as needed */
-        }
-
-        .additional-button {
-            border-radius: 20px;
-            padding: 10px 20px;
-            background-color: #38c172;
-            color: #fff;
-            cursor: pointer;
         }
 
         .radio-button.checked {
@@ -66,9 +57,9 @@
             <div class="user-info">
               <div class="flex-container" style="display: flex; align-items: center;">
                 <a href="javascript:history.back();" style="text-decoration: none; color: inherit;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16" style="margin-bottom: 3px;">
-                      <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
-                  </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16" style="margin-bottom: 3px;">
+                        <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+                    </svg>
                 </a>
                 <h6 style="margin-left:5px;">Delivery Item</h6>
               </div>
@@ -85,13 +76,13 @@
               <div class="table-container" style="margin-bottom:5px;">
               <table class="selection">
                 <tr>
-                  <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
+                  <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                     <a href="/listings">Preparing</a>
                   </td>
                   <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/reviews">
                     <a href="/reviews">Delivering</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
+                  <td class="clickable-row active {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
                     <a href="/reviews">Received</a>
                   </td>
                 </tr>
@@ -101,39 +92,22 @@
 
             
         <div class="container-under-table" style=" border: none; margin-top:0;">
-            <!-- Your container content under the table goes here -->
-            <div class="products-listing" style="margin-top: 0px;">
-              <div class="row g-2" > 
-                <h6>Buyer: {{ $order->user->username }}</h6>
-                <small style="font-weight: bold;font-size:15px;">Product(s) Name:</small>
-                @foreach($order_items as $order_item)
-                <br>
-                <small style="font-size:15px;">{{ $order_item->product->product_name }}</small>
-                @endforeach
-                <div style="display: inline;">
-                  <small style="font-weight: bold;font-size:15px;">Total: </small> RM{{ $order->totalOrder }}
-                </div>
-                <div style="display:inline;">
-                <small style="font-weight: bold; font-size:15px;">Payment Method: </small>{{ $order->payment->payment_opt }}
-                </div>
-              </div>
-            </div>
+            
 
           
           <div style="display:flex; margin-top:15px;">
-            <div id="roundedButton" class="radio-button " onclick="showAdditionalButton()"> </div> 
-            <small style="margin-left:5px;">Prepare the Item</small>
+            <a id="roundedButton" class="radio-button" href="{{ url('received', $order->id) }}" onclick="showAdditionalButton(event)"></a>
+            <small style="margin-left:5px;">Item received by buyer</small>
           </div>
          
           <div style="display:flex; margin-top:15px; ">
-          <a  id="additionalButton" class="hidden radio" href="{{ url('deliver', $order->id) }}"></a>
-          <small id="additionalButton1" class="hidden" style="margin-left:5px;">Item prepared! Ready to deliver</small>
+          <a  id="additionalButton" class="hidden radio" href="{{ url('completed', $order->id) }}"></a>
+          <small id="additionalButton1" class="hidden" style="margin-left:5px;">Delivery completed</small>
           </div>
         </div>
         </div>
 
         
-
       </div>
 
       
@@ -142,29 +116,50 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-
     <script>
       
 
-      function showAdditionalButton() {
-        // Update the UI (change color, show/hide elements, etc.)
-        var radioButton = document.getElementById('roundedButton');
-        var isAlreadyChecked = radioButton.classList.contains('checked');
-        var additionalButton = document.getElementById('additionalButton');
-        var isAlreadyChecked1 = additionalButton.classList.contains('checked');
+        function showAdditionalButton(event) {
+            event.preventDefault(); // Prevent the default link behavior
+    
+            var orderId = {{ $order->id }};
+    
+            // Make an AJAX request using jQuery's $.ajax
+            $.ajax({
+                url: '/received/' + orderId,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Handle the successful response
+                    if (data.status == 'success') {
+                        if (data.received) {
+                        // 'received' is true, perform actions accordingly
+                        console.log('Item has been received.');
+                                      // Update the UI (change color, show/hide elements, etc.)
+                    var radioButton = document.getElementById('roundedButton');
+                    var isAlreadyChecked = radioButton.classList.contains('checked');
 
                     if (!isAlreadyChecked) {
-                        radioButton.classList.add('checked');      
+                        radioButton.classList.add('checked');  
                     }
-                   
-                      var additionalButton1 = document.getElementById('additionalButton1');
-                      additionalButton.classList.remove('hidden');
-                      additionalButton.classList.add('displayed');
-                      additionalButton1.classList.remove('hidden');
-                      additionalButton1.classList.add('displayed');
-                   
-                  }
-
-  </script>
+                        var additionalButton = document.getElementById('additionalButton');
+                        var additionalButton1 = document.getElementById('additionalButton1');
+                        additionalButton.classList.remove('hidden');
+                        additionalButton.classList.add('displayed');
+                        additionalButton1.classList.remove('hidden');
+                        additionalButton1.classList.add('displayed');
+                         
+                    } 
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle errors here
+                    console.error('Error in jQuery $.ajax request:', textStatus, errorThrown);
+                }
+            });
+        }
+    </script>
+    
+    
   </body>
 </html>

@@ -25,7 +25,7 @@ class Order extends Model
           return $this->belongsTo(Statuspayment::class,'paymentstatus_id');
       }
       
-      public function paymentoption()
+      public function payment()
       {
           return $this->belongsTo(Payment::class,'paymentoption_id');
       }
