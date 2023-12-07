@@ -82,8 +82,8 @@
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Sold</a>
                 </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews">Cancelled</a>
+                <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
+                  <a href="/cancelled">Cancelled</a>
                 </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
                   <a href="/orders">Order</a>
@@ -158,6 +158,8 @@
                                   Cancel order
                               </button>
                             </form>
+
+                            <a href="{{ url('buy.destroy', $order_item->order->id) }}" style="margin-left:30px; color:black;border:none;background-color:white">Cancel Order</a>
                           
                             </div>
                         </div> 

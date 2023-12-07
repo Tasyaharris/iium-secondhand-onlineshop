@@ -82,9 +82,9 @@
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Sold</a>
                 </td>
-                <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
-                  <a href="/cancelled">Cancelled</a>
-                </td>
+                <td class="clickable-row active {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
+                    <a href="/cancelled">Cancelled</a>
+                  </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
                   <a href="/orders">Order</a>
                 </td>
@@ -102,90 +102,56 @@
             </div>
             
             <div class="products-listing">
-              <div class="row g-2" >
-                @foreach ($products as $product)
-                <div class="col">
-                    <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
-                      <div class="card-body d-flex flex-column">
-                        <div class="img text-center mb-1">
-                            @if ($product->product_pic)
-                            @if (is_array(json_decode($product->product_pic)))
-                            <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-                              <div class="carousel-inner">
-                                  @foreach(json_decode($product->product_pic) as $index => $imagePath)
-                                      <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                          <img src="{{ asset('storage/' . $imagePath) }}"width="100" height="100"  alt="Image {{ $index + 1 }}">
+                <div class="row g-2" >
+                    @foreach($cancel_items->groupBy('cancel_order_id') as $cancelorderId => $cancelGroup)
+                        <div class="col">       
+                            <div class="card-body d-flex flex-column">
+                            <div class="card  text-center " style="width: 670px; height: auto;">
+                                <div class="buyer mt-3" style="display: inline-block; margin-left:15px;">
+                                    <div style="text-align: left;">
+                                   <h6>Order ID: {{ $cancelorderId}}</h6>
+                                   
+                        
+                                    </div>
+                                </div>
+                                @foreach($cancelGroup as $cancel_item)
+                                 <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >
+                                 <div class="img mb-1 ma-auto">
+                                    @if ($cancel_item->product->product_pic)
+                                    @if (is_array(json_decode($cancel_item->product->product_pic)))
+                                    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                                      <div class="carousel-inner">
+                                          @foreach(json_decode($cancel_item->product->product_pic) as $index => $imagePath)
+                                              <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                                  <img src="{{ asset('storage/' . $imagePath) }}"width="50" height="50"  alt="Image {{ $index + 1 }}">
+                                              </div>
+                                          @endforeach
                                       </div>
-                                  @endforeach
+                                    </div>
+                                    @else
+                                    <img src="{{ asset('storage/' . $cancel_item->product->product_pic) }}" width="70" height="70">
+                                    @endif
+                                   @endif
+                                </div>
+    
+                                <div class="row ma-auto" style="display: flex; justify-content: left; text-align:left; margin-left:7px;">
+                                    <small style="font-weight: bold; font-size:15px;">
+                                        {{ $cancel_item->product->product_name }}</small>
+                                    <small style="font-size:15px;">RM{{ $cancel_item->product->product_price }}
+                                    </small>
+                                </div>
+                                </div>
+                                @endforeach
+                                
+                                <small class="ms-auto mb-3" style="margin-right:15px;">Order Cancelled </small>
+                        
                               </div>
                             </div>
-                            @else
-                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="100" height="100">
-                            @endif
-                           @endif
-                        </div>
+                            
+                          </div>
+                          @endforeach
                         
-                        <div class="prod-desc mt-1 flex-grow-1">
-                        <h6 id="product_name" >{{ $product->product_name }}</h6>
-                        <small id="price" id="price" > RM {{ $product->product_price }}</small>
-                        <small id="seller_option"> ({{ $product->nego_option }})</small>
-                        <br>
-                        <small id="condition">{{ $product->condition_name }}</small>    
-                       
                         </div>
-                      
-                        <br>
-                        
-                        <!--if the product is sold, display status and button -->
-                        @if($product->productstatus_id == 1)
-                        <h6 style="text-align: left;margin-bottom:40px;color:red">Sold</h6>
-                        @else
-                        <!--like-->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="black"  class="bi bi-heart-fill" viewBox="-1 -1 18 14"  id="heart-icon">
-                          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                        </svg>
-
-                        <div class="options">
-                           <div class="dropdown ms-auto">
-                            <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                            <ul class="dropdown-menu">
-                              <li>
-                                  <!--update item button-->
-                                  <span class="dropdown-item">
-                                    <a href="{{ route('sell.edit', $product->id) }}" style="color: black; text-decoration:none; font-style: normal;">
-                                      <i class="fas fa-pen mx-2 "></i>Update
-                                    </a>  
-                                  </span>
-                              </li>
-                              <li>
-                                <!--delete item button-->
-                              
-                                  <form action="{{ route('sell.destroy', $product->id) }}"  method="post">
-                                    <span class="dropdown-item">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
-                                      <i class="fas fa-trash mx-2"></i> Delete
-                                    </button>
-                                    </span>
-                                  </form>  
-                              </li> 
-                            </ul>
-                        </div>
-                        </div>
-                            @endif
-
-                      </div> 
-                    </div>
-                    
-                </div>
-                    
-                @endforeach
-                
-            
-                
-      
-              </div>
         
 
             </div>

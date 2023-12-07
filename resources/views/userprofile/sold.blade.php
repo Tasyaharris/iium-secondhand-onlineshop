@@ -59,7 +59,7 @@
                   <a href="/profile">My Listings</a>
                 </td>
                 <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews">Reviews</a>
+                  <a href="/reviews]">Reviews</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>
@@ -82,8 +82,8 @@
                 <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Sold</a>
                 </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews">Cancelled</a>
+                <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
+                  <a href="/cancelled">Cancelled</a>
                 </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
                   <a href="/orders">Order</a>

@@ -139,7 +139,7 @@
                                   <button type="submit" onclick="return confirm('Are you sure to cancel this order?')" style="margin-right:15px;border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:120px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">
                                       Cancel order
                                   </button>
-                              </form>
+                                </form>
                               </div>
                             </div>
                           </div>

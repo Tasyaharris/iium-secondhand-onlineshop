@@ -10,6 +10,8 @@ use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\OrderItem;
+use App\Models\CancelItem;
+use App\Models\CancelOrder;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -138,6 +140,10 @@ class OrderController extends Controller
 
         $product->productstatus_id = 1;
         $product->save();
+
+         // Delete cart entry for the current product and authenticated user
+         Cart::where('product_id', $productId)
+         ->delete();
     }
 
         return redirect('/afterbuy');
@@ -257,7 +263,9 @@ class OrderController extends Controller
 
             ]);
 
-}
+    }
+
+
 
 
 
@@ -282,20 +290,53 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-     $order = Order::findOrFail($id);
-
-    // Loop through order items and update product status
-    foreach ($order->orderItems as $orderItem) {
-        $product = $orderItem->product;
-        $product->productstatus_id = 3;
-        $product->save();
-    }
-
-    // Delete the order and related order items
-    $order->orderItems()->delete();
-    $order->delete();
-
-    return redirect()->back()->with('success', 'Order deleted successfully.');
+        $order = Order::findOrFail($id);
+    
+        // Create a new CancelOrder
+        $cancelOrder = CancelOrder::create([
+            'username' => $order->username,
+            'cancel_date' => now(),
+            'orderstatus_id' => 7,
+        ]);
+    
+        // Loop through order items and update product status
+        foreach ($order->orderItems as $orderItem) {
+            $product = $orderItem->product;
+    
+            // Create a new CancelItem
+            $cancelItem = new CancelItem([
+                'product_id' => $product->id,
+            ]);
+    
+            // Associate CancelItem with CancelOrder
+            $cancelOrder->cancelitem()->save($cancelItem);
+    
+            // Update product status
+            $product->productstatus_id = 3;
+            $product->save();
+        }
+    
+        // Delete the order and related order items
+        $order->orderItems()->delete();
+        $order->delete();
+    
+        // Fetch and return the view with updated cancel orders
+        return view('myorder.cancelorder', [
+            'title' => 'Cancel Order',
+            'users' => User::where('id', auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+                ->join('negos', 'nego_id', '=', 'negos.id')
+                ->where('username', auth()->user()->id)
+                ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option')
+                ->get(),
+            'profiles' => Profile::where('username', auth()->user()->id)->get(),
+            'cancelorders' => CancelOrder::with('cancel_items','cancel_orders.id','cancel_items.cancel_order_id')
+                ->join('products','cancel_items.product_id','=','products.id')
+                ->join('users','products.username','=','users.id')
+                ->where('cancel_orders.username', auth()->user()->id)
+                ->select('cancel_orders.*')
+                ->get(),
+        ]);
     }
 
     public function calculateTotalPrice($productId, $quantity) {

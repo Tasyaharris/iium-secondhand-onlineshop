@@ -7,6 +7,8 @@ use App\Models\Profile;
 use App\Models\Condition;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\CancelItem;
+use App\Models\CancelOrder;
 use Illuminate\Http\Request;
 
 class ProcessOrderController extends Controller
@@ -158,8 +160,28 @@ class ProcessOrderController extends Controller
 
         $received = $order;
 
-        // Return any data if needed
-        return response()->json(['status' => 'success']);
+        return view('myorder.completedorder', [
+            'title' => 'Order Completed',
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos','nego_id','=','negos.id')
+            ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+            ->join('products','product_id','=','products.id')
+            ->where('orders.username',auth()->user()->id)
+            ->where(function ($query) {
+                $query->where('orders.orderstatus_id', '=', '6')
+                    ->orWhere('orders.orderstatus_id', '=', '3');
+            })
+            ->select('order_items.*')
+            ->get(),
+            'orders'=>Order::join('order_items','orders.id','=','order_items.order_id')
+            ->join('products','order_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where('orders.username',auth()->user()->id)
+            ->select('orders.*')->get()
+        ]);
     }
 
     public function completed($id)
@@ -206,4 +228,36 @@ class ProcessOrderController extends Controller
             ->get()
     ]);
     }
+
+    public function cancelled(){
+        return view('order.cancelled', [
+            'title' => 'Cancelled',
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos','nego_id','=','negos.id')
+            ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            
+            'cancel_items'=>CancelItem::join('cancel_orders','cancel_orders.id','=','cancel_items.cancel_order_id')
+            ->join('products','cancel_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where(function ($query) {
+                $query->where('cancel_orders.orderstatus_id', '=', '7')
+                    ->orWhere('cancel_orders.orderstatus_id', '=', '4');
+            })
+            ->select('cancel_items.*')
+            ->get(),
+            
+            'cancel_orders'=>CancelOrder::join('cancel_items','cancel_orders.id','=','cancel_items.cancel_order_id')
+            ->join('products','cancel_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where('cancel_orders.username',auth()->user()->id)
+            ->select('cancel_orders.*')
+            ->get()
+          
+            
+        ]);
+    }
+
+
 }

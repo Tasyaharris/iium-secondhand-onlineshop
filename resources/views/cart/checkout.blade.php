@@ -98,7 +98,7 @@
     </nav>
 
      <!--product detail-->
-     <nav class="navbar  border-bottom mt-0" style="height: 300px;border: 1px solid #000; ">
+     <nav class="navbar  border-bottom mt-0" style="height: auto;border: 1px solid #000; ">
         <div class="product1" style="display:inline-block; margin-left:30px;">
             <div style="text-align: left; margin-left:10px;">
             <h6>Order Summary</h6>

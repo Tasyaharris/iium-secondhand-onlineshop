@@ -15,10 +15,7 @@ class CancelOrder extends Model
           return $this->belongsTo(User::class,'username');
       }
 
-      public function product()
-      {
-          return $this->belongsTo(Product::class,'product_id');
-      }
+      
 
       public function paymentstatus()
       {
@@ -40,7 +37,7 @@ class CancelOrder extends Model
           return $this->belongsTo(Statusorder::class,'orderstatus_id');
       }
 
-      public function cancelItem()
+      public function cancelitem()
     {
          return $this->hasMany(CancelItem::class);
     }

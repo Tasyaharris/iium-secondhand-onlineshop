@@ -17,14 +17,14 @@
               Receive
           </a>
       </td>
-      <td class="clickable-row {{ Request::is('completed') ? 'active' : ' ' }}" data-href="/completedorder" style="width: 139px; ">
-          <a class="navbar-brand" href="/completed" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
-              <img src="/images/completed.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
-              Completed
-          </a>
-      </td>
-      <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelorder" style="width: 139px; ">
-          <a class="navbar-brand" href="/cancelled" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
+      <td class="clickable-row {{ Request::is('completedorder') ? 'active' : ' ' }}" data-href="/completedorder" style="width: 139px; ">
+        <a class="navbar-brand" href="/completedorder" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
+            <img src="/images/completed.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
+            Completed
+        </a>
+    </td>
+      <td class="clickable-row {{ Request::is('cancelorder') ? 'active' : ' ' }}" data-href="/cancelorder" style="width: 139px; ">
+          <a class="navbar-brand" href="/cancelorder" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
               <img src="/images/cancel.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
               Cancelled
           </a>
