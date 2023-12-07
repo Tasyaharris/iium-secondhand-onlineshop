@@ -142,6 +142,26 @@ class ProcessOrderController extends Controller
         return response()->json(['status' => 'success', 'received'=> $received]);
     }
 
+    public function receivedbuyer($id)
+    {
+    
+        $order = Order::find($id);
+
+        if (!$order) {
+            // Handle the case where the order is not found
+            return response()->json(['status' => 'error', 'message' => 'Order not found'], 404);
+        }
+
+        if ($order->orderstatus_id == 2) {
+           $order->update(['orderstatus_id' => 6]);
+       }
+
+        $received = $order;
+
+        // Return any data if needed
+        return response()->json(['status' => 'success']);
+    }
+
     public function completed($id)
     {
         $order = Order::join('order_items','order_id','=','orders.id')
@@ -159,9 +179,15 @@ class ProcessOrderController extends Controller
 
         // Check if the current orderstatus_id is 2
          if ($order->orderstatus_id == 2) {
-             // If it is 2, update it to 3
-            $order->update(['orderstatus_id' => 3]);
+             // If the user receive by buyer but buyer did not confirm yet
+            $order->update(['orderstatus_id' => 2]);
         }
+
+        if ($order->orderstatus_id == 6) {
+            // confirmed by buyer
+           $order->update(['orderstatus_id' => 3]);
+        }
+
 
     // Return any data if needed
     return view('userprofile.sold', [

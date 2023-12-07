@@ -135,7 +135,7 @@
                                       <form action="{{ route('cart.destroy', $cart->id) }}" method="post">
                                           @method('DELETE')
                                           @csrf
-                                          <button type="submit" style="border: none; background-color: white; margin-right:10px;display:flex;">
+                                          <button type="submit" style="border: none; background-color: white; margin-right:10px;display:flex;" onclick="return confirm('Are you sure to cancel this order?')">
                                               <i class="fas fa-trash mx-2"></i> Delete
                                           </button>
                                       </form>

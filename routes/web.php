@@ -108,6 +108,13 @@ Route::get('/afterbuy', function () {
     ]);
 });
 
+Route::get('/afterbuy1', function () {
+    return view('afterbuy1',[
+        "title" => "Confirm Order",
+    ]);
+});
+
+
 
 Route::get('/product/search',[ProductController::class,'search']);
 
@@ -117,6 +124,7 @@ Route::get('/deliver/{id}',[ProcessOrderController::class,'deliver'])->middlewar
 Route::get('/receive/{id}',[ProcessOrderController::class,'receive'])->middleware('auth');
 Route::get('/received/{id}',[ProcessOrderController::class,'received'])->middleware('auth');
 Route::get('/completed/{id}',[ProcessOrderController::class,'completed'])->middleware('auth');
+Route::get('/receivedbuyer/{id}',[ProcessOrderController::class,'receivedbuyer'])->middleware('auth');
 
 Route::get('/sold',[SoldController::class,'sold'])->middleware('auth');
 
@@ -128,6 +136,8 @@ Route::get('/sold',[SoldController::class,'sold'])->middleware('auth');
 
 Route::resource('/myorder',MyOrderController::class)->middleware('auth');
 Route::get('/completed',[MyOrderController::class,'completed'])->middleware('auth');
+Route::get('/deliveryorder',[MyOrderController::class,'deliveryorder'])->middleware('auth');
+Route::get('/receiveorder',[MyOrderController::class,'receiveorder'])->middleware('auth');
 
 //Route::get('/viewproduct', function () {
 //   return view('products.viewproduct',[

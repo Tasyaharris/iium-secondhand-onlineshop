@@ -48,7 +48,62 @@ class MyOrderController extends Controller
             ->where('orders.username',auth()->user()->id)
             ->where('orders.orderstatus_id',3)
             ->select('order_items.*')
-            ->get()
+            ->get(),
+            'orders'=>Order::join('order_items','orders.id','=','order_items.order_id')
+            ->join('products','order_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where('orders.username',auth()->user()->id)
+            ->select('orders.*')->get()
+  
+        ]);
+    }
+
+    public function deliveryorder()
+    {
+        
+        return view('myorder.deliveryorder',[
+            'title' => "Delivery Order",
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos','nego_id','=','negos.id')
+            ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+            ->join('products','product_id','=','products.id')
+            ->where('orders.username',auth()->user()->id)
+            ->where('orders.orderstatus_id',1)
+            ->select('order_items.*')
+            ->get(),
+            'orders'=>Order::join('order_items','orders.id','=','order_items.order_id')
+            ->join('products','order_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where('orders.username',auth()->user()->id)
+            ->select('orders.*')->get()
+  
+        ]);
+    }
+
+    public function receiveorder()
+    {
+        
+        return view('myorder.receiveorder',[
+            'title' => "Receive Order",
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos','nego_id','=','negos.id')
+            ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+            ->join('products','product_id','=','products.id')
+            ->where('orders.username',auth()->user()->id)
+            ->where('orders.orderstatus_id',2)
+            ->select('order_items.*')
+            ->get(),
+            'orders'=>Order::join('order_items','orders.id','=','order_items.order_id')
+            ->join('products','order_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where('orders.username',auth()->user()->id)
+            ->select('orders.*')->get()
   
         ]);
     }

@@ -36,7 +36,10 @@ class SoldController extends Controller
             'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
                 ->join('products','product_id','=','products.id')
                 ->join('users','orders.username','=','users.id')
-                ->where('orders.orderstatus_id', '=','3')
+                ->where(function ($query) {
+                    $query->where('orders.orderstatus_id', '=', '6')
+                        ->orWhere('orders.orderstatus_id', '=', '3');
+                })
                 ->where('products.username', auth()->user()->id)
                 ->select('order_items.*')
                 ->get()

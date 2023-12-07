@@ -140,8 +140,6 @@ class OrderController extends Controller
         $product->save();
     }
 
-        
-    
         return redirect('/afterbuy');
      }
 
@@ -174,30 +172,45 @@ class OrderController extends Controller
             $product->productstatus_id = 1; // Set productstatus_id to 1
         }
     
-        $order = Order::create($validatedData);
+        // Check if an existing order exists for the product and user
+        $existingOrder = Order::join('order_items','orders.id','=','order_items.order_id')
+            ->join('products','products.id','=','order_items.product_id')
+            ->where('order_items.product_id', $productId)
+            ->where('orders.username', auth()->user()->id)
+            ->first();
     
-        if (is_array($productId)) {
-            foreach ($productId as $productId) {
+        if (!$existingOrder) {
+            // Create a new order
+            $order = Order::create($validatedData);
+    
+            // Additional logic if needed
+            if (is_array($productId)) {
+                foreach ($productId as $productId) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $productId,
+                    ]);
+                }
+            } else {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $productId,
                 ]);
             }
+    
+            // Save changes to the product
+            $product->save();
+    
+            // Delete cart entry for the current product and authenticated user
+            Cart::where('product_id', $productId)
+                ->delete();
+    
+            return redirect('/afterbuy1');
         } else {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $productId,            
-            ]);
+            // Handle the case where an existing order is found (optional)
+            // You might want to redirect or show a message to the user
+            return redirect('/afterbuy1');
         }
-    
-        // Save changes to the product
-        $product->save();
-    
-        // Delete cart entry for the current product and authenticated user
-        Cart::where('product_id', $productId)
-            ->delete();
-    
-        return redirect('/afterbuy');
     }
     
 
@@ -267,9 +280,22 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+     $order = Order::findOrFail($id);
+
+    // Loop through order items and update product status
+    foreach ($order->orderItems as $orderItem) {
+        $product = $orderItem->product;
+        $product->productstatus_id = 3;
+        $product->save();
+    }
+
+    // Delete the order and related order items
+    $order->orderItems()->delete();
+    $order->delete();
+
+    return redirect()->back()->with('success', 'Order deleted successfully.');
     }
 
     public function calculateTotalPrice($productId, $quantity) {

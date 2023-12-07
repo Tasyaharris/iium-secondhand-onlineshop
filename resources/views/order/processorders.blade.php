@@ -109,7 +109,7 @@
                     <div class="card  text-center mt-1 " style="width: 670px; height: auto;">
                         <div class="buyer mt-3" style="display: inline-block; margin-left:15px;">
                             <div style="text-align: left;">
-                                @if($orderGroup->first() && $orderGroup->first()->order && $orderGroup->first()->order->user)
+                            @if($orderGroup->first() && $orderGroup->first()->order && $orderGroup->first()->order->user)
                                 <h6>Buyer: {{ $orderGroup->first()->order->user->username }}</h6>
                             @else
                                 <h6>Buyer: N/A</h6>
@@ -151,7 +151,14 @@
                        
                         <div class="processBtn" style="margin-left:15px; margin-top:10px; margin-bottom:20px;display:flex;">
                             <a href="{{ url('prepare', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:130px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Process Delivery</a>
-                            <a href="" style="margin-left:30px; color:black;">Cancel Order</a>
+                            <form action="{{ route('buy.destroy', $order_item->order->id) }}" method="post">
+                              @method('DELETE')
+                              @csrf
+                              <button type="submit" onclick="return confirm('Are you sure to cancel this order?')"  style="margin-left:30px; color:black;border:none;background-color:white">
+                                  Cancel order
+                              </button>
+                            </form>
+                          
                             </div>
                         </div> 
                         

@@ -172,72 +172,6 @@
     @include('partials.footer')
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            const showTermsBtn = $("#showTermsBtn");
-            const termsPopup = $("#termsModal");
-            const acceptTermsCheckbox = $("#acceptTerms");
-            const acceptButton = $("#acceptButton");
-            const myForm = $("#myForm");
-            const paymentError = $("#paymentError");
-    
-            showTermsBtn.on("click", function () {
-                const paymentMethods = $("[name='paymentoption_id']");
-                let paymentMethodSelected = false;
-    
-                paymentMethods.each(function () {
-                    if ($(this).prop("checked")) {
-                        paymentMethodSelected = true;
-                        return false; // exit the loop
-                    }
-                });
-    
-                if (paymentMethodSelected) {
-                    // Append the product_id as a hidden input to the form
-                    const productIdInput = $("<input>").attr({
-                        type: "hidden",
-                        name: "product_id",
-                        value: "{{ $product->id }}" // Use your dynamic value here
-                    });
-    
-                    myForm.append(productIdInput);
-                    termsPopup.modal("show");
-                }
-            });
-    
-            acceptButton.on("click", function () {
-                if (acceptTermsCheckbox.prop("checked")) {
-                    termsPopup.modal("hide");
-    
-                    // Submit the form using AJAX
-                    $.ajax({
-                        type: myForm.attr("method"),
-                        url: myForm.attr("action"),
-                        data: myForm.serialize(),
-                        success: function (response) {
-                            // Handle the success response if needed
-                            console.log(response);
-                        },
-                        error: function (error) {
-                            // Handle the error response if needed
-                            console.error(error);
-                        }
-                    });
-                }
-            });
-    
-            myForm.on("submit", function (e) {
-                console.log("Form submitted!");
-                if (!acceptTermsCheckbox.prop("checked") || !$("[name='paymentoption_id']:checked").length) {
-                    e.preventDefault();
-                }
-            });
-        });
-    </script>
-    
-    
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script>
         var termsModal = document.getElementById("termsModal");
@@ -249,5 +183,73 @@
         });
 </script>
     
+<script>
+    $(document).ready(function () {
+        const showTermsBtn = $("#showTermsBtn");
+        const termsPopup = $("#termsModal");
+        const acceptTermsCheckbox = $("#acceptTerms");
+        const acceptButton = $("#acceptButton");
+        const myForm = $("#myForm");
+        const paymentError = $("#paymentError");
+
+        showTermsBtn.on("click", function () {
+            const paymentMethods = $("[name='paymentoption_id']");
+            let paymentMethodSelected = false;
+
+            paymentMethods.each(function () {
+                if ($(this).prop("checked")) {
+                    paymentMethodSelected = true;
+                    return false; // exit the loop
+                }
+            });
+
+            if (paymentMethodSelected) {
+                // Append the product_id as a hidden input to the form
+                const productIdInput = $("<input>").attr({
+                    type: "hidden",
+                    name: "product_id",
+                    value: "{{ $product->id }}" // Use your dynamic value here
+                });
+
+                myForm.append(productIdInput);
+                termsPopup.modal("show");
+            }
+        });
+
+        acceptButton.on("click", function () {
+            if (acceptTermsCheckbox.prop("checked")) {
+                termsPopup.modal("hide");
+
+                // Submit the form using AJAX
+                $.ajax({
+                    type: myForm.attr("method"),
+                    url: myForm.attr("action"),
+                    data: myForm.serialize(),
+                    success: function (response) {
+                        // Handle the success response if needed
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        // Handle the error response if needed
+                        console.error(error);
+                    }
+                });
+            }
+        });
+
+        myForm.on("submit", function (e) {
+            console.log("Form submitted!");
+            if (!acceptTermsCheckbox.prop("checked") || !$("[name='paymentoption_id']:checked").length) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+
+    
+    
+    
+   
 </body>
 </html>

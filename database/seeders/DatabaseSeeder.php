@@ -172,11 +172,19 @@ class DatabaseSeeder extends Seeder
          ]);
 
          Statusorder::create([
-            'status'=> 'Cancelled'
+            'status'=> 'Cancelled by Seller'
          ]);
        
          Statusorder::create([
             'status'=> 'Processing'
+         ]);
+
+         Statusorder::create([
+            'status'=> 'Received by Buyer'
+         ]);
+
+         Statusorder::create([
+            'status'=> 'Cancelled by Buyer'
          ]);
 
          Subcategorie::create([

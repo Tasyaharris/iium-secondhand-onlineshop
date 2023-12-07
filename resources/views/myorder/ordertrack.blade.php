@@ -5,14 +5,14 @@
     <div class="table-container1" style="margin-left:52px;">
     <table class="selection1" >
       <tr>
-        <td class="clickable-row {{ Request::is('delivery') ? 'active' : ' ' }}" data-href="/delivery" style="width: 139px; ">
-          <a class="navbar-brand" href="/delivery" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
+        <td class="clickable-row {{ Request::is('deliveryorder') ? 'active' : ' ' }}" data-href="/deliveryorder" style="width: 139px; ">
+          <a class="navbar-brand" href="/deliveryorder" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
               <img src="/images/delivery.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
               Delivery
           </a>
       </td>
-      <td class="clickable-row {{ Request::is('receive') ? 'active' : ' ' }}" data-href="/receiveorder" style="width: 139px; ">
-          <a class="navbar-brand" href="/receive" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
+      <td class="clickable-row {{ Request::is('receiveorder') ? 'active' : ' ' }}" data-href="/receiveorder" style="width: 139px; ">
+          <a class="navbar-brand" href="/receiveorder" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
               <img src="/images/receive.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
               Receive
           </a>
