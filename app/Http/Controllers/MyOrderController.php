@@ -149,6 +149,7 @@ class MyOrderController extends Controller
             ->where('cancel_orders.username',auth()->user()->id)
             ->select('cancel_items.*')
             ->get(),
+            
             'cancel_orders'=>CancelOrder::join('cancel_items','cancel_orders.id','=','cancel_items.cancel_order_id')
             ->join('products','cancel_items.product_id','=','products.id')
             ->join('users','products.username','=','users.id')

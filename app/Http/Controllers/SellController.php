@@ -10,6 +10,8 @@ use App\Models\Nego;
 use App\Models\Subcategorie;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Support\Facades\DB;
 
 class SellController extends Controller
@@ -106,8 +108,12 @@ public function getSubcategoriesAjax($categoryId)
         // Attach selected subcategories to the product
         $product->subcategories()->attach($request->input('subcategory_ids'));
 
-    
-    
+        //Mail::send('emails\order_confirmation', $product->toArray(), function ($message) {
+        //    $message->to('test1@gamail.com', 'IIUM SECONDHAND')
+        //        ->subject('Product has been posted');
+        //});
+        
+
         return redirect('/profile')->with('success', 'New item has been added!');
 
     }

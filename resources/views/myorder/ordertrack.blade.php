@@ -31,6 +31,6 @@
       </td>
       </tr>
     </table>
-    </div>
+    </div>  
   </div>
   </nav>

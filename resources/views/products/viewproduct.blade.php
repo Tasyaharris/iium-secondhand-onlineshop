@@ -29,15 +29,15 @@
 
       <!--error messages-->
       @if(session()->has('error'))
-    <div class="alert alert-danger d-flex align-items-center" role="alert">
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
         <div>
             {{ session('error') }}
         </div>
         <button type="button" id="closeBtn" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-    </div>
-  @endif
+      </div>
+     @endif
 
   
 
@@ -158,6 +158,7 @@
                   <button type="submit" class="button button2 mt-2">Add to Cart</button>
                   </form>
                   <br>
+
                   <a href="{{ route('chat.show', $product->id) }}" class="button button3 mt-2">Chat</a>
                   @endif
 
@@ -168,13 +169,6 @@
           </div>
         
            <br>
-    
-            
-                
-          
-            
-            
-  
           </div>
     </div>
 

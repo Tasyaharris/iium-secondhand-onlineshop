@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\HelloEvent;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\MainpageController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\SellerProfileController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProcessOrderController;
 use App\Http\Controllers\SendEmailController;
+use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Contracts\Cache\Store;
 
 
@@ -116,7 +118,16 @@ Route::get('/afterbuy1', function () {
     ]);
 });
 
+Route::get('/send-event', function () {
+    $text = "Ths is test event";
+    broadcast(new HelloEvent($text));
+});
 
+
+//Route::get(uri:"send-event", function (){
+//      broadcast(new HelloEvent());
+//});
+//
 
 Route::get('/sendemail',[SendEmailController::class,'index']);
 
