@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
 
 class Order extends Model
 {
     use HasFactory;
+    use Notifiable;
     protected $fillable = ['username', 'product_id', 'order_date','totalOrder', 'paymentoption_id','paymentstatus_id','orderstatus_id'];
 
       public function user()

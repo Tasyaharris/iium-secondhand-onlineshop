@@ -26,7 +26,9 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\SellerProfileController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProcessOrderController;
+use App\Http\Controllers\SendEmailController;
 use Illuminate\Contracts\Cache\Store;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +45,7 @@ use Illuminate\Contracts\Cache\Store;
 
 Route::get('/', [MainpageController:: class, 'index']);
 
-Route::get('/homepage', [MainpageController:: class, 'index']);
+Route::get('/homepage', [MainpageController:: class, 'index'])->middleware('auth');
 
 
 
@@ -116,6 +118,9 @@ Route::get('/afterbuy1', function () {
 
 
 
+Route::get('/sendemail',[SendEmailController::class,'index']);
+
+
 Route::get('/product/search',[ProductController::class,'search']);
 
 Route::get('/orders',[ProcessOrderController::class,'getOrder'])->middleware('auth');
@@ -148,6 +153,7 @@ Route::get('/cancelorder',[MyOrderController::class,'cancelorder'])->middleware(
 //       "title" => "View Product",
 //  ]);
 //});
+
 
 Route::resource('likes', LikeController::class)->middleware('auth');
 Route::post('/likes', [LikeController::class,'store'])->middleware('auth');
@@ -211,3 +217,11 @@ Route::get('/get-subcategories/{category}', [SellController::class, 'getSubcateg
 Route::resource('/profile',ProfileController::class)->middleware('auth');
 
 Route::resource('/settings',UserProfileController::class)->middleware('auth');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->get('/mainpage',function(){
+    return view('mainpage');
+})->name('mainpage');

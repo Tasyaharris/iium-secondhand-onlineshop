@@ -12,10 +12,15 @@ use App\Models\Cart;
 use App\Models\OrderItem;
 use App\Models\CancelItem;
 use App\Models\CancelOrder;
+use App\Mail\SendEmailNotification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+
+
 
 class OrderController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */public function index()
@@ -132,7 +137,8 @@ class OrderController extends Controller
 
         // Create order item for each product in the order
         $orderItem = new OrderItem([
-            'product_id' => $productId,    
+            'product_id' => $productId,     
+            'email' => $product->user->email
         ]);
 
         // Save the order item
@@ -144,7 +150,12 @@ class OrderController extends Controller
          // Delete cart entry for the current product and authenticated user
          Cart::where('product_id', $productId)
          ->delete();
-    }
+
+        $user = $orderItem;
+         Mail::to($user)->send(new SendEmailNotification());
+
+
+     }
 
         return redirect('/afterbuy');
      }
@@ -330,12 +341,24 @@ class OrderController extends Controller
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option')
                 ->get(),
             'profiles' => Profile::where('username', auth()->user()->id)->get(),
-            'cancelorders' => CancelOrder::with('cancel_items','cancel_orders.id','cancel_items.cancel_order_id')
-                ->join('products','cancel_items.product_id','=','products.id')
-                ->join('users','products.username','=','users.id')
-                ->where('cancel_orders.username', auth()->user()->id)
-                ->select('cancel_orders.*')
-                ->get(),
+            'cancel_orders'=>CancelOrder::join('cancel_items','cancel_orders.id','=','cancel_items.cancel_order_id')
+            ->join('products','cancel_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where('cancel_orders.username',auth()->user()->id)
+            ->select('cancel_orders.*')
+            ->get(),
+
+            'cancel_items'=>CancelItem::join('cancel_orders','cancel_orders.id','=','cancel_items.cancel_order_id')
+            ->join('products','cancel_items.product_id','=','products.id')
+            ->join('users','products.username','=','users.id')
+            ->where(function ($query) {
+                $query->where('cancel_orders.orderstatus_id', '=', '7')
+                    ->orWhere('cancel_orders.orderstatus_id', '=', '4');
+            })
+            ->select('cancel_items.*')
+            ->get(),
+
+              
         ]);
     }
 

@@ -159,7 +159,6 @@
                               </button>
                             </form>
 
-                            <a href="{{ url('buy.destroy', $order_item->order->id) }}" style="margin-left:30px; color:black;border:none;background-color:white">Cancel Order</a>
                           
                             </div>
                         </div> 

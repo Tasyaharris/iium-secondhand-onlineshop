@@ -15,8 +15,6 @@ class CancelOrder extends Model
           return $this->belongsTo(User::class,'username');
       }
 
-      
-
       public function paymentstatus()
       {
           return $this->belongsTo(Statuspayment::class,'paymentstatus_id');
