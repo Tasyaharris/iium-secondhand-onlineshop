@@ -11,6 +11,8 @@ class SendEmailController extends Controller
 {
     //
     function index(){
-        SendEmailJob::dispatch();
+        //SendEmailJob::dispatch();
+        Mail::to('seller@gmail.com')->send(new SendEmailNotification());
+
     }
 }

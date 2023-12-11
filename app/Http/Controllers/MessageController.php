@@ -13,6 +13,8 @@ class MessageController extends Controller
      */
     public function index()
     {
+        $friends = User::whereNot("id", auth()->user()->id)->get();
+
         return view('chat',[
             'title' => "Message",
             'users' => User::where('id',auth()->user()->id)->get(),
@@ -20,7 +22,9 @@ class MessageController extends Controller
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-            ->get() 
+            ->get(),
+            
+
             
         ]);
     }
@@ -47,22 +51,21 @@ class MessageController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-    {
-         // Retrieve the product details based on the $id
-        
-         $product = Product::find($id);
-         $user = User::find($id);
-         
-         if (!$product) {
-            abort(404);
-        }
+{
+    $product = Product::find($id);
 
-         // Append the product ID to the title
-         $title = 'User - ' . $product->id;
-     
-         return view('chat', ['product' => $product, 'title' => $title]);
+    if (!$product) {
+        abort(404);
     }
 
+    $friends = User::where('id', '!=', auth()->user()->id)->get();
+
+    $title = 'User - ' . $product->id;
+
+    return view('chat', ['product' => $product,
+     'friends' => $friends,
+     'title' => $title]);
+}
     /**
      * Show the form for editing the specified resource.
      */

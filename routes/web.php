@@ -28,6 +28,9 @@ use App\Http\Controllers\SellerProfileController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProcessOrderController;
 use App\Http\Controllers\SendEmailController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\RoomController;
+
 use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Contracts\Cache\Store;
 
@@ -131,7 +134,6 @@ Route::get('/send-event', function () {
 
 Route::get('/sendemail',[SendEmailController::class,'index']);
 
-
 Route::get('/product/search',[ProductController::class,'search']);
 
 Route::get('/orders',[ProcessOrderController::class,'getOrder'])->middleware('auth');
@@ -181,7 +183,23 @@ Route::get('/discussion/{discussion}',[DiscussionController::class,'show']);
 
 Route::resource('/products',ProductController::class);
 
+//for contact the seller
 Route::resource('/chat',MessageController::class)->middleware('auth');
+
+//for chat message page
+Route::middleware("auth")->group(function (){
+    // chat
+    Route::prefix("chatpage")->name("chatpage")->group(function (){
+        Route::get("/", [ChatController::class, "index"])->name("index");
+        Route::post("/",[ChatController::class, "saveMessage"])->name('save');
+        Route::get("/load",[ChatController::class, "loadMessage"])->name('load');
+    });
+    //room
+    Route::post("/room", [RoomController::class, "create"])->name('room.create');
+    // logout
+    Route::get("/logout", [LoginController::class, "logout"])->name("logout");
+});
+
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
 Route::post('buyproduct',[OrderController::class,'addorder'])->middleware('auth');

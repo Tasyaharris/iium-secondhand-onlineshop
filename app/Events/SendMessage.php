@@ -10,18 +10,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-
-class HelloEvent implements ShouldBroadcast
+class SendMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $text;
+    public $roomId, $userId,$message;
     /**
      * Create a new event instance.
      */
-    public function __construct($text)
+    public function __construct($roomId, $userId,$message)
     {
-        $this->text = $text;
+        $this->roomId = $roomId;
+        $this->userId = $userId;
+        $this->message = $message;
     }
 
     /**
@@ -31,13 +31,6 @@ class HelloEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-       return new Channel(name:'hello-channel');
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            "data"=>$this->text
-        ];
+        return new PresenceChannel(name:'chat.'.$this->roomId);
     }
 }

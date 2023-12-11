@@ -45,87 +45,46 @@
        
         <div class="col-md-6">
           <!-- Content for the second half of the page -->
-          <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey; height:50px;">
-            <div class="seller">
-             <!--seller profile--> 
-              <div class="text-center" style="margin-left: 10px;">
-                <p> {{ $product->user->username }}</p>
-              </div>
-            </div>
-          </nav>
-
-          <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey; background: #D9D9D9">
-            <div class="product" style="display: flex; align-items: center;">
-             <!--product details--> 
-             <div class="col text-center" style="margin-left: 10px;">  
-              @if (is_array(json_decode($product->product_pic)))
-              @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
-                  <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
-                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="100" height="100" >
-                  </div>
-              @endif
-              </div>
-              
-              
-              <div class="row" style="margin-left:7px;">
-                <div class="col-md-8 mb-0"  >
-                    <p>{{ $product->product_name }}</p>
+          <section id="main-empty" class="main-right">
+            <p style="text-align: center; ">Welcome to Chat</p>
+        </section>
+        <section id="main-right" class="main-right hidden">
+            <!-- header -->
+            <div id="header-right" class="header-right">
+                <!-- profile pict -->
+                <div id="header-img" class="profile header-img">
+                    <img src="{{ asset("assets/images/ava2.jpg") }}" alt="">
                 </div>
-                <div class="col-md-12 mt-0">
-                  <small>RM {{ $product->product_price }}</small>
-                  <div id="negotiate-section">
-                      @if ($product->nego_id != 2)
-                          <button class="btn_items1" id="negotiate-button" onclick="toggleNegotiation()">Negotiate</button>
-                          <div class="negotiation-input " style="display: none; margin-top: 3px;" id="negotiation-input">
-                              <input type="text" class="form-control" id="negotiation-price" placeholder="RM 00.00">
-                              <button class="btn_items2" onclick="sendNegotiation()" style="margin-left: 5px;">Negotiate Price</button>
-                              <a href="#" onclick="cancelNegotiation()" style="text-decoration: none; color: black; margin-left: 3px; margin-top: 5px;">Cancel</a>
-                          </div>
-                      @endif
-                  </div>
-              </div>
-              </div>
-              
+    
+                <!-- name -->
+                <h4 class="name friend-name">Mario Gomez</h4>
             </div>
-           
-            
-          </nav>
-          
-          <div class="container room-chat d-flex justify-content-center align-items-center mb-0" style="height: 290px ;">
-            <h6 class="p-3 text-decoration-none d-inline" ></h6>
-          </div>
+    
+            <div class="container room-chat d-flex justify-content-center align-items-center mb-0" style="height: 290px ;">
+                <h6 class="p-3 text-decoration-none d-inline" ></h6>
+              </div>
 
             <!-- chat area -->
             <div id="chat-area" class="chat-area">
-          <!-- chat content -->
-
+                <!-- chat content -->
+    
             </div>
-
-
-
-          <!--typing message-->
-          <div class="typing-col mt-3">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16" >
-            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
-          </svg>
-          <div class="typing-area" id="typing-area">
+    
+                  <!-- typing area -->
+         <div class="typing-area" id="typing-area">
             <input id="type-area" class="type-area" placeholder="Type a message..." style="width: 500px;">
             <button class="btn_items " id="send-button">Send</button>
+
           </div>
-
-
-        </div>
+        </section>
         </div>
       </div>
     
-    
-    
-    <br>
-    
-  
     @include('partials.footer')
 
+    {{-- url --}}
+      <input type="hidden" name="" id="room-url" value="{{ route("room.create") }}">
+      @vite('resources/js/app.js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
 <script>

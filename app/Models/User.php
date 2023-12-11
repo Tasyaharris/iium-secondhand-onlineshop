@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\traits\GenUid;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -58,4 +62,25 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function products()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function canJoinRoom($roomId){
+
+        $granted = false;
+
+        $room = Room::findOrFail($roomId);
+        foreach($users as $id){
+            if($this->id == $id){
+                $granted = true;
+            } 
+        }
+        return $granted;
+    }
+
+ 
 }
+
