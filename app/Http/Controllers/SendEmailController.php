@@ -3,16 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Mail\SendEmailNotification;
 use Illuminate\Support\Facades\Mail;
-use App\Jobs\SendEmailJob;
+use Exception;
+use App\Mail\MailNotify;
 
 class SendEmailController extends Controller
 {
     //
     function index(){
-        //SendEmailJob::dispatch();
-        Mail::to('seller@gmail.com')->send(new SendEmailNotification());
+        $data =[
+            'subject' => 'IIUM SECOND-HAND ONLINE SHOP',
+            'body' => 'Test email'
+        ]; 
+        try{
+            Mail::to('salsabilatasya.syaa@gmail.com')->send(new MailNotify($data));
+            return response()->json(['email test']);
+        }catch(Exception $th){
+            return response()->json(['email test error']);
+        }
 
     }
 }

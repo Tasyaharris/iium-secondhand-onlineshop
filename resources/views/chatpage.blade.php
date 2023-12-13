@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
@@ -53,7 +55,7 @@
             <div id="header-right" class="header-right">
                 <!-- profile pict -->
                 <div id="header-img" class="profile header-img">
-                    <img src="{{ asset("assets/images/ava2.jpg") }}" alt="">
+                   
                 </div>
     
                 <!-- name -->
@@ -71,7 +73,7 @@
             </div>
     
                   <!-- typing area -->
-         <div class="typing-area" id="typing-area">
+         <div class="typing-area mb-2" id="typing-area">
             <input id="type-area" class="type-area" placeholder="Type a message..." style="width: 500px;">
             <button class="btn_items " id="send-button">Send</button>
 
@@ -80,34 +82,18 @@
         </div>
       </div>
     
+      <input type="hidden" id="room-url" value="{{ route("room.create") }}">
+      @vite('resources/js/app.js')
+
     @include('partials.footer')
 
     {{-- url --}}
-      <input type="hidden" name="" id="room-url" value="{{ route("room.create") }}">
-      @vite('resources/js/app.js')
+      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+ 
+    <script src="{{ asset("/js/chat.js") }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+ 
 
-<script>
-   function toggleNegotiation() {
-        document.getElementById('negotiate-button').style.display = 'none';
-        document.getElementById('negotiation-input').style.display = 'flex';
-    }
-
-    function cancelNegotiation() {
-        document.getElementById('negotiate-button').style.display = 'block';
-        document.getElementById('negotiation-input').style.display = 'none';
-    }
-
-    function sendNegotiation() {
-        // Handle the negotiation price here
-        var negotiatedPrice = document.getElementById('negotiation-price').value;
-        // You can send the negotiatedPrice to the server or perform any other necessary action
-        // For example, you might want to make an AJAX request to handle the negotiation.
-
-        // After handling the negotiation, you might want to hide the negotiation section
-        document.getElementById('negotiate-section').style.display = 'none';
-    }
-</script>
-<script src="{{ asset("/js/chat.js") }}"></script>
   </body>
 </html>

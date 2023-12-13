@@ -24,3 +24,5 @@ Broadcast::channel('chat.{roomId}', function (User $user, int $roomId) {
         return ['id' => $user->id, 'name' => $user->username];
     }
 });
+
+//Broadcast::routes(['middleware' => ['auth:sanctum']]);

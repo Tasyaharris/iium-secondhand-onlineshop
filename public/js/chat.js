@@ -1,3 +1,5 @@
+//import axios from "axios";
+
 document.addEventListener("DOMContentLoaded", function (e) {
     document.querySelector("#type-area").addEventListener("keydown", function (e) {
         if (e.key === 'Enter') {
@@ -10,15 +12,23 @@ document.addEventListener("DOMContentLoaded", function (e) {
         }
     });
 
+    // Add an event listener to the "Send" button
+    document.querySelector("#send-button").addEventListener("click", function () {
+        let input = document.querySelector("#type-area").value;
+        if (input !== "") {
+            sendMessage(input);
+            document.querySelector("#type-area").value = "";
+        }
+    });
+
     // handel click friend
     document.querySelectorAll(".friends").forEach(function (el) {
         el.addEventListener("click", function () {
             let id = el.getAttribute("data-id");
             let name = el.getAttribute("data-name");
-            let avatar = el.getAttribute("data-avatar");
+            
             // set chat room properties
             document.querySelector(".friend-name").innerHTML = name
-            document.querySelector(".header-img").innerHTML = `<img src="${avatar}" />`;
             createRoom(id)
         });
     });
@@ -61,7 +71,7 @@ function handelLeftMessage(message , avatar) {
     handel show hide chatbox
  */
 function showHideChatBox(show) {
-    if (show == true) {
+    if (show == true) { 
         document.getElementById("main-right").classList.remove("hidden")
         document.getElementById("main-empty").classList.add("hidden")
     } else {
@@ -76,9 +86,25 @@ function createRoom(friendId){
         formData.append("friend_id", friendId);
 
     axios.post(url, formData)
-        .then(function(res){
-            console.log(res)
-            showHideChatBox(true)
+        .then(function (res) {
+            let room = res.data.data;
+            
+            Echo.join(`chat.${room.id}`)
+            .here((users) => {
+                console.log("join channel chat success")
+            })
+            .joining((user) => {
+                console.log(user.name);
+            })
+            .leaving((user) => {
+                console.log(user.name);
+            })
+            .error((error) => {
+                console.error("Error joining channel:", error);
+              
+            });
+            showHideChatBox(true);
+         
         });
 
-}
+}   

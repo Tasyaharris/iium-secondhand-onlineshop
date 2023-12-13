@@ -73,6 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $granted = false;
 
         $room = Room::findOrFail($roomId);
+        $users = explode(":", $room->users);
         foreach($users as $id){
             if($this->id == $id){
                 $granted = true;

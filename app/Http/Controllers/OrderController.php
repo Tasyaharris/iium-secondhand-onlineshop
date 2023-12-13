@@ -151,8 +151,8 @@ class OrderController extends Controller
          Cart::where('product_id', $productId)
          ->delete();
 
-        $user = $orderItem;
-         Mail::to($user)->send(new SendEmailNotification());
+       // $user = $orderItem;
+         //Mail::to($user)->send(new SendEmailNotification());
 
 
      }

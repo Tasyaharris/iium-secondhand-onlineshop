@@ -30,6 +30,7 @@ use App\Http\Controllers\ProcessOrderController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ChannelAuthorizationController;
 
 use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Contracts\Cache\Store;
@@ -132,7 +133,7 @@ Route::get('/send-event', function () {
 //});
 //
 
-Route::get('/sendemail',[SendEmailController::class,'index']);
+Route::get('/sendmail',[SendEmailController::class,'index']);
 
 Route::get('/product/search',[ProductController::class,'search']);
 
@@ -195,10 +196,14 @@ Route::middleware("auth")->group(function (){
         Route::get("/load",[ChatController::class, "loadMessage"])->name('load');
     });
     //room
-    Route::post("/room", [RoomController::class, "create"])->name('room.create');
+    Route::post("/room", [RoomController::class, "create"])->name("room.create");
+    //broadcast auth
+    Route::post('/broadcasting/auth', [ChannelAuthorizationController::class, 'authorizeChannel']);
+
     // logout
     Route::get("/logout", [LoginController::class, "logout"])->name("logout");
 });
+
 
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
@@ -217,6 +222,12 @@ Route::get('/electronics',[ElectronicController::class,'index']);
 Route::get('/cosmetics',[CosmeticController::class,'index']);
 Route::get('/mahallah',[MahallahEquipmentController::class,'index']);
 Route::get('/others',[OthersController::class,'index']);
+
+Route::post('/filteredbook', [BookController::class, 'filterProducts'])->name('filter.products');
+Route::post('/filteredfashion', [FashionController::class, 'filterProducts'])->name('filter.fashion');
+Route::post('/sort-products', [BookController::class, 'sortProducts'])->name('sort.products');
+Route::post('/sort-fashions', [FashionController::class, 'sortProducts'])->name('sort.fashions');
+
 
 
 Route::get('/login', [LoginController:: class, 'index'])->name('login')->middleware('guest');

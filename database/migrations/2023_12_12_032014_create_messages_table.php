@@ -8,15 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->uuid("id")->primary();
             $table->foreignUuid("room_id")->constrained("rooms");
-            $table->foreignUuid("user_id")->constrained("users");
+            $table->foreignId("user_id")->constrained("users");
             $table->string("message");
             $table->timestamps();
         });
@@ -24,10 +22,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('messages');
     }
