@@ -30,6 +30,7 @@ use App\Http\Controllers\ProcessOrderController;
 use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ChannelAuthorizationController;
 
 use Chatify\Http\Controllers\Api\MessagesController;
@@ -149,6 +150,9 @@ Route::get('/cancelled',[ProcessOrderController::class,'cancelled'])->middleware
 
 Route::get('/sold',[SoldController::class,'sold'])->middleware('auth');
 
+//rate views
+Route::resource('/review',ReviewController::class)->middleware('auth');
+Route::get('/review/{id}',[ReviewController::class,'displayreview'])->middleware('auth');
 
 
 

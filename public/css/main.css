@@ -1,3 +1,18 @@
+html, body {
+    height: auto;
+    margin:0;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
 .parent{
     display: flex;
     gap: 10 px;
@@ -112,3 +127,15 @@ line-height: normal;
     box-sizing: border-box;
 }
 
+footer{
+    bottom: 0;
+}
+
+.dropdown-menu {
+    width: 100px; /* Adjust the width as needed */
+}
+
+/* Add this CSS to your stylesheet or within a <style> tag in the head of your HTML */
+.navbar-nav .dropdown-menu {
+    width: 100px; /* Adjust the width as needed */
+}

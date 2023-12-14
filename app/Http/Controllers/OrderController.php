@@ -182,11 +182,11 @@ class OrderController extends Controller
         if ($paymentoptionId == 1) {
             $validatedData['paymentstatus_id'] = 4;
             $validatedData['orderstatus_id'] = 5;
-            $product->productstatus_id = 1; // Set productstatus_id to 1
+            $product->productstatus_id = 1; 
         } else {
             $validatedData['paymentstatus_id'] = 2;
             $validatedData['orderstatus_id'] = 5;
-            $product->productstatus_id = 1; // Set productstatus_id to 1
+            $product->productstatus_id = 1; 
         }
     
         // Check if an existing order exists for the product and user
@@ -222,12 +222,9 @@ class OrderController extends Controller
             Cart::where('product_id', $productId)
                 ->delete();
     
-            return redirect('/afterbuy1');
-        } else {
-            // Handle the case where an existing order is found (optional)
-            // You might want to redirect or show a message to the user
-            return redirect('/afterbuy1');
-        }
+        } 
+
+        return redirect('/afterbuy1');
     }
     
 

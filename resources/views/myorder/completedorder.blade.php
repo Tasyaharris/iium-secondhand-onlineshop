@@ -84,13 +84,18 @@
                             <div class="card text-center d-inline justify-content-between" style="width: 670px; height: auto; margin-top: 0; margin-left: 0px;">
                               <div class="col d-flex mt-3">
                               <small style="margin-left:10px;">Order has been received</small>
-                              <a class="processBtn ms-auto" href="{{ url('prepare', $order_item->order->id) }}" style="border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 80px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">Rate</a>
-                              </div>
+                              @if($order_item->rstatus == true)             
+                                 <a class="processBtn ms-auto" href="{{ route('review.show', $order_item->order->id) }}" style="border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 110px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">View Review</a>
+                             @else
+                                 <!-- If rstatus is false, display "Review" button -->
+                                 <a class="processBtn ms-auto" href="{{ route('review.show', $order_item->order->id) }}" style="border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 80px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">Review</a>
+                             @endif
+                            </div>
                             </div>
 
                           
                           
-                          
+                        
                           </div>
                         </div>
                         

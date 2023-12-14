@@ -12,7 +12,7 @@
           <li class="nav-item">
             <a class="nav-link {{ ($title === "Fashion") ? 'active' : ' ' }}" aria-current="page" href="/fashion">FASHION</a>
           </li>
-          <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link {{ ($title === "Books") ? 'active' : ' ' }}" aria-current="page" href="/books">BOOKS</a>
           </li>
           <li class="nav-item">
@@ -57,14 +57,14 @@
                 {{ auth()->user()->username }}
              </a>
               <ul class="dropdown-menu">
-               <li><a class="dropdown-item" href="/profile">Profile</a></li>
+               <li><a class="dropdown-item" href="/profile" style="width:100px;">Profile</a></li>
                <li><hr class="dropdown-divider"></li>
-               <li><a class="dropdown-item" href="/settings">Settings</a></li>
+               <li><a class="dropdown-item" href="/settings" style="width:100px;">Settings</a></li>
                <li><hr class="dropdown-divider"></li>
                <li>
                   <form action="/logout" method="post">
                     @csrf
-                    <button type="submit" class="dropdown-item">
+                    <button type="submit" class="dropdown-item" style="width:100px;">
                       Logout
                     </button>
                   </form>
