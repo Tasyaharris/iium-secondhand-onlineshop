@@ -225,9 +225,16 @@ Route::get('/others',[OthersController::class,'index']);
 
 Route::post('/filteredbook', [BookController::class, 'filterProducts'])->name('filter.products');
 Route::post('/filteredfashion', [FashionController::class, 'filterProducts'])->name('filter.fashion');
+Route::post('/filteredelectronic', [ElectronicController::class, 'filterProducts'])->name('filter.electronics');
+Route::post('/filteredelcosmetic', [CosmeticController::class, 'filterProducts'])->name('filter.cosmetics');
+Route::post('/filteredelother', [OthersController::class, 'filterProducts'])->name('filter.others');
+
+
 Route::post('/sort-products', [BookController::class, 'sortProducts'])->name('sort.products');
 Route::post('/sort-fashions', [FashionController::class, 'sortProducts'])->name('sort.fashions');
-
+Route::post('/sort-electronics', [ElectronicController::class, 'sortProducts'])->name('sort.electronics');
+Route::post('/sort-cosmetics', [CosmeticController::class, 'sortProducts'])->name('sort.cosmetics');
+Route::post('/sort-others', [OthersController::class, 'sortProducts'])->name('sort.others');
 
 
 Route::get('/login', [LoginController:: class, 'index'])->name('login')->middleware('guest');
