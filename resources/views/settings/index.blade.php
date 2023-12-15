@@ -24,7 +24,19 @@
       <div class="row g-3 ">
        
         <div class="col-md-4">
-          
+          <div class="card mt-5" style="border: none;">
+            <div class="card-body" style="border: none;">             
+                <ul class="list-group" >
+                    <li class="list-group-item">
+                        <a href="" style="text-decoration: none; color:black;">Reset Password</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="/bank" style="text-decoration: none; color:black;">Add Bank Account Details</a>
+                    </li>
+                    <!-- Add more dashboard options as needed -->
+                </ul>
+            </div>
+        </div>
         </div>
    
 
@@ -41,24 +53,21 @@
                     @csrf
                     
                      <!-- Image-->
-                    <div class="inp-img" style="margin-top:30px;" >
+                     <div class="inp-img" style="margin-top:30px;">
                       <h5>Profile Photo</h5>
-                     
                       <div class="d-flex flex-column align-items-center justify-content-center">
-                      
-                        <div class="img">
-                        <div class="profile-picture" id="selectedImagesContainer"></div>
+                         <div class="img">
+                            <div class="profile-picture" id="selectedImagesContainer"></div>
+                         </div>
+                         <div class="btn_upload mt-3">
+                            <label class="form-label m-1 " for="customFile1">
+                               Upload Photos
+                            </label>
+                            <input type="file" class="form-control d-none" id="customFile1" name="profile_pic" accept=".png, .jpg, .jpeg" onchange="displaySelectedImages(this)" />
+                         </div>
                       </div>
-
-                      <div class="btn_upload mt-3">
-                        <label class="form-label m-1 " for="customFile1">
-                            Upload Photos
-                        </label>
-                        <input type="file" class="form-control d-none" id="customFile1" name="images[]" multiple required  required accept=".png, .jpg, .jpeg" onchange="displaySelectedImages(this)" />        
-                      </div>
-                      
-                      </div>
-                    </div>
+                   </div>
+                   
 
                     <div class="profile-details">
 

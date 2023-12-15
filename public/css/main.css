@@ -7,6 +7,8 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    min-height: 100vh; /* This ensures the body takes at least the full height of the viewport */
+    margin: 0;
 }
 
 .container {
@@ -97,6 +99,10 @@ line-height: normal;
     margin-top: 1px;
 }
 
+.wrapper {
+    flex: 1; /* This makes the wrapper div take up the remaining space */
+  }
+
 /* Custom styles for the previous button */
 .custom-prev {
     position: absolute;
@@ -127,8 +133,10 @@ line-height: normal;
     box-sizing: border-box;
 }
 
-footer{
+.footer{
+   
     bottom: 0;
+    width: 100%;
 }
 
 .dropdown-menu {

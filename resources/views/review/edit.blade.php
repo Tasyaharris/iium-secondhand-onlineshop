@@ -32,8 +32,9 @@
     
     <div class="order-desc">
         <!--product-details-->
-        <form method="post" action="{{ url('review')}}">
+        <form method="post" action="/review/{{$order->id}}">
         @csrf
+        @method('PUT')
         <nav style="height: auto;border: 1px solid #000; ">
             @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)    
             <!--seller name-->
@@ -81,16 +82,15 @@
                       <a  class=" p-3  text-decoration-none d-inline" style="color: #000">Product Quality</a>
                       <div class="rating-css" style="margin-left: 380px; margin-right: 30px;">
                         <div class="star-icon"  style="display: flex;">
-                            <input type="radio" value="1" name="product_rating[{{ $order_item->id }}]" checked id="rating1_{{ $order_item->id }}">
-                            <label for="rating1_{{ $order_item->id }}"><i class="fas fa-star"></i></label>
-                            <input type="radio" value="2" name="product_rating[{{ $order_item->id }}]" id="rating2_{{ $order_item->id }}">
-                            <label for="rating2_{{ $order_item->id }}"><i class="fas fa-star "></i></label>
-                            <input type="radio" value="3" name="product_rating[{{ $order_item->id }}]" id="rating3_{{ $order_item->id }}">
-                            <label for="rating3_{{ $order_item->id }}"><i class="fas fa-star "></i></label>
-                            <input type="radio" value="4" name="product_rating[{{ $order_item->id }}]" id="rating4_{{ $order_item->id }}">
-                            <label for="rating4_{{ $order_item->id }}"><i class="fas fa-star "></i></label>
-                            <input type="radio" value="5" name="product_rating[{{ $order_item->id }}]" id="rating5_{{ $order_item->id }}">
-                            <label for="rating5_{{ $order_item->id }}"><i class="fas fa-star "></i></label>
+                            @php
+                            $maxStars = 5; // Maximum number of stars
+                            $userRating = $order_item->review ? $order_item->review->rating : 0;
+                            @endphp
+
+                            @for ($i = 1; $i <= $maxStars; $i++)
+                            <input type="radio" value="{{ $i }}" name="product_rating[{{ $order_item->id }}]" id="rating{{ $i }}_{{ $order_item->id }}" @if($i == $userRating) checked @endif>
+                            <label for="rating{{ $i }}_{{ $order_item->id }}"><i class="fas fa-star"></i></label>
+                            @endfor
                         </div>
                     </div>
                     </div>
@@ -100,7 +100,11 @@
                 <nav class="navbar navbar-expand-lg " style="height: auto;border: 1px solid #000;">
                     <div  style="margin-left:30px;display:flex;align-items:center;">
                       <a  class=" p-3  text-decoration-none d-inline" style="color: #000">Comment:</a>
-                      <textarea class="form-control mt-3" id="comment"  name="comment[{{ $order_item->id }}]" placeholder="Type comment here" style="height: 50px;border:none;margin-left:7px;width:1100px;"></textarea>
+                      @foreach($reviews as $review)
+                      @if($review->order_item_id == $order_item->id)
+                      <input type="text" class="form-control" id="comment" name="comment[{{ $order_item->id }}]" placeholder="Type comment here" style="height: 50px; border:none; margin-left:7px; width:1100px;" value="{{ old("comment", $review->comment) }}">
+                      @endif
+                     @endforeach
                     </div>
                 </nav>
             </nav>
@@ -114,16 +118,15 @@
             <a  class=" p-3  text-decoration-none d-inline" style="color: #000">Seller Services</a>
             <div class="seller-css" style="margin-left: 380px; margin-right: 30px;">
               <div class="sellerstar-icon"  style="display: flex;">
-                  <input type="radio" value="1" name="seller_rating" checked id="rating6">
-                  <label for="rating6"><i class="fas fa-star "></i></label>
-                  <input type="radio" value="2" name="seller_rating" id="rating7">
-                  <label for="rating7"><i class="fas fa-star "></i></label>
-                  <input type="radio" value="3" name="seller_rating" id="rating8">
-                  <label for="rating8"><i class="fas fa-star "></i></label>
-                  <input type="radio" value="4" name="seller_rating" id="rating9">
-                  <label for="rating9"><i class="fas fa-star "></i></label>
-                  <input type="radio" value="5" name="seller_rating" id="rating10">
-                  <label for="rating10"><i class="fas fa-star "></i></label>
+                @php
+                $maxStars = 5; // Maximum number of stars
+                $sellerRating = $order_item->review ? $order_item->review->services : 0;
+                @endphp
+
+                @for ($i = 1; $i <= $maxStars; $i++)
+                <input type="radio" value="{{ $i }}" name="seller_rating" id="services{{ $i }}" @if($i == $sellerRating) checked @endif>
+                <label for="services{{ $i }}"><i class="fas fa-star"></i></label>
+                @endfor
               </div>
           </div>
           </div>
@@ -132,7 +135,7 @@
     <!--submit button-->
     <nav class="navbar navbar-expand-lg " style="height: 60px;border: 1px solid #000;">
         <div class="col d-flex mt-3" style="margin-right: 15px;">
-        <button type="submit" class="processBtn ms-auto" style="margin-right: 15px;border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 80px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">Review</a>
+        <button type="submit" class="processBtn ms-auto" style="margin-right: 15px;border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 90px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">Update Review</a>
         </div>
     </nav>
 

@@ -42,12 +42,13 @@
               <div class="table-container">
               <table class="selection">
                 <tr>
-                  <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                    <a href="/listings">Products</a>
+                  <td class="clickable-row {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="{{ route('sellerprofile.show',$profile->id) }}">
+                    <a href="{{ route('sellerprofile.show',$profile->id) }}">Products</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/sellerreviews/{{ $profile->id }}">
+                  <td class="clickable-row active{{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/sellerreviews/{{ $profile->id }}">
                     <a href="/sellerreviews/{{ $profile->id }}">Reviews</a>
                   </td>
+                  
                 </tr>
               </table>
               </div>
@@ -57,59 +58,67 @@
         <div class="container-under-table" style="">
             <!-- Your container content under the table goes here -->
             <div class="products-listing">
-              <div class="row g-2" >
-                @foreach($products as $product)
-                <div class="col ">
-                  <a href="{{ url('products', ['id' => $product->id]) }}" class="card-link" style="text-decoration: none; color:black;">
-                    <div class="card  text-center mb-3 " style="width: 210px; height: 250px;">
-                      <div class="card-body d-flex flex-column">
-                        <div class="img text-center mb-1">
-                            @if ($product->product_pic)
-                            @if (is_array(json_decode($product->product_pic)))
+                <div class="row g-2" >
+                  @foreach ($order_items as $order_item)
+                  <div class="col">
+                    <div class="card  text-center " style="width: 670px; height: auto;">
+                        <div class="card-body d-flex flex-column">
+                         <h6 id="buyer_name" style="text-align: left;">{{  $order_item->order->user->username }}</h6>
+                         <div class="review" style="text-align:left;">
+                         <div class="rating-css">
+                            {{ $order_item->review->rating }}/5
+                            @php
+                              $maxStars = 5;
+                              $productRating = $order_item->review ? $order_item->review->rating : 0;
+                            @endphp
+  
+                            @for ($i = 1; $i <= $maxStars; $i++)
+                              @if ($i <= $productRating)
+                                <i class="fas fa-star checked" value="{{ $i }}" name="product_rating[{{ $order_item->id }}]" id="rating{{ $i }}_{{ $order_item->id }}"></i>
+                              @else
+                                <i class="fas fa-star" value="{{ $i }}" name="product_rating[{{ $order_item->id }}]" id="rating{{ $i }}_{{ $order_item->id }}"></i>
+                              @endif
+                            @endfor
+                            </div>
+                            <div class="comment">
+                            <small>{{ $order_item->review->comment }}</small>
+                            </div>
+                         </div>
+                         <div class="container-product mt-2" style="border: 1px solid black;">
+                          <div class="name" style="text-align: left;margin-left:5px;">
+                          <small id="product_name" style="font-weight:bold;">{{  $order_item->product->product_name }}</small>
+                         </div>
+                          <div class="item-order mt-1" style="display: flex; align-items: center; margin-left:10px; ">
+                          <div class="img text-center mb-1">
+                            @if ($order_item->product->product_pic)
+                            @if (is_array(json_decode($order_item->product->product_pic)))
                             <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
                               <div class="carousel-inner">
-                                  @foreach(json_decode($product->product_pic) as $index => $imagePath)
+                                  @foreach(json_decode($order_item->product->product_pic) as $index => $imagePath)
                                       <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                          <img src="{{ asset('storage/' . $imagePath) }}"  width="100" height="100" alt="Image {{ $index + 1 }}">
+                                          <img src="{{ asset('storage/' . $imagePath) }}"width="30" height="30"  alt="Image {{ $index + 1 }}">
                                       </div>
                                   @endforeach
                               </div>
                             </div>
                             @else
-                            <img src="{{ asset('storage/' . $product->product_pic) }}" width="100" height="100">
+                            <img src="{{ asset('storage/' . $order_item->product->product_pic) }}" width="100" height="100">
                             @endif
                            @endif
-                        </div>
-                        
-                        <div class="prod-desc mt-1 flex-grow-1">
-                        <h6 id="product_name" >{{ $product->product_name }}</h6>
-                        <small id="price" id="price" > RM {{ $product->product_price }}</small>
-                        <small id="seller_option"> ({{ $product->nego_option }})</small>
-                        <br>
-                        <small id="condition">{{ $product->condition_name }}</small>    
-                       
-                        </div>
-                        <!--like-->
+                          </div>
                           
-                        <form method="post" action="{{ url('likes') }}" id="addLike" style="text-align: left;">
-                          @csrf
-                          <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}  ">
-                          <button type="submit" class="heart-button " data-product-id="{{ $product->id }}" style="cursor: pointer; border: none; background: none; margin-bottom:50px; ">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="black" class="bi-heart-fill liked-heart" viewBox="-1 -1 18 14" id="heart-icon">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                            </svg>
-                        </button>                                            
-                        </form>
-                       
-                      </div> 
-                    </div>
-                  </a>
-                    
+                          <div class="row product-desc ma-auto" style="display: flex; justify-content: left; text-align:left; margin-left:7px;">
+                          <small id="price" > RM {{ $order_item->product->product_price}}</small>
+                          </div>
+                        </div>
+                        </div>
+                        </div> 
+                      </div>
+                  </div>
+                  @endforeach
+              
                 </div>
-                @endforeach
               </div>
-
-            </div>
           
         </div>
         </div>

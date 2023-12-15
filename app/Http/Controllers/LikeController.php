@@ -65,7 +65,6 @@ class LikeController extends Controller
             $liked = true;
         }
     
-      
         return response()->json(['liked' => $liked]);
 
     }

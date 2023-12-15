@@ -26,7 +26,12 @@
             <div class="user-info">
               @foreach ($profiles as $profile)
               <div class="flex-container">
-                <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
+                @if ($profile->profile_pic)
+                <img class="profile-picture" src="{{ asset($profile->profile_pic) }}" alt="User Profile Picture">
+                @else
+                  <!-- Default image if profile_pic is not set -->
+                  <img class="profile-picture" src="{{ asset('images/default-profile-pic.png') }}" alt="Default Profile Picture">
+                @endif
                 <div class="uname">
                   <div class="nameuser">
                     <h6 >{{ $profile->first_name }} </h6>
@@ -58,8 +63,8 @@
                 <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/profile">My Listings</a>
                 </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews">Reviews</a>
+                <td class="clickable-row {{ Request::is('productreview') ? 'active' : ' ' }}" data-href="/productreview">
+                  <a href="/productreview">Reviews</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>
@@ -182,12 +187,7 @@
                     
                 @endforeach
                 
-            
-                
-      
               </div>
-        
-
             </div>
           </div>
        

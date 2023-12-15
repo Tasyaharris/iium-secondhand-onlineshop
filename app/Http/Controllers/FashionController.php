@@ -95,6 +95,12 @@ class FashionController extends Controller
             'minPrice' => $minPrice,
             'maxPrice' => $maxPrice,
         ])->render();
+
+        // Check if there are no products
+        if ($products->isEmpty()) {
+            $message = 'No products match the filtering criteria.';
+            return response()->json(['view' => $view, 'message' => $message]);
+        }
     
         return response()->json(['view' => $view]);
     }

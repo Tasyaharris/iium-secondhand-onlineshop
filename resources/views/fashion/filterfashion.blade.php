@@ -196,12 +196,12 @@ function updateProducts(response) {
    // Clear the existing products in the #products-section
    $('#products-section').empty();
     // Check if the response is not empty and contains products
-    if (response && response.view) {
+    if (response && response.view ) {
         // Replace the content of #products-section with the HTML from the server
         $('#products-section').html(response.view);
     } else {
-       // Handle the case where no products are returned or the response is empty
-       var message = response && response.view ? 'No products found.' : 'There is no product.';
+         // Handle the case where no products are returned or the response is empty
+         var message = response && response.message ? response.message : 'No products found.';
         $('#products-section').html('<div class="username"><h6>' + message + '</h6></div>');
     }
 }

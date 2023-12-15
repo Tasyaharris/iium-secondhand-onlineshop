@@ -23,7 +23,7 @@
          {{ session('success') }}
          <button type="button" id="closeBtn" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-      </button>
+         </button>
        </div>
        @endif
 

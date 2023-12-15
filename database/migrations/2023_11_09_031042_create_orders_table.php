@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date("order_date");
             $table->decimal("totalOrder");
             $table->foreignId("paymentoption_id");
+            $table->string("paymentProof");
             $table->foreignId("paymentstatus_id");
             $table->foreignId("orderstatus_id");
             $table->timestamps();

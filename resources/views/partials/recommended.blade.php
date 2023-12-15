@@ -3,7 +3,7 @@
   <div class="max-width">
     <div class="explore-content">
       <div class="text-1">
-        <p class= "p-3"  style ="font-weight: bold;font-size:20px"> RECOMMENDED </p>
+        <p class= "p-3"  style ="font-weight: bold;font-size:20px"> FOR SALE </p>
       </div>
       <div id="carouselExampleFade" class="carousel slide" style="height: 350px;">
         <div class="carousel-inner">
@@ -35,9 +35,6 @@
                                             <br>
                                             <small id="condition">{{ $product->condition_name }}</small>
                                             <br>
-                                            
-                                           
-                                             
                                             <form method="post" action="{{ url('likes') }}" id="addLike">
                                               @csrf
                                               <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}  ">
@@ -47,7 +44,6 @@
                                                 </svg>
                                             </button>                                            
                                             </form>
-        
                                         </div>
                                       
                                        
@@ -77,58 +73,57 @@
    
   </div>
 </section>
-
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
- $(document).ready(function() {
-    // Function to get liked status from localStorage for a specific product
-    function getLikedStatus(productId) {
-        return localStorage.getItem('liked_' + productId) === 'true';
-    }
-
-    // Function to set liked status in localStorage for a specific product
-    function setLikedStatus(productId, liked) {
-        localStorage.setItem('liked_' + productId, liked);
-    }
-
-    // Set the initial heart icon color for each item based on the liked status
-    $('.bi-heart-fill').each(function() {
-        var productId = $(this).closest('.heart-button').data('product-id');
-        var liked = getLikedStatus(productId);
-        $(this).attr('fill', liked ? 'red' : 'white');
-        $(this).attr('stroke', liked ? 'red' : 'black');
-    });
-
-    $(document).on('click', '.heart-button', function(event) {
-        event.preventDefault();
-
-        // Store the value of 'this' in a variable
-        var clickedButton = $(this);
-
-        // Retrieve the product ID from the data attribute
-        var productId = clickedButton.data('product-id');
-
-        $.ajax({
-            url: "{{ url('likes') }}",
-            data: { product_id: productId, _token: "{{ csrf_token() }}" },
-            type: 'post',
-            success: function(result) {
-                var liked = result.liked;
-
-                // Log the value of 'liked' to check if it's being correctly set
-                console.log('Liked:', liked);
-
-                // Change the heart color based on the result
-                var heartIcon = clickedButton.find('.bi-heart-fill');
-                heartIcon.attr('fill', liked ? 'red' : 'white');
-                heartIcon.attr('stroke', liked ? 'red' : 'black');
-
-                // Store the liked status in localStorage for this specific product
-                setLikedStatus(productId, liked);
-            }
-        });
-    });
-});
-
-</script>
+  $(document).ready(function() {
+     // Function to get liked status from localStorage for a specific product
+     function getLikedStatus(productId) {
+         return localStorage.getItem('liked_' + productId) === 'true';
+     }
+ 
+     // Function to set liked status in localStorage for a specific product
+     function setLikedStatus(productId, liked) {
+         localStorage.setItem('liked_' + productId, liked);
+     }
+ 
+     // Set the initial heart icon color for each item based on the liked status
+     $('.bi-heart-fill').each(function() {
+         var productId = $(this).closest('.heart-button').data('product-id');
+         var liked = getLikedStatus(productId);
+         $(this).attr('fill', liked ? 'red' : 'white');
+         $(this).attr('stroke', liked ? 'red' : 'black');
+     });
+ 
+     $(document).on('click', '.heart-button', function(event) {
+         event.preventDefault();
+ 
+         // Store the value of 'this' in a variable
+         var clickedButton = $(this);
+ 
+         // Retrieve the product ID from the data attribute
+         var productId = clickedButton.data('product-id');
+ 
+         $.ajax({
+             url: "{{ url('likes') }}",
+             data: { product_id: productId, _token: "{{ csrf_token() }}" },
+             type: 'post',
+             success: function(result) {
+                 var liked = result.liked;
+ 
+                 // Log the value of 'liked' to check if it's being correctly set
+                 console.log('Liked:', liked);
+ 
+                 // Change the heart color based on the result
+                 var heartIcon = clickedButton.find('.bi-heart-fill');
+                 heartIcon.attr('fill', liked ? 'red' : 'white');
+                 heartIcon.attr('stroke', liked ? 'red' : 'black');
+ 
+                 // Store the liked status in localStorage for this specific product
+                 setLikedStatus(productId, liked);
+             }
+         });
+     });
+ });
+ 
+ </script>

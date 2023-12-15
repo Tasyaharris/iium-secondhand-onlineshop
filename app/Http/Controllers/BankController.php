@@ -3,17 +3,19 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 
-class UserProfileController extends Controller
+
+class BankController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('settings.index',[
-            'title' => "Settings",
+        return view('payment.index',[
+            'title' => "Bank Details",
             'users' => User::where('id',auth()->user()->id)->get(),
             'profiles' => Profile::where('username',auth()->user()->id)->get(),
             'oldInput' => session('oldInput') ?? []
@@ -25,10 +27,10 @@ class UserProfileController extends Controller
      */
     public function create()
     {
-        return view('settings.index',[
-            'title' => "Settings",
+        return view('payment.index',[
+            'title' => "Bank Details",
             'users' => User::where('id',auth()->user()->id)->get(),
-            'profiles' => Profile::all()
+            'profiles' => Profile::where('username',auth()->user()->id)->get()
         ]);
     }
 
@@ -37,41 +39,33 @@ class UserProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'profile_pic'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'first_name' => 'required',
-            'last_name'=> 'required',
-            'phone_number' => 'required',
-            'mahallah' => 'required',
-            'kuliyyah' => 'required',
-            'bio' => 'required'
-            
-        ]);
        
-    
-        $validatedData['gender']= " ";
-        $validatedData['username'] = auth()->user()->id;
+        $validatedData = $request->validate([
+            'accountNumber'=>'required',
+            'bankName'=>'required'
+        ]);
+
+        $validatedData['user_id'] = auth()->user()->id;
 
         // Check if the user already has a profile
-         $existingProfile = Profile::where('username', auth()->user()->id)->first();
+        $existingBank = Bank::where('user_id', auth()->user()->id)->first();
 
-        if ($existingProfile) {
+        if ($existingBank) {
             // If a profile already exists, update it
-            $existingProfile->update($validatedData);
+            $existingBank->update($validatedData);
         } else {
             // If no profile exists, create a new one
-            Profile::create($validatedData);
+            Bank::create($validatedData);
         }
     
-        
-    
-        return redirect('/settings')->with('success', 'Your profile has been updated!')->withInput();;
+        return redirect('/bank')->with('success', 'Your bank account has been stored!')->withInput();;
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile)
+    public function show(Bank $bank)
     {
         //
     }
@@ -79,7 +73,7 @@ class UserProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Profile $profile)
+    public function edit(Bank $bank)
     {
         //
     }
@@ -87,7 +81,7 @@ class UserProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request, Bank $bank)
     {
         //
     }
@@ -95,7 +89,7 @@ class UserProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Profile $profile)
+    public function destroy(Bank $bank)
     {
         //
     }

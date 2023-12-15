@@ -4,6 +4,16 @@ body, h1, h2, p, ul, li {
     padding: 0;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-container {
+  flex-grow: 1;
+}
+
 .user-profile {
     flex: 1;
     max-width: 150px;
@@ -47,6 +57,7 @@ body, h1, h2, p, ul, li {
 
 .profile-picture {
     max-width: 100px;
+    max-height: 100px;
     border-radius: 50%;
 }
 
@@ -138,6 +149,9 @@ td{
     
   }
 
+  .review{
+    text-align:left;
+  }
   .img{
     margin-top: 0;
   }
@@ -227,4 +241,62 @@ td{
 
 .heart-red {
   color: red;
+}
+
+/* product */
+.rating-css div {
+  color: #ffe400;
+  font-size: 10px;
+  font-family: sans-serif;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 20px 0;
+}
+
+.rating-css input {
+  display: none;
+}
+.rating-css.checked{
+  color: yellow;
+}
+
+.rating-css input:checked + label ~ label {
+  color: yellow;
+}
+
+
+/* seller */
+.seller-css div {
+  color: #ffe400;
+  font-size: 10px;
+  font-family: sans-serif;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 20px 0;
+}
+
+.seller-css.checked{
+  color: yellow;
+}
+
+.seller-css input {
+  display: none;
+}
+
+
+.seller-css input:checked + label ~ label {
+  color: yellow;
+}
+
+.checked {
+  color:#FFEA00; /* or any other color you want for checked stars */
+}
+
+.container-product{
+  border: 1px solid black;
+  border-radius: 7px;
+  height: auto;
+  background-color: #D9D9D9;
 }

@@ -60,8 +60,8 @@
                 <td class="clickable-row  {{ Request::is('profile') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/profile">My Listings</a>
                 </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews">Reviews</a>
+                <td class="clickable-row {{ Request::is('productreview') ? 'active' : ' ' }}" data-href="/productreview">
+                  <a href="/productreview">Reviews</a>
                 </td>
                 <td class="clickable-row active {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>

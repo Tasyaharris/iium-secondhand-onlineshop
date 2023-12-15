@@ -31,6 +31,7 @@ use App\Http\Controllers\SendEmailController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\ChannelAuthorizationController;
 
 use Chatify\Http\Controllers\Api\MessagesController;
@@ -95,11 +96,11 @@ Route::get('/community', function () {
 
 
 
-Route::get('/feedback', function () {
-    return view('feedback',[
-        "title" => "Feedback",
-    ]);
-});
+//Route::get('/feedback', function () {
+//    return view('feedback',[
+//        "title" => "Feedback",
+//    ]);
+//});
 
 
 Route::get('/createdisc', function () {
@@ -153,6 +154,10 @@ Route::get('/sold',[SoldController::class,'sold'])->middleware('auth');
 //rate views
 Route::resource('/review',ReviewController::class)->middleware('auth');
 Route::get('/review/{id}',[ReviewController::class,'displayreview'])->middleware('auth');
+Route::get('/review/{id}/edit',[ReviewController::class,'edit'])->name('review.edit')->middleware('auth');
+
+//product review in profile 
+Route::get('/productreview',[ReviewController::class,'index'])->middleware('auth');
 
 
 
@@ -180,6 +185,7 @@ Route::post('/like.destroy', 'LikeController@destroy')->name('like.destroy')->mi
 
 Route::get('/sellerprofile',[SellerProfileController::class,'index']);
 Route::get('/sellerprofile/{id}',[SellerProfileController::class,'show'])->name('sellerprofile.show');
+Route::get('/sellerreviews/{id}',[SellerProfileController::class,'sellerreview']);
 
 
 Route::resource('/discussion', DiscussionController::class)->middleware('auth');
@@ -269,10 +275,13 @@ Route::resource('/profile',ProfileController::class)->middleware('auth');
 
 Route::resource('/settings',UserProfileController::class)->middleware('auth');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->get('/mainpage',function(){
-    return view('mainpage');
-})->name('mainpage');
+Route::resource('/bank',BankController::class)->middleware('auth');
+
+
+//Route::middleware([
+//    'auth:sanctum',
+//    config('jetstream.auth_session'),
+//    'verified'
+//])->get('/mainpage',function(){
+//    return view('mainpage');
+//})->name('mainpage');
