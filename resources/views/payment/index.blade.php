@@ -42,6 +42,11 @@
       <div class="row g-3 ">
        
         <div class="col-md-4">
+          <a href="javascript:history.back();" style="text-decoration: none; color: black; margin-left:10px; margin-top:20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16" style="text-decoration: none; color: black; margin-left:10px; margin-top:20px;">
+                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+            </svg>
+        </a>
           <div class="card mt-5" style="border: none;">
             <div class="card-body" style="border: none;">             
                 <ul class="list-group" >
@@ -81,6 +86,16 @@
                             <label for="bankName">Name of the Bank</label>
                         </div>
                         
+                        <div class="form-floating mb-3 " style="margin-top: 40px;">
+                          <input type="text" name="nameInBank" class="form-control @error('nameInBank') is-invalid @enderror" id="nameInBank"  required value="{{ old('nameInBank', isset($oldInput['nameInBank']) ? $oldInput['nameInBank'] : (isset($banks[0]->nameInBank) ? $banks[0]->nameInBank : '')) }}" maxlength="255" style="text-transform: capitalize;">
+                          @error('nameInBank')
+                          <div class="invalid-feedback">
+                              {{ $message }}
+                          </div>
+                          @enderror
+                          <label for="nameInBank">Your Name in Bank Account</label>
+                      </div>
+
                         <div class="form-floating mb-3 " style="margin-top: 40px;">
                             <input type="text" name="accountNumber" class="form-control @error('accountNumber') is-invalid @enderror" id="accountNumber"  required value="{{ old('accountNumber', isset($oldInput['accountNumber']) ? $oldInput['accountNumber'] : (isset($banks[0]->accountNumber) ? $banks[0]->accountNumber : '')) }}" maxlength="255" style="text-transform: capitalize;">
                             @error('accountNumber')

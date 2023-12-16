@@ -60,6 +60,16 @@
         </div>
     </div>
 
+      <!--success messages; later will be replaced with pop up alert/messages-->
+      @if(session()->has('success'))
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+        {{ session('success') }}
+        <button type="button" id="closeBtn" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @endif
+
       <form method="post" action="/sell" enctype="multipart/form-data" id="myForm">
         @csrf
           <!--Image-->
@@ -244,7 +254,7 @@
             <div class="meetup">
                 <h6>Meet-Up Point</h6>
                 <div class="col-12">
-                    <input type="text" name="meetup_point" class="form-control @error('meetup_point') is-invalid @enderror"  id="meetup_point" placeholder="KICT" required value="{{ old("meetup_point") }}" maxlength="255">
+                    <input type="text" name="meetup_point" class="form-control @error('meetup_point') is-invalid @enderror"  id="meetup_point" placeholder="Please provide specific point, e.g. KICT" required value="{{ old("meetup_point") }}" maxlength="255">
                     @error('meetup_point')
                     <div class="invalid-feedback">
                      {{ $message }}
@@ -252,7 +262,28 @@
                  @enderror
                   </div>
             </div>
-            
+
+            <div class="payment mt-3">              
+                @if($user->bstatus == false)
+                <h6>Do you allow the buyer to pay online?</h6>
+                <div class="col-12" style="display:flex; align-items: center;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentOption" id="onlineTransferRadio" style="" value="online">
+                        <label class="form-check-label" for="onlineTransferRadio" style="">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentOption" id="cashRadio" value="cash" style="margin-left:7px;">
+                        <label class="form-check-label" for="cashRadio" style="margin-left:5px;">No, just cash</label>
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            <!-- Bank account details input fields -->
+            <div id="bankDetailsSection" style="display: none; margin-top:10px;">
+                <a href="/payment">Click here to add your bank details</a>
+            </div>
+          
             <button type="submit" class="btn_items mt-3 mb-3" id="submitBtn" >Submit</button>
         </form>
    
@@ -265,9 +296,26 @@
     <script src="path/to/jquery.min.js"></script>
 <script src="path/to/bootstrap/js/bootstrap.bundle.min.js"></script>
     
-    
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script>
+        
+    document.addEventListener('DOMContentLoaded', function () {
+        var onlineTransferRadio = document.getElementById('onlineTransferRadio');
+        var bankDetailsSection = document.getElementById('bankDetailsSection');
+        var cashRadio = document.getElementById('cashRadio');
+
+        onlineTransferRadio.addEventListener('change', function () {
+            if (onlineTransferRadio.checked) {
+                bankDetailsSection.style.display = 'block';
+            }  else {
+                bankDetailsSection.style.display = 'none';
+            }
+        });
+    });
+
+    </script>
+
     <script>
             var termsModal = document.getElementById("termsModal");
            const closeBtn = document.getElementById("closeBtn");

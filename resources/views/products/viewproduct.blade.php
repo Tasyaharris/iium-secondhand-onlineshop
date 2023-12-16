@@ -41,9 +41,14 @@
 
   
 
-        <div class="filter_text" style="margin-left:30px;">
+        <div class="filter_text" style="margin-left:30px;display:flex;">
             <!-- THE FILTERING TEXT-->
-            <h5 id="category_id" >{{ $product->category->name}} </h5>
+            <a href="javascript:history.back();" style="text-decoration: none; color: black; ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16" style="text-decoration: none; color: black; margin-left:10px; margin-top:20px;">
+                  <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+              </svg>
+          </a>
+            <h5 id="category_id" style="margin-top:23px;">{{ $product->category->name}} </h5>
            
         </div>
 
@@ -124,7 +129,7 @@
                 
                 <div class="box ">
                   @if($product->username == $seller)
-                  <a href="{{ route('buy.show',   $product->id) }}" class="button button0">View Chat</a>
+                  <a href="{{ route('chat.show',   $product->id) }}" class="button button0">View Chat</a>
                   <br><br>
 
                   <div class="edit" style="margin-left: 5px;">
@@ -150,7 +155,7 @@
                    </form>
 
                   @else    
-                  <a href="{{ route('buy.show',   $product->id) }}" class="button button1">Buy</a>
+                  <a href="{{ route('buy.show', $product->id) }}" class="button button1">Buy</a>
                   <br><br>
                   <form method="post" action="{{ url('cart', $product->id) }}">
                   @csrf

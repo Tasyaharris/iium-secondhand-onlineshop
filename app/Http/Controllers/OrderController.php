@@ -12,6 +12,8 @@ use App\Models\Cart;
 use App\Models\OrderItem;
 use App\Models\CancelItem;
 use App\Models\CancelOrder;
+use App\Models\Delivery;
+use App\Models\Bank;
 use App\Mail\SendEmailNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -34,7 +36,8 @@ class OrderController extends Controller
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->get(),
             'profiles'=> Profile::where('id',auth()->user()->id)->get(),
-            'payments'=> Payment::all()
+            'payments'=> Payment::all(),
+            'deliveries' =>Delivery::all()
         ]);
     }
 
@@ -82,16 +85,17 @@ class OrderController extends Controller
      */
     public function create()
     {
-        return view('buypage',[
+        return view('buypage', [
             'title' => "Checkout",
-            'users' => User::where('id',auth()->user()->id)->get(),
+            'users' => User::where('id', auth()->user()->id)->get(),
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
-            ->join('negos', 'nego_id', '=', 'negos.id')
-            ->join('users', 'products.username', '=', 'users.id')
-            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-            ->get(),
-            'profiles'=> Profile::where('id',auth()->user()->id)->get(),
-            'payments'=> Payment::all()
+                ->join('negos', 'nego_id', '=', 'negos.id')
+                ->join('users', 'products.username', '=', 'users.id')
+                ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+                ->get(),
+            'profiles' => Profile::where('id', auth()->user()->id)->get(),
+            'payments' => Payment::all(),
+            'deliveries' => Delivery::all(), // Corrected variable name here
         ]);
     }
 
@@ -163,70 +167,86 @@ class OrderController extends Controller
      /**
      * Store a newly created resource in storage from viewproduct
      */
-    public function addorder(Request $request)
-    {
-        $validatedData = $request->validate([
-            'paymentoption_id' => 'required'
-        ]);
     
-        $productId = $request->input('product_id');
-        $totalOrder = $request->input('totalOrder');
-        $paymentoptionId = $request->input('paymentoption_id');
-    
-        $product = Product::find($productId);
-    
-        $validatedData['username'] = auth()->user()->id;
-        $validatedData['totalOrder'] = $totalOrder;
-        $validatedData['order_date'] = now();
-    
-        if ($paymentoptionId == 1) {
-            $validatedData['paymentstatus_id'] = 4;
-            $validatedData['orderstatus_id'] = 5;
-            $product->productstatus_id = 1; 
-        } else {
-            $validatedData['paymentstatus_id'] = 2;
-            $validatedData['orderstatus_id'] = 5;
-            $product->productstatus_id = 1; 
-        }
-    
-        // Check if an existing order exists for the product and user
-        $existingOrder = Order::join('order_items','orders.id','=','order_items.order_id')
-            ->join('products','products.id','=','order_items.product_id')
-            ->where('order_items.product_id', $productId)
-            ->where('orders.username', auth()->user()->id)
-            ->first();
-    
-        if (!$existingOrder) {
-            // Create a new order
-            $order = Order::create($validatedData);
-    
-            // Additional logic if needed
-            if (is_array($productId)) {
-                foreach ($productId as $productId) {
-                    OrderItem::create([
-                        'order_id' => $order->id,
-                        'product_id' => $productId,
-                    ]);
-                }
-            } else {
+public function addorder(Request $request)
+{
+    $validatedData = $request->validate([
+        'paymentoption_id' => 'required',
+        'delivery_id' => 'required',
+    ]);
+
+    $productId = $request->input('product_id');
+    $totalOrder = $request->input('totalOrder');
+    $paymentoptionId = $request->input('paymentoption_id');
+    $deliveryId = $request->input('delivery_id');
+
+    $product = Product::find($productId);
+
+    $validatedData['username'] = auth()->user()->id;
+    $validatedData['totalOrder'] = $totalOrder;
+    $validatedData['order_date'] = now();
+
+    if ($paymentoptionId == 1) {
+        $validatedData['paymentstatus_id'] = 4;
+        $validatedData['orderstatus_id'] = 5;
+        $validatedData['paymentProof'] = "cash";
+        $product->productstatus_id = 1;
+    }
+
+    // Handle paymentProof file upload
+    if ($paymentoptionId == 2 && $request->hasFile('paymentProof')) {
+        $paymentProofPath = $request->file('paymentProof')->store('payment-proofs');
+        $validatedData['paymentProof'] = $paymentProofPath;
+        $validatedData['paymentstatus_id'] = 2;
+        $validatedData['orderstatus_id'] = 5;
+        $product->productstatus_id = 1; 
+    }
+
+    if ($deliveryId == 1) {
+        $validatedData['del_place'] = $request->input('del_place');
+        $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
+    } else {
+        $validatedData['del_place'] = "pick up";
+        $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
+    }
+
+    // Check if an existing order exists for the product and user
+    $existingOrder = Order::join('order_items', 'orders.id', '=', 'order_items.order_id')
+        ->join('products', 'products.id', '=', 'order_items.product_id')
+        ->where('order_items.product_id', $productId)
+        ->where('orders.username', auth()->user()->id)
+        ->first();
+
+    if (!$existingOrder) {
+        // Create a new order
+        $order = Order::create($validatedData);
+
+        // Additional logic if needed
+        if (is_array($productId)) {
+            foreach ($productId as $productId) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $productId,
                 ]);
             }
-    
-            // Save changes to the product
-            $product->save();
-    
-            // Delete cart entry for the current product and authenticated user
-            Cart::where('product_id', $productId)
-                ->delete();
-    
-        } 
+        } else {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $productId,
+            ]);
+        }
 
-        return redirect('/afterbuy1');
+        // Save changes to the product
+        $product->save();
+
+        // Delete cart entry for the current product and authenticated user
+        Cart::where('product_id', $productId)
+            ->delete();
     }
-    
+
+    return redirect('/afterbuy1');
+}
+
 
     /**
      * Display the specified resource.
@@ -237,6 +257,7 @@ class OrderController extends Controller
     $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
         ->join('negos', 'nego_id', '=', 'negos.id')
         ->join('users', 'products.username', '=', 'users.id')
+        ->join('banks','products.username','=','banks.user_id')
         ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
         ->where('products.id', $id)
         ->first();
@@ -254,6 +275,13 @@ class OrderController extends Controller
     $totalOrder = 0;
     $totalOrder = $totalPrice;
 
+    $bank = Bank::join('users','banks.user_id','=','users.id')
+    ->join('products','users.id','=','products.username')
+    ->select('banks.*')
+    ->where('products.id', $id)
+    ->where('banks.user_id','=','users.id')
+    ->first();
+
     // Append the product ID to the title
     $title = 'Product - ' . $product->id;
       
@@ -267,8 +295,10 @@ class OrderController extends Controller
                 'totalPrice'=> $totalPrice,
                 'payments'=> Payment::all(),
                 'paymentoption_id' => request()->input('paymentoption_id'),
-                'totalOrder' => $totalOrder
-
+                'totalOrder' => $totalOrder,
+                'deliveries' => Delivery::all(),
+                'bank' => $bank
+                
             ]);
 
     }

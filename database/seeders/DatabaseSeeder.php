@@ -15,6 +15,7 @@ use App\Models\Payment;
 use App\Models\Distribution;
 use App\Models\Statusorder;
 use App\Models\Order;
+use App\Models\Delivery;
 use App\Models\Statuspayment;
 use App\Models\Statusproduct;
 use App\Models\Subcategorie;
@@ -326,6 +327,14 @@ class DatabaseSeeder extends Seeder
          Subcategorie::create([
             'category_id' => '6',
             'name' => "Others"
+         ]);
+
+         Delivery::create([
+            'del_option'=> 'Delivery to your mahallah'
+         ]);
+         
+         Delivery::create([
+            'del_option'=> 'Pick up at meeting point'
          ]);
 
          Discussion::create([

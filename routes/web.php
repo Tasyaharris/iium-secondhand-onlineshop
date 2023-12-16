@@ -275,13 +275,14 @@ Route::resource('/profile',ProfileController::class)->middleware('auth');
 
 Route::resource('/settings',UserProfileController::class)->middleware('auth');
 
-Route::resource('/bank',BankController::class)->middleware('auth');
+Route::resource('/payment',BankController::class)->middleware('auth');
 
 
-//Route::middleware([
-//    'auth:sanctum',
-//    config('jetstream.auth_session'),
-//    'verified'
-//])->get('/mainpage',function(){
-//    return view('mainpage');
-//})->name('mainpage');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->get('/mainpage',function(){
+    return view('mainpage');
+})->name('mainpage');

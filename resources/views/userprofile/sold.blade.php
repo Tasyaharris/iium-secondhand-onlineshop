@@ -58,8 +58,8 @@
                 <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/profile">My Listings</a>
                 </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews]">Reviews</a>
+                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/productreview">
+                  <a href="/productreview">Reviews</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>
@@ -98,7 +98,7 @@
           <div class="container-under-table">
             <!-- Your container content under the table goes here -->
             <div class="selection-title">
-                <h5>Listings</h5>
+                <h5>Sold</h5>
             </div>
             
             <div class="products-listing">

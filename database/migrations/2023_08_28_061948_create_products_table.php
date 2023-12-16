@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId("nego_id");
             $table->string("brand");
             $table->string("material");
-            $table->string("more_desc")->default("-");
+            $table->string("more_desc")->nullable();
             $table->string("meetup_point");
             $table->foreignId("productstatus_id")->default(3);
             $table->timestamps();

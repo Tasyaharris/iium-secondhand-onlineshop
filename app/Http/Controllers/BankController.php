@@ -42,6 +42,38 @@ class BankController extends Controller
        
         $validatedData = $request->validate([
             'accountNumber'=>'required',
+            'bankName'=>'required',
+            'nameInBank'=> 'required'
+        ]);
+
+        $validatedData['bankName']= ucwords($validatedData['bankName']);
+        $validatedData['nameInBank']= ucwords($validatedData['nameInBank']);
+        $validatedData['user_id'] = auth()->user()->id;
+
+        // Check if the user already has a profile
+        $existingBank = Bank::where('user_id', auth()->user()->id)->first();
+
+        if ($existingBank) {
+            // If a profile already exists, update it
+            $existingBank->update($validatedData);
+        } else {
+            // If no profile exists, create a new one
+            Bank::create($validatedData);
+        }
+
+        // Update bstatus in the users table to true
+        $user= User::where('id', auth()->user()->id);
+        $user->update(['bstatus' => true]);
+    
+        return redirect()->back()->with('success', 'Your bank account has been stored!')->withInput();
+
+    }
+
+    public function addbank(Request $request)
+    {
+        dd($request->all());
+        $validatedData = $request->validate([
+            'accountNumber'=>'required',
             'bankName'=>'required'
         ]);
 
@@ -57,8 +89,12 @@ class BankController extends Controller
             // If no profile exists, create a new one
             Bank::create($validatedData);
         }
+
+        // Update bstatus in the users table to true
+        $user= User::where('id', auth()->user()->id);
+        $user->update(['bstatus' => true]);
     
-        return redirect('/bank')->with('success', 'Your bank account has been stored!')->withInput();;
+        return response()->json(['message' => 'Bank details added successfully']);
 
     }
 

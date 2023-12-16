@@ -7,31 +7,49 @@
       </div>
       <div class="parent">
         <div class="pic" id="icons">
+          <a href="/freeproducts">
           <img src="/images/free.png" alt="free" style="width:80px; height:80px; ">
+          </a>
         </div>
         <div class="pic" id="icons">
+          <a href="/electronics">
           <img src="/images/laptop.png" alt="electronics" style="width:80px; height:80px;">
+          </a>
         </div>
         <div class="pic" id="icons">
+          <a href="/books">
           <img src="/images/books.png" alt="books"  style="width:80px; height:80px;" >
+          </a>
         </div>
         <div class="pic" id="icons">
+          <a href="/femalefashion">
           <img src="/images/dress.png" alt="women" style="width:80px; height:80px;">
+          </a>
         </div>
         <div class="pic" id="icons">
+          <a href="/malefashion">
           <img src="/images/shirt.png" alt="men" style="width:80px; height:80px;">
+          </a>
         </div>
         <div class="pic" id="icons" >
+          <a href="/cosmetics">
           <img src="/images/makeup.png" alt="cosmetics" style="width:80px; height:80px; margin-right: 13px;">
+          </a>
         </div>
         <div  id="icons">
+          <a href="/shoes">
           <img src="/images/shoes.png" alt="shoes" style="width:160px; height:110px; margin-right: 0px; margin-left: 0px;">
+          </a>
         </div>
         <div  id="icons">
+          <a href="/mahallah">
           <img src="/images/equipment.png" alt="equipment" style="width:80px; height:80px;  margin-left:10%; margin-right: 26px;">
+          </a>
         </div>
         <div class="pic" id="icons">
+          <a href="/others">
           <img src="/images/search.png" alt="search" style="width:75px; height:75px;">
+          </a>
         </div>
         <div class="pic" id="icons">
           <a href="/discussion">

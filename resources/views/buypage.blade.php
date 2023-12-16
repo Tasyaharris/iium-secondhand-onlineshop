@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <form method="post" action="{{ url('buyproduct') }}" id="myForm">
+    <form method="post" action="{{ url('buyproduct') }}" id="myForm"  enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->id }}">
     <!--address buyer-->
@@ -138,21 +138,66 @@
     </nav>
   
     <!--payment method-->
-    <nav class="navbar  border-bottom mt-0" style="height: 100px;border: 1px solid #000; background-color: rgba(255, 240, 219, 0.35);">
+    <nav class="navbar  border-bottom mt-0" style="height: auto;border: 1px solid #000; background-color: rgba(255, 240, 219, 0.35);">
         <div class="product1" style="display:inline-block; margin-left:30px;">
             <div style="text-align: left;">
             <h6>Payment Method: </h6>
             </div>
-            <div style="text-align: center;">      
+            <div style="text-align: left;">      
                 @foreach ($payments as $payment) 
+                
                 <div class="form-check form-check-inline" id="paymentoption_id" required>   
                         <input class="form-check-input" type="radio" name="paymentoption_id" id="inlineRadio{{ $payment->id }}" value="{{  $payment->id}}" required>
                         <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
                 </div>
                 @endforeach
                 
-                  <div id="paymentError" class="alert alert-danger" style="display: none;">
+                <div id="paymentError" class="alert alert-danger" style="display: none;">
                     Please select a payment method.
+                </div>
+
+                <!--upload payment proof-->
+                <div class="file-upload-container mt-2" id="fileUploadContainer" style="display: none;">
+                    <div class="bank-info mt-2" style="text-align:left;">
+                    <small>Please Transfer to this account number</small>
+                    <br>
+                    <small>Bank : {{ $product->bank->bankName }}</small>
+                    <br>
+                    <small>Name : {{ $$product->bank->nameInBank }}</small>
+                    <br>
+                    <small>Account Number : {{ $$product->bank->accountNumber }}</small>
+                    </div>
+
+                    <label for="paymentProof" style="font-size: 15px;margin-top:5px;">Upload Payment Proof:</label>
+                    <input type="file" id="paymentProof" name="paymentProof" accept=".pdf, .jpeg, .jpg, .png">
+                </div>
+            </div>
+        </div>
+        <br>
+    </nav>
+
+     <!--delivery place-->
+     <nav class="navbar  border-bottom mt-0" style="height:auto;border: 1px solid #000;">
+        <div class="product1" style="display:inline-block; margin-left:30px;">
+            <div style="text-align: left;">
+            <h6>Delivery Option: </h6>
+            </div>
+            <div style="text-align: center;">      
+                @foreach ($deliveries as $delivery) 
+                <div class="form-check form-check-inline" id="delivery_id" required>   
+                        <input class="form-check-input" type="radio" name="delivery_id" id="inlineRadio{{ $delivery->id }}" value="{{  $delivery->id}}" required>
+                        <label class="form-check-label" for="inlineRadio{{ $delivery->id }}">{{ $delivery->del_option }}</label>
+                </div>
+                @endforeach   
+               
+                <div id="deliveryError" class="alert alert-danger" style="display: none;">
+                    Please select a delivery method.
+                </div>
+
+                <!-- Add the container for the address input -->
+                <div class="address-input-container mt-1" id="addressInputContainer" style="display: none;">
+                    <label for="del_place" style="display:hidden;"></label>
+                    <input type="text" id="del_place" name="del_place" class="form-control" placeholder="Enter your delivery address" value="{{ old("del_place") }}" maxlength="255">
                 </div>
             </div>
         </div>
@@ -194,7 +239,9 @@
 
         showTermsBtn.on("click", function () {
             const paymentMethods = $("[name='paymentoption_id']");
+            const deliveryId = $("[name='delivery_id']");
             let paymentMethodSelected = false;
+            let deliveryIdSelected = false;
 
             paymentMethods.each(function () {
                 if ($(this).prop("checked")) {
@@ -215,6 +262,35 @@
                 termsPopup.modal("show");
             }
         });
+
+           // Handle the change event of the payment options
+           $('[name="paymentoption_id"]').on("change", function () {
+            const selectedPaymentId = $('[name="paymentoption_id"]:checked').val();
+
+            // Check if the selected payment option requires a file upload
+            if (selectedPaymentId == 2) {
+                // Show the file upload container
+                $('#fileUploadContainer').show();
+            } else {
+                // Hide the file upload container
+                $('#fileUploadContainer').hide();
+            }
+        });
+
+        //handle the change event deliver
+        $('[name="delivery_id"]').on("change", function () {
+            const selectedDeliveryId = $('[name="delivery_id"]:checked').val();
+
+            // Check if the selected delivery option requires an address
+            if (selectedDeliveryId == 1) {
+                // Show the address input container
+                $('#addressInputContainer').show();
+            } else {
+                // Hide the address input container
+                $('#addressInputContainer').hide();
+            }
+        });
+        
 
         acceptButton.on("click", function () {
             if (acceptTermsCheckbox.prop("checked")) {

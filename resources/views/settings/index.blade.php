@@ -31,7 +31,7 @@
                         <a href="" style="text-decoration: none; color:black;">Reset Password</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="/bank" style="text-decoration: none; color:black;">Add Bank Account Details</a>
+                        <a href="/payment" style="text-decoration: none; color:black;">Add Bank Account Details</a>
                     </li>
                     <!-- Add more dashboard options as needed -->
                 </ul>

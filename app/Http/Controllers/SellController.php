@@ -32,7 +32,9 @@ class SellController extends Controller
         'selleroptions' => Selleroption::all(),
         'negos' => Nego::all(),
         'sell' => Product::where('username', auth()->user()->username)->get(),
-        'subcategories' => Subcategorie::all()
+        'subcategories' => Subcategorie::all(),
+        'user' => auth()->user()
+
     ]);
     }
 

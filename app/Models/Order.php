@@ -11,8 +11,9 @@ class Order extends Model
 {
     use HasFactory;
     use Notifiable;
-    protected $fillable = ['username', 'product_id', 'order_date','totalOrder', 'paymentoption_id','paymentstatus_id','orderstatus_id'];
+    //protected $fillable = ['username', 'product_id', 'order_date','totalOrder', 'paymentoption_id','paymentstatus_id','orderstatus_id'];
 
+    protected $guarded=[''];
       public function user()
       {
           return $this->belongsTo(User::class,'username');
@@ -46,5 +47,10 @@ class Order extends Model
       public function orderItems()
     {
          return $this->hasMany(OrderItem::class);
+    }
+
+    public function delivery()
+    {
+         return $this->hasMany(Delivery::class);
     }
 }

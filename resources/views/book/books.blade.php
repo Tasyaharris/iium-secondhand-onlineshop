@@ -19,8 +19,9 @@
    
     
 
-   
+    <div container style=" background-color: white;  border: none;min-height: 50vh;">
         @include('book.unfiltered')
+    </div>
     
     
   
