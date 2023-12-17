@@ -74,27 +74,26 @@
             <nav class="side-navbar">
               <!-- Your sidebar content goes here -->
               <div class="table-container" style="margin-bottom:5px;">
-              <table class="selection">
-                <tr>
-                  <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                    <a href="/listings">Preparing</a>
-                  </td>
-                  <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/reviews">
-                    <a href="/reviews">Delivering</a>
-                  </td>
-                  <td class="clickable-row active {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                    <a href="/reviews">Received</a>
-                  </td>
-                </tr>
-              </table>
+                <table class="selection">
+                  <tr>
+                    <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
+                      <a href="/listings">Preparing</a>
+                    </td>
+                    <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/deliver">
+                      <a href="/deliver">Delivering</a>
+                    </td>
+                    <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received">
+                      <a href="/received">Received</a>
+                    </td>
+                  </tr>
+                </table>
               </div>
             </nav>
 
             
         <div class="container-under-table" style=" border: none; margin-top:0;">
-            
+          <div container style=" background-color: white;  border: none;min-height: 50vh;">
 
-          
           <div style="display:flex; margin-top:15px;">
             <a id="roundedButton" class="radio-button" href="{{ url('received', $order->id) }}" onclick="showAdditionalButton(event)"></a>
             <small style="margin-left:5px;">Item received by buyer</small>
@@ -104,8 +103,11 @@
           <a  id="additionalButton" class="hidden radio" href="{{ url('completed', $order->id) }}"></a>
           <small id="additionalButton1" class="hidden" style="margin-left:5px;">Delivery completed</small>
           </div>
+          </div>
         </div>
-        </div>
+
+
+    </div>
 
         
       </div>

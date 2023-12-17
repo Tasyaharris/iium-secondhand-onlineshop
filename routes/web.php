@@ -32,6 +32,8 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\ExploreController;
+
 use App\Http\Controllers\ChannelAuthorizationController;
 
 use Chatify\Http\Controllers\Api\MessagesController;
@@ -135,6 +137,20 @@ Route::get('/send-event', function () {
 //});
 //
 
+Route::get('/freeproducts',[ExploreController::class,'getFree']);
+Route::get('/electronicproducts',[ExploreController::class,'getElectronic']);
+Route::get('/bookproducts',[ExploreController::class,'getBook']);
+Route::get('/femalefashion',[ExploreController::class,'getFemaleFashion']);
+Route::get('/malefashion',[ExploreController::class,'getMaleFashion']);
+Route::get('/cosmeticproducts',[ExploreController::class,'getCosmetic']);
+Route::get('/mahallah',[ExploreController::class,'getMahallah']);
+Route::get('/otherproducts',[ExploreController::class,'getOther']);
+Route::get('/shoes',[ExploreController::class,'getShoes']);
+
+
+
+
+
 Route::get('/sendmail',[SendEmailController::class,'index']);
 
 Route::get('/product/search',[ProductController::class,'search']);
@@ -232,7 +248,6 @@ Route::get('/fashion',[FashionController::class,'index']);
 Route::get('/books',[BookController::class,'index']);
 Route::get('/electronics',[ElectronicController::class,'index']);
 Route::get('/cosmetics',[CosmeticController::class,'index']);
-Route::get('/mahallah',[MahallahEquipmentController::class,'index']);
 Route::get('/others',[OthersController::class,'index']);
 
 Route::post('/filteredbook', [BookController::class, 'filterProducts'])->name('filter.products');

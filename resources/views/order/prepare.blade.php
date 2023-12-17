@@ -65,11 +65,12 @@
           <div class="user-profile">
             <div class="user-info">
               <div class="flex-container" style="display: flex; align-items: center;">
-                <a href="javascript:history.back();" style="text-decoration: none; color: inherit;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16" style="margin-bottom: 3px;">
+                <a href="javascript:history.back();" style="text-decoration: none; color: black; ">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16" style="text-decoration: none; color: black; margin-top:5px;margin-right:3px;">
+                      <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
                   </svg>
                 </a>
-                <h6 style="margin-left:5px;">Delivery Item</h6>
+                <h6 style="margin-left:5px;margin-top:7px;">Preparing Item</h6>
               </div>
               <br>
              
@@ -87,11 +88,11 @@
                   <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                     <a href="/listings">Preparing</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/reviews">
-                    <a href="/reviews">Delivering</a>
+                  <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/delivering">
+                    <a href="/delivering">Delivering</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                    <a href="/reviews">Received</a>
+                  <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received">
+                    <a href="/received">Received</a>
                   </td>
                 </tr>
               </table>
@@ -131,8 +132,6 @@
         </div>
         </div>
 
-        
-
       </div>
 
       
@@ -144,26 +143,43 @@
 
     <script>
       
+// Check if the buttons were previously checked and update the UI
+document.addEventListener('DOMContentLoaded', function() {
+    var radioButton = document.getElementById('roundedButton');
+    var additionalButton = document.getElementById('additionalButton');
+    var additionalButton1 = document.getElementById('additionalButton1');
 
-      function showAdditionalButton() {
-        // Update the UI (change color, show/hide elements, etc.)
-        var radioButton = document.getElementById('roundedButton');
-        var isAlreadyChecked = radioButton.classList.contains('checked');
-        var additionalButton = document.getElementById('additionalButton');
-        var isAlreadyChecked1 = additionalButton.classList.contains('checked');
+    // Retrieve the state from localStorage
+    var isRadioButtonChecked = localStorage.getItem('isRadioButtonChecked') === 'true';
+    var isAdditionalButtonChecked = localStorage.getItem('isAdditionalButtonChecked') === 'true';
 
-                    if (!isAlreadyChecked) {
-                        radioButton.classList.add('checked');      
-                    }
-                   
-                      var additionalButton1 = document.getElementById('additionalButton1');
-                      additionalButton.classList.remove('hidden');
-                      additionalButton.classList.add('displayed');
-                      additionalButton1.classList.remove('hidden');
-                      additionalButton1.classList.add('displayed');
-                   
-                  }
+    // Update UI based on the stored state
+    radioButton.classList.toggle('checked', isRadioButtonChecked);
+    additionalButton.classList.toggle('hidden', !isAdditionalButtonChecked);
+    additionalButton.classList.toggle('displayed', isAdditionalButtonChecked);
+    additionalButton1.classList.toggle('hidden', !isAdditionalButtonChecked);
+    additionalButton1.classList.toggle('displayed', isAdditionalButtonChecked);
+  });
 
+  function showAdditionalButton() {
+    var radioButton = document.getElementById('roundedButton');
+    radioButton.classList.toggle('checked');
+
+    var additionalButton = document.getElementById('additionalButton');
+    var additionalButton1 = document.getElementById('additionalButton1');
+
+    additionalButton.classList.toggle('hidden');
+    additionalButton.classList.toggle('displayed');
+    additionalButton1.classList.toggle('hidden');
+    additionalButton1.classList.toggle('displayed');
+
+    // Store the state in localStorage
+    var isRadioButtonChecked = radioButton.classList.contains('checked');
+    var isAdditionalButtonChecked = additionalButton.classList.contains('displayed');
+
+    localStorage.setItem('isRadioButtonChecked', isRadioButtonChecked);
+    localStorage.setItem('isAdditionalButtonChecked', isAdditionalButtonChecked);
+  }
   </script>
   </body>
 </html>

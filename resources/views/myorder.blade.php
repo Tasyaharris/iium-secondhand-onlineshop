@@ -136,6 +136,36 @@
                                   <h6 style="margin-top:10px;margin-left:15px;">Total Order: RM {{ $order_item->order->totalOrder}}</h6>
                               </div>
 
+                              <div style="text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                                <div style="text-align: left; display:flex;align-items:center;">
+                                  <h6 style="margin-top:10px;margin-left:15px;margin-right:5px;">Payment Method:</h6>  {{ $order_item->order->payment->payment_opt}}
+                                </div> 
+                                <div style="text-align: left; display:flex;align-items:center;">
+                                  @if ($order_item->order->payment->id == 2)
+                                      <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Payment Proof:</h6>
+                                      <div>
+                                          <a href="{{ asset('storage/' . $order_item->order->paymentProof) }}" download style="color: black;">{{ pathinfo($order_item->order->paymentProof)['basename']}}</a>
+                                      </div>
+                                  @endif
+                                </div>
+                              </div>
+
+                              <div style="text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                                <div style="text-align: left; display: flex;align-items:center">
+                                <h6 style="margin-top: 10px; margin-left: 15px; margin-right: 5px;">Delivery Option:</h6>  {{ $order_item->order->delivery->del_option }}
+                                </div>
+                                <div style="text-align: left; display: flex;align-items:center">
+                                @if ($order_item->order->delivery->id == 1)
+                                    <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Deliver to:</h6>
+                                    {{ $order_item->order->del_place }}
+                                @else
+                                  <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Pickup point:</h6>
+                                  {{ $order_item->product->meetup_point }}
+                                @endif
+                                </div>
+                              </div>
+      
+
                               <div class="processBtn ms-auto" style="margin-top:10px; margin-bottom:20px;display:flex; ">
                                 <form action="{{ route('buy.destroy', $order_item->order->id) }}" method="post">
                                   @method('DELETE')

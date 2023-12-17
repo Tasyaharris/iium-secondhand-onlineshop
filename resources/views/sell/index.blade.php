@@ -319,8 +319,7 @@
     <script>
             var termsModal = document.getElementById("termsModal");
            const closeBtn = document.getElementById("closeBtn");
-           closeBtn.addEventListener("click", function () {
-           
+           closeBtn.addEventListener("click", function () { 
                 termsModal.style.display = "none";
                
             });

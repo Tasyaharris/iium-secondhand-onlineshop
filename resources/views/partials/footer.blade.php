@@ -9,46 +9,30 @@
   
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="#!" class="text-white">Female Clothes</a>
+                <a href="/femalefashion" class="text-white">Female Clothes</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Male Clothes</a>
+                <a href="/malefashion" class="text-white">Male Clothes</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Electronics</a>
+                <a href="/electronicproducts" class="text-white">Electronics</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Books</a>
+                <a href="/bookproducts" class="text-white">Books</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Cosmetics</a>
+                <a href="/cosmeticproducts" class="text-white">Cosmetics</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Sports</a>
+                <a href="/mahallah" class="text-white">Mahallah</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Households</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Others</a>
+                <a href="/otherproducts" class="text-white">Others</a>
               </li>
             </ul>
         </div>
         <!--Grid column-->
   
-        <!--Grid column-->
-        <div class="col-lg-2 col-md-8 mb-4 mb-md-0">
-            <h6 class="text-uppercase">Buy</h6>
-  
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="#!" class="text-white">See Products</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Shop Safely</a>
-              </li>
-            </ul>
-        </div>
         <!--Grid column-->
   
         <!--Grid column-->
@@ -57,35 +41,15 @@
   
             <ul class="list-unstyled mb-0">
               <li>
-                <a href="#!" class="text-white">Post Product</a>
+                <a href="/sell" class="text-white">Post Product</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Guidelines</a>
+                <a href="/guidelines" class="text-white">Guidelines</a>
               </li>
             </ul>
         </div>
         <!--Grid column-->
-  
-        <!--Grid column-->
-        <div class="col-lg-2 col-md-8 mb-4 mb-md-0">
-            <h6 class="text-uppercase">Accoount</h6>
-  
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="#!" class="text-white">Create Account</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Log Out</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Forgot Password</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Change Password</a>
-              </li>
-            </ul>
-        </div>
-        <!--Grid column-->
+
 
         <!--Grid column-->
         <div class="col-lg-2 col-md-8 mb-4 mb-md-0">

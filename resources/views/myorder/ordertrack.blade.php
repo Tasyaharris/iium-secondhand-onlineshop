@@ -7,7 +7,7 @@
         <td class="clickable-row {{ Request::is('process') ? 'active' : '' }}" data-href="/process" style="width: 145px;">
             <a class="navbar-brand" href="/process" style="display: block; text-align: center; margin: 0; padding: 0; font-size:15px;">
                 <img src="/images/process.png" alt="logo" width="30" height="30" style="display: block; margin: 0 auto;">
-                Process
+                Prepare
             </a>
         </td>
         <td class="clickable-row {{ Request::is('deliveryorder') ? 'active' : ' ' }}" data-href="/deliveryorder" style="width: 148px; ">

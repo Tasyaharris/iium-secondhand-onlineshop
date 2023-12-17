@@ -1,5 +1,5 @@
 
-<section class="explore border-bottom mt-0" id="explore" style="background-color: white; height: 400px;">
+<section class="explore border-bottom mt-0" id="explore" style="background-color: white; height: auto;">
   <div class="max-width">
     <div class="explore-content">
       <div class="text-1">

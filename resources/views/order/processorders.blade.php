@@ -157,7 +157,7 @@
                             @if ($order_item->order->payment->id == 2)
                                 <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Payment Proof:</h6>
                                 <div>
-                                    <a href="{{ asset('storage/' . $order_item->order->paymentProof) }}" download>{{ pathinfo($order_item->order->paymentProof)['basename']}}</a>
+                                    <a href="{{ asset('storage/' . $order_item->order->paymentProof) }}" download style="color: black;">{{ pathinfo($order_item->order->paymentProof)['basename']}}</a>
                                 </div>
                             @endif
                           </div>
@@ -173,7 +173,7 @@
                               {{ $order_item->order->del_place }}
                           @endif
                           </div>
-                      </div>
+                        </div>
                       
 
                   
