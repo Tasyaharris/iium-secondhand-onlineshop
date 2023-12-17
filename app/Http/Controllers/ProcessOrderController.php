@@ -27,9 +27,10 @@ class ProcessOrderController extends Controller
             'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
             ->join('products','product_id','=','products.id')
             ->join('users','orders.username','=','users.id')
+            ->join('deliveries','orders.delivery_id','=','deliveries.id')
             ->where('orders.orderstatus_id', 5)
             ->where('products.username', auth()->user()->id)
-            ->select('order_items.*')
+            ->select('order_items.*','deliveries.*')
             ->get()
         ]);
     }

@@ -17,7 +17,8 @@ class Product extends Model
     public function getRouteKeyName()
     {
         return 'id';
-     }
+    }
+    
 
      // Relationship with Condition model
 
@@ -47,9 +48,9 @@ class Product extends Model
      }
 
      public function bank()
-     {
-         return $this->belongsTo(Bank::class, 'username');
-     }
+    {
+        return $this->belongsTo(Bank::class, 'username', 'user_id');
+    }
 
      public function productstatus()
      {

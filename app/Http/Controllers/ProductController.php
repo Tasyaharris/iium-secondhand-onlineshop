@@ -73,7 +73,7 @@ class ProductController extends Controller
 
     return view('products.viewproduct', ['product' => $product,
      'title' => $title,
-     'seller'=> User::where('id',auth()->user()->id)->value('id')
+    
     ]);
 }
 

@@ -104,14 +104,14 @@ td{
 
 }
 
-.clickable-row:active {
-    background-color: #D9D9D9; /* Change to the desired color when clicked */
-    cursor: pointer;
-  }
+.clickable-row {
+  cursor: pointer;
+}
 
-  .clickable-row:hover {
-    background-color: #D9D9D9; /* Change to the desired hover background color */
-  }
+.clickable-row:active,
+.clickable-row:hover {
+  background-color: #D9D9D9;
+}
 
 .active {
     background-color: #D9D9D9; /* Change to the desired color */

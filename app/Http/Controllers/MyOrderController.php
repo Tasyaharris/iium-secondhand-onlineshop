@@ -35,6 +35,25 @@ class MyOrderController extends Controller
         ]);
     }
 
+    public function process()
+    {
+        return view('myorder.process',[
+            'title' => "MyOrder",
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos','nego_id','=','negos.id')
+            ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+            ->join('products','product_id','=','products.id')
+            ->where('orders.username',auth()->user()->id)
+            ->where('orders.orderstatus_id',5)
+            ->select('order_items.*')
+            ->get()
+  
+        ]);
+    }
+
     public function completed()
     {
         

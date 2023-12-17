@@ -91,7 +91,7 @@
                   <a href="/cancelled">Cancelled</a>
                 </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
-                  <a href="/orders">Order</a>
+                  <a href="/orders">Process Order</a>
                 </td>
               
               </tr>

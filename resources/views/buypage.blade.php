@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/buy.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/buy.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js" integrity="sha512-bztGAvCE/3+a1Oh0gUro7BHukf6v7zpzrAb3ReWAVrt+bVNNphcl2tDTKCBr5zk7iEDmQ2Bv401fX3jeVXGIcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
  
 
@@ -56,8 +56,8 @@
 
     <form method="post" action="{{ url('buyproduct') }}" id="myForm"  enctype="multipart/form-data">
         @csrf
-        <input type="hidden" name="product_id" value="{{ $product->id }}">
-    <!--address buyer-->
+        <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+        <!--address buyer-->
     <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px;border: 1px solid #000;">
         <div class="address1" style="display: inline-block;">           
             <div style="text-align: center; margin-left:20px;">
@@ -145,12 +145,16 @@
             </div>
             <div style="text-align: left;">      
                 @foreach ($payments as $payment) 
-                
                 <div class="form-check form-check-inline" id="paymentoption_id" required>   
+                    @if ($payment->id == 2 && !$product->user->bstatus)
+                        <input class="form-check-input" type="radio" name="paymentoption_id" id="inlineRadio{{ $payment->id }}" value="{{  $payment->id}}" required disabled>
+                        <label class="form-check-label" for="inlineRadio{{ $payment->id }}">Online Transfer (Seller only accepts cash payment)</label>
+                    @else
                         <input class="form-check-input" type="radio" name="paymentoption_id" id="inlineRadio{{ $payment->id }}" value="{{  $payment->id}}" required>
                         <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
+                    @endif
                 </div>
-                @endforeach
+            @endforeach
                 
                 <div id="paymentError" class="alert alert-danger" style="display: none;">
                     Please select a payment method.
@@ -159,13 +163,15 @@
                 <!--upload payment proof-->
                 <div class="file-upload-container mt-2" id="fileUploadContainer" style="display: none;">
                     <div class="bank-info mt-2" style="text-align:left;">
-                    <small>Please Transfer to this account number</small>
-                    <br>
-                    <small>Bank : {{ $product->bank->bankName }}</small>
-                    <br>
-                    <small>Name : {{ $$product->bank->nameInBank }}</small>
-                    <br>
-                    <small>Account Number : {{ $$product->bank->accountNumber }}</small>
+                        @if ($product->bank)
+                        <small>Bank: {{ $product->user->bank->bankName }}</small>
+                        <br>
+                        <small>Name: {{ $product->user->bank->nameInBank }}</small>
+                        <br>
+                        <small>Account Number: {{ $product->user->bank->accountNumber }}</small>
+                    @else
+                        <small>No bank information available</small>
+                    @endif
                     </div>
 
                     <label for="paymentProof" style="font-size: 15px;margin-top:5px;">Upload Payment Proof:</label>
@@ -196,8 +202,13 @@
 
                 <!-- Add the container for the address input -->
                 <div class="address-input-container mt-1" id="addressInputContainer" style="display: none;">
-                    <label for="del_place" style="display:hidden;"></label>
+                    <label for="del_place" style="display:none;font-size:10px;"></label>
                     <input type="text" id="del_place" name="del_place" class="form-control" placeholder="Enter your delivery address" value="{{ old("del_place") }}" maxlength="255">
+                </div>
+
+                <!-- display meeting point -->
+                <div class="meetup_point" id="meetup_point" style="display: none;text-align:left;">
+                    <small id="meeting_point">Meeting Point: {{ $product->meetup_point }}</small>
                 </div>
             </div>
         </div>
@@ -255,7 +266,7 @@
                 const productIdInput = $("<input>").attr({
                     type: "hidden",
                     name: "product_id",
-                    value: "{{ $product->id }}" // Use your dynamic value here
+                    value: "{{ $product->product_id }}" // Use your dynamic value here
                 });
 
                 myForm.append(productIdInput);
@@ -289,6 +300,12 @@
                 // Hide the address input container
                 $('#addressInputContainer').hide();
             }
+
+            if (selectedDeliveryId == 2){
+                $('#meetup_point').show();
+            }else{
+                $('#meetup_point').hide();
+            }
         });
         
 
@@ -301,6 +318,9 @@
                     type: myForm.attr("method"),
                     url: myForm.attr("action"),
                     data: myForm.serialize(),
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                     },
                     success: function (response) {
                         // Handle the success response if needed
                         console.log(response);
@@ -321,11 +341,5 @@
         });
     });
 </script>
-
-
-    
-    
-    
-   
 </body>
 </html>

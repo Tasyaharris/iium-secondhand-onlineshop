@@ -48,22 +48,29 @@ class OrderController extends Controller
     
         // Use the array of IDs in your query
         $products = Product::join('conditions', 'condition_id', '=', 'conditions.id')
-            ->join('negos', 'nego_id', '=', 'negos.id')
-            ->join('users', 'products.username', '=', 'users.id')
-            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-            ->whereIn('products.id', $idArray)
-            ->get();
+        ->join('negos', 'nego_id', '=', 'negos.id')
+        ->join('users', 'products.username', '=', 'users.id')
+        ->leftJoin('banks','users.id','=','banks.user_id')
+        ->select(
+            'products.id as product_id',  // Alias the product id to avoid conflicts
+            'products.*',
+            'conditions.condition as condition_name',
+            'negos.option as nego_option',
+            'users.username as user_name',
+            'banks.*'   
+        )
+        ->whereIn('products.id', $idArray)
+        ->get();
     
-            $totalOrder = 0; 
-            $com = 0;
-            $totalPrice =0;
-            foreach ($products as $product) {
-                $price = $product->product_price;
-                $com = 0.02 * $price;
-                $totalPrice = $price+$com;
-              
-                $totalOrder += $totalPrice;
-            }
+         $totalOrder = 0; 
+         $com = 0;
+         $totalPrice =0;
+         foreach ($products as $product) {
+             $price = $product->product_price;
+             $com = 0.02 * $price;
+             $totalPrice = $price+$com;
+             $totalOrder += $totalPrice;
+         }
  
     
         return view('cart.checkout', [
@@ -74,7 +81,9 @@ class OrderController extends Controller
             'payments' => Payment::all(),
             'com'=>$com,
             'totalPrice'=>$totalPrice,
-            'totalOrder' => $totalOrder
+            'totalOrder' => $totalOrder,
+            'bank' => $product->bank,
+            'deliveries' => Delivery::all(),
         ]);
     }
 
@@ -103,70 +112,87 @@ class OrderController extends Controller
      * Store a newly created resource in storage from cart 
      */
     public function store(Request $request)
-    {
-        //dd($request->all());
+{
+    $validatedData = $request->validate([
+        'paymentoption_id' => 'required',
+        'delivery_id' => 'required',
+    ]);
 
-        $validatedData = $request->validate([
-            'paymentoption_id' => 'required'
-        ]);
-
-        // Assuming product_ids is an array of product IDs
+    // Assuming product_ids is an array of product IDs
     $productIds = $request->input('product_id');
     $totalOrder = $request->input('totalOrder');
     $paymentoptionId = $request->input('paymentoption_id');
+    $deliveryId = $request->input('delivery_id');
+
     $validatedData['username'] = auth()->user()->id;
     $validatedData['totalOrder'] = $totalOrder;
     $validatedData['order_date'] = now();
-    $validatedData['paymentstatus_id'] = '4';
-    $validatedData['orderstatus_id'] = '5';
-
-    //dd($validatedData);
 
     if ($paymentoptionId == 1) {
         $validatedData['paymentstatus_id'] = 4;
         $validatedData['orderstatus_id'] = 5;
-       
-    } else {
+        $validatedData['paymentProof'] = "cash";
+    }
+
+    // Handle paymentProof file upload
+    if ($paymentoptionId == 2 && $request->hasFile('paymentProof')) {
+        $paymentProofFile = $request->file('paymentProof');
+        $originalFilename = $paymentProofFile->getClientOriginalName();
+        $paymentProofPath = $paymentProofFile->storeAs('payment-proofs', $originalFilename);
+
+        $validatedData['paymentProof'] = $paymentProofPath;
         $validatedData['paymentstatus_id'] = 2;
         $validatedData['orderstatus_id'] = 5;
     }
 
-     // Create the order
-     $order = Order::create($validatedData);
-   
-    // Associate products with the order
-    foreach ($productIds as $productId) {
-        // Retrieve the product based on the ID
-        $product = Product::find($productId);
+    if ($deliveryId == 1) {
+        $validatedData['del_place'] = $request->input('del_place');
+        $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
+    } else {
+        $validatedData['del_place'] = "pick up";
+        $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
+    }
 
-        // Create order item for each product in the order
-        $orderItem = new OrderItem([
-            'product_id' => $productId,     
-            'email' => $product->user->email
-        ]);
+    // Check if an existing order exists for any of the products and the user
+    $existingOrder = Order::join('order_items', 'orders.id', '=', 'order_items.order_id')
+        ->whereIn('order_items.product_id', $productIds)
+        ->where('orders.username', auth()->user()->id)
+        ->first();
 
-        // Save the order item
-        $order->orderItems()->save($orderItem);
+    if (!$existingOrder) {
+        // Create a new order
+        $order = Order::create($validatedData);
 
-        $product->productstatus_id = 1;
-        $product->save();
+        // Associate products with the order
+        foreach ($productIds as $productId) {
+            // Retrieve the product based on the ID
+            $product = Product::find($productId);
 
-         // Delete cart entry for the current product and authenticated user
-         Cart::where('product_id', $productId)
-         ->delete();
+            // Create order item for each product in the order
+            $orderItem = new OrderItem([
+                'product_id' => $productId,
+                'email' => $product->user->email
+            ]);
 
-       // $user = $orderItem;
-         //Mail::to($user)->send(new SendEmailNotification());
+            // Save the order item
+            $order->orderItems()->save($orderItem);
+
+            $product->productstatus_id = 1;
+            $product->save();
+
+            // Delete cart entry for the current product and authenticated user
+            Cart::where('product_id', $productId)
+                ->delete();
+        }
+
+        
+    } 
+
+    return redirect('/afterbuy');
+}
 
 
-     }
-
-        return redirect('/afterbuy');
-     }
-
-     /**
-     * Store a newly created resource in storage from viewproduct
-     */
+    
     
 public function addorder(Request $request)
 {
@@ -176,12 +202,14 @@ public function addorder(Request $request)
     ]);
 
     $productId = $request->input('product_id');
+    //dd($productId);
     $totalOrder = $request->input('totalOrder');
     $paymentoptionId = $request->input('paymentoption_id');
     $deliveryId = $request->input('delivery_id');
 
     $product = Product::find($productId);
-
+  
+    
     $validatedData['username'] = auth()->user()->id;
     $validatedData['totalOrder'] = $totalOrder;
     $validatedData['order_date'] = now();
@@ -195,13 +223,16 @@ public function addorder(Request $request)
 
     // Handle paymentProof file upload
     if ($paymentoptionId == 2 && $request->hasFile('paymentProof')) {
-        $paymentProofPath = $request->file('paymentProof')->store('payment-proofs');
+        $paymentProofFile = $request->file('paymentProof');
+        $originalFilename = $paymentProofFile->getClientOriginalName();
+        $paymentProofPath = $paymentProofFile->storeAs('payment-proofs', $originalFilename);
+
         $validatedData['paymentProof'] = $paymentProofPath;
         $validatedData['paymentstatus_id'] = 2;
         $validatedData['orderstatus_id'] = 5;
-        $product->productstatus_id = 1; 
     }
 
+    
     if ($deliveryId == 1) {
         $validatedData['del_place'] = $request->input('del_place');
         $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
@@ -227,12 +258,14 @@ public function addorder(Request $request)
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $productId,
+                    'email' => $product->user->email
                 ]);
             }
         } else {
             OrderItem::create([
                 'order_id' => $order->id,
                 'product_id' => $productId,
+                'email' => $product->user->email
             ]);
         }
 
@@ -253,14 +286,24 @@ public function addorder(Request $request)
      */
     public function show($id)
 {
-    // Retrieve the product details based on the $id
-    $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
-        ->join('negos', 'nego_id', '=', 'negos.id')
-        ->join('users', 'products.username', '=', 'users.id')
-        ->join('banks','products.username','=','banks.user_id')
-        ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-        ->where('products.id', $id)
-        ->first();
+    $product = Product::find($id);
+    
+   // Retrieve the product details based on the $id
+   $product = Product::join('conditions', 'condition_id', '=', 'conditions.id')
+   ->join('negos', 'nego_id', '=', 'negos.id')
+   ->join('users', 'products.username', '=', 'users.id')
+   ->leftJoin('banks','users.id','=','banks.user_id')
+   ->select(
+       'products.id as product_id',  // Alias the product id to avoid conflicts
+       'products.*',
+       'conditions.condition as condition_name',
+       'negos.option as nego_option',
+       'users.username as user_name',
+       'banks.*'   
+   )
+   ->where('products.id', $id)
+   ->first();
+   
 
     $payment = Payment::all();
     
@@ -275,15 +318,12 @@ public function addorder(Request $request)
     $totalOrder = 0;
     $totalOrder = $totalPrice;
 
-    $bank = Bank::join('users','banks.user_id','=','users.id')
-    ->join('products','users.id','=','products.username')
-    ->select('banks.*')
-    ->where('products.id', $id)
-    ->where('banks.user_id','=','users.id')
-    ->first();
+    //$user = User::join('banks','users.id','=','banks.user_id')
+    //->join('products','users.id','=','products.username')
+
 
     // Append the product ID to the title
-    $title = 'Product - ' . $product->id;
+    $title = 'Product - ' . $id;
       
     // Pass the product to the view
     return view('buypage', [
@@ -297,7 +337,7 @@ public function addorder(Request $request)
                 'paymentoption_id' => request()->input('paymentoption_id'),
                 'totalOrder' => $totalOrder,
                 'deliveries' => Delivery::all(),
-                'bank' => $bank
+                'bank' => $product->bank
                 
             ]);
 

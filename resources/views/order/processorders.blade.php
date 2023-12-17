@@ -86,7 +86,7 @@
                   <a href="/cancelled">Cancelled</a>
                 </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
-                  <a href="/orders">Order</a>
+                  <a href="/orders">Process Order</a>
                 </td>
               
               </tr>
@@ -148,18 +148,44 @@
                         <div style="text-align: left;">
                             <h6 style="margin-top:10px;margin-left:15px;">Total Order: RM {{ $order_item->order->totalOrder}}</h6>
                         </div>
-                       
+
+                        <div style="text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                          <div style="text-align: left; display:flex;align-items:center;">
+                            <h6 style="margin-top:10px;margin-left:15px;margin-right:5px;">Payment Method:</h6>  {{ $order_item->order->payment->payment_opt}}
+                          </div> 
+                          <div style="text-align: left; display:flex;align-items:center;">
+                            @if ($order_item->order->payment->id == 2)
+                                <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Payment Proof:</h6>
+                                <div>
+                                    <a href="{{ asset('storage/' . $order_item->order->paymentProof) }}" download>{{ pathinfo($order_item->order->paymentProof)['basename']}}</a>
+                                </div>
+                            @endif
+                          </div>
+                        </div>
+
+                        <div style="text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                          <div style="text-align: left; display: flex;align-items:center">
+                          <h6 style="margin-top: 10px; margin-left: 15px; margin-right: 5px;">Delivery Option:</h6>  {{ $order_item->order->delivery->del_option }}
+                          </div>
+                          <div style="text-align: left; display: flex;align-items:center">
+                          @if ($order_item->order->delivery->id == 1)
+                              <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Deliver to:</h6>
+                              {{ $order_item->order->del_place }}
+                          @endif
+                          </div>
+                      </div>
+                      
+
+                  
                         <div class="processBtn" style="margin-left:15px; margin-top:10px; margin-bottom:20px;display:flex;">
                             <a href="{{ url('prepare', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:130px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Process Delivery</a>
                             <form action="{{ route('buy.destroy', $order_item->order->id) }}" method="post">
                               @method('DELETE')
                               @csrf
-                              <button type="submit" onclick="return confirm('Are you sure to cancel this order?')"  style="margin-left:30px; color:black;border:none;background-color:white">
+                              <button type="submit" onclick="return confirm('Are you sure to cancel this order?')"  style="margin-left:30px; color:black;border:none;background-color:white;text-decoration:underline;">
                                   Cancel order
                               </button>
                             </form>
-
-                          
                             </div>
                         </div> 
                         

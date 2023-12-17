@@ -9,6 +9,9 @@ class Delivery extends Model
 {
     use HasFactory;
 
-    
+    public function order()
+    {
+         return $this->belongsTo(Delivery::class,'id');
+    }
 
 }

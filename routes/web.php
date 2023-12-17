@@ -170,6 +170,7 @@ Route::get('/deliveryorder',[MyOrderController::class,'deliveryorder'])->middlew
 Route::get('/receiveorder',[MyOrderController::class,'receiveorder'])->middleware('auth');
 Route::get('/completedorder',[MyOrderController::class,'completedorder'])->middleware('auth');
 Route::get('/cancelorder',[MyOrderController::class,'cancelorder'])->middleware('auth');
+Route::get('/process',[MyOrderController::class,'process'])->middleware('auth');
 
 //Route::get('/viewproduct', function () {
 //   return view('products.viewproduct',[
@@ -217,6 +218,7 @@ Route::middleware("auth")->group(function (){
 
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
+//Route::get('buy/{id}', [OrderController::class, 'show'])->name('buy.show')->middleware('auth');
 Route::post('buyproduct',[OrderController::class,'addorder'])->middleware('auth');
 Route::get('show_items/{ids}', [OrderController::class, 'showitems'])->middleware('auth');
 

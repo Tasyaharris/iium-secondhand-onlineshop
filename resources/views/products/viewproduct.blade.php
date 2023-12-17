@@ -128,7 +128,7 @@
                 </a>
                 
                 <div class="box ">
-                  @if($product->username == $seller)
+                  @if($product->username == auth()->user()->id)
                   <a href="{{ route('chat.show',   $product->id) }}" class="button button0">View Chat</a>
                   <br><br>
 
