@@ -36,6 +36,7 @@
             
             <div class="products-listing">
               <div class="row g-2" >
+                <div container style=" background-color: white;  border: none;min-height: 50vh;">
                 @foreach($cancel_items->groupBy('cancel_order_id') as $cancelorderId => $cancelGroup)
                     <div class="col">       
                         <div class="card-body d-flex flex-column">
@@ -89,6 +90,7 @@
                         
                       </div>
                       @endforeach
+                  </div>
                     
                     </div>
                     

@@ -82,6 +82,7 @@ class ProcessOrderController extends Controller
             $order->update(['orderstatus_id' => 1]);
         }
 
+
         
         $title = 'Deliver - '. $order->id;
 
@@ -94,11 +95,13 @@ class ProcessOrderController extends Controller
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option')
                 ->get(),
             'profiles' => Profile::where('username', auth()->user()->id)->get(),
-           'order'=> $order,
+             'order'=> $order,
+          
             
         ]);
     }
 
+    //in my order view to display the product that received status by seller
     public function receive($id){
 
         $order = Order::join('order_items','order_id','=','orders.id')
@@ -125,6 +128,7 @@ class ProcessOrderController extends Controller
         ]);
     }
 
+    //to display in process order in seller view
     public function received($id)
     {
     
@@ -138,6 +142,7 @@ class ProcessOrderController extends Controller
         if ($order->orderstatus_id == 1) {
            $order->update(['orderstatus_id' => 2]);
        }
+
 
         $received = $order;
 

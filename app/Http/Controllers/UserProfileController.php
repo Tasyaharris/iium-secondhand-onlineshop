@@ -48,7 +48,13 @@ class UserProfileController extends Controller
             
         ]);
        
-    
+        
+        // Handle profile picture upload
+        if ($request->hasFile('profile_pic')) {
+            $profilePicPath = $request->file('profile_pic')->store('profile-pics');
+            $validatedData['profile_pic'] = $profilePicPath;
+        }
+        
         $validatedData['gender']= " ";
         $validatedData['username'] = auth()->user()->id;
 

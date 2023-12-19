@@ -10,7 +10,7 @@ use App\Models\Nego;
 use App\Models\Subcategorie;
 use Illuminate\Http\Request; 
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\DB;
 
@@ -178,6 +178,9 @@ public function getSubcategoriesAjax($categoryId)
     
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
+                if($request->oldPic){
+                    Storage::delete($request->oldPic);
+                }
                 $imagePath = $image->store('posts-images'); // Modify the storage path as needed
                 $imagePaths[] = $imagePath;
             }
@@ -186,7 +189,7 @@ public function getSubcategoriesAjax($categoryId)
         // Update product data
         $productData = [
             'product_pic' => json_encode($imagePaths),
-            'product_name' => ucwords($validatedData['product_name']),
+            'product_ name' => ucwords($validatedData['product_name']),
             'category_id' => $validatedData['category_id'],
             'condition_id' => $validatedData['condition_id'],
             'option_id' => $validatedData['option_id'],
@@ -214,8 +217,13 @@ public function getSubcategoriesAjax($categoryId)
     public function destroy($id)
     {
         try {
+
             // Find the product by ID
             $product = Product::findOrFail($id);
+
+            if($product->product_pic){
+                Storage::delete($product->product_pic);
+            }
     
             // Detach subcategories related to the product
             $product->subcategories()->detach();

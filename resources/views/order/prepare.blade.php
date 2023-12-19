@@ -85,11 +85,11 @@
               <div class="table-container" style="margin-bottom:5px;">
               <table class="selection">
                 <tr>
-                  <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                    <a href="/listings">Preparing</a>
+                  <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/prepare">
+                    <a href="/prepare">Preparing</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/delivering">
-                    <a href="/delivering">Delivering</a>
+                  <td class="clickable-row{{ Request::is('delivering') ? 'active' : ' ' }}" data-href="#">
+                    <a href="#">Delivering</a>
                   </td>
                   <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received">
                     <a href="/received">Received</a>

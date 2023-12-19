@@ -72,6 +72,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Bank::class,'id','user_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id','username');
+    }
+
+   
+
+
     public function canJoinRoom($roomId){
 
         $granted = false;

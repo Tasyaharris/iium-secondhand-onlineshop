@@ -18,7 +18,9 @@ class DiscussionController extends Controller
         return view('discussion',[
             "title"=> "Discussion",
             "discussions"=> Discussion::join('users','discussions.username','=','users.id')
-            ->select('discussions.*','users.username as user_name')->get()
+            ->select('discussions.*','users.username as user_name')
+            ->orderBy('discussions.created_at', 'desc') 
+            ->get()
             //'profiles'=> Profile::all()
         ]);
     }

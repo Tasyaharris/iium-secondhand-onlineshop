@@ -27,11 +27,11 @@
               @foreach ($profiles as $profile)
               <div class="flex-container">
                 @if ($profile->profile_pic)
-                <img class="profile-picture" src="{{ asset($profile->profile_pic) }}" alt="User Profile Picture">
-                @else
-                  <!-- Default image if profile_pic is not set -->
-                  <img class="profile-picture" src="{{ asset('images/default-profile-pic.png') }}" alt="Default Profile Picture">
-                @endif
+                <img class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
+            @else
+                <!-- Default image if profile_pic is not set -->
+                <img class="profile-picture" src="{{ asset('images/default-profile-pic.png') }}" alt="Default Profile Picture">
+            @endif
                 <div class="uname">
                   <div class="nameuser">
                     <h6 >{{ $profile->first_name }} </h6>
@@ -85,7 +85,7 @@
             <table class="selection1" >
               <tr>
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                  <a href="/sold">Sold</a>
+                  <a href="/sold">Completed</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
                   <a href="/cancelled">Cancelled</a>

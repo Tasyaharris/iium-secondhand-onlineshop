@@ -76,14 +76,14 @@
               <div class="table-container" style="margin-bottom:5px;">
                 <table class="selection">
                   <tr>
-                    <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                      <a href="/listings">Preparing</a>
+                    <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/prepare/{id}">
+                      <a href="/prepare/{id}">Preparing</a>
                     </td>
                     <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/deliver">
-                      <a href="/deliver">Delivering</a>
+                      <a href="/deliver/{$id}">Delivering</a>
                     </td>
-                    <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received">
-                      <a href="/received">Received</a>
+                    <td class="clickable-row active{{ Request::is('received') ? 'active' : ' ' }}" data-href="/receive/{id}">
+                      <a href="/receive/{id}">Received</a>
                     </td>
                   </tr>
                 </table>

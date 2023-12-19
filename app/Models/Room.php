@@ -11,4 +11,7 @@ class Room extends Model
     use HasFactory, GenUid;
 
     protected $fillable = ["users"];
+
+    
+
 }

@@ -173,7 +173,7 @@ margin-left: 9px;
 padding: 0; /* Remove any padding */
 }
 
-  .btn-info {
+  .btn-info1 {
     background-color: #416A77; /* Change to your desired color */
     color: #fff; /* Set text color to contrast with the background */
     margin-right: 300px;
@@ -189,6 +189,7 @@ padding: 0; /* Remove any padding */
     width: auto; /* Let it occupy available space */
     margin: 0; /* Remove any margin */
     padding: 0; /* Remove any padding */
+   
   }
   
   .create-discussion .no-hover-effect {

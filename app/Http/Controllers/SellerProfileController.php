@@ -45,14 +45,14 @@ class SellerProfileController extends Controller
         ->first(); 
 
         // Append the product ID to the title
-        $title = 'Profile - ' . $profile->username;
+      
     
 
         return view('sellerprofile.reviews', [
-            'title' => $title,
+            'title' => "User Profile",
             'profile' => $profile,
             'order_items' => OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
-                ->join('reviews', 'order_items.id', '=', 'reviews.order_item_id')
+                ->leftJoin('reviews', 'order_items.id', '=', 'reviews.order_item_id')
                 ->join('orders', 'order_items.order_id', '=', 'orders.id')
                 ->where('order_items.rstatus', '=', '1') 
                 ->select('order_items.*')

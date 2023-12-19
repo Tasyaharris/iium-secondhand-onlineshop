@@ -76,14 +76,14 @@
               <div class="table-container" style="margin-bottom:5px;">
                 <table class="selection">
                   <tr>
-                    <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                      <a href="/listings">Preparing</a>
+                    <td class="clickable-row {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="{{ url('receive', $order->id) }}">
+                      <a href="{{ url('prepare', $order->id) }}">Preparing</a>
                     </td>
-                    <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/delivering">
-                      <a href="/delivering">Delivering</a>
+                    <td class="clickable-row active  {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="{{ url('deliver', $order->id) }}">
+                      <a href="{{ url('deliver', $order->id) }}">Delivering</a>
                     </td>
                     <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received">
-                      <a href="/received">Received</a>
+                      <a href="{{ url('receive', $order->id) }}">Received</a>
                     </td>
                   </tr>
                 </table>
@@ -92,9 +92,7 @@
 
             
         <div class="container-under-table" style=" border: none; margin-top:0;">
-            
-
-          
+          <div container style=" background-color: white;  border: none;min-height: 50vh;">
           <div style="display:flex; margin-top:15px;">
             <div id="roundedButton" class="radio-button" onclick="showAdditionalButton()"> </div> 
             <small style="margin-left:5px;">On my way to deliver</small>
@@ -106,8 +104,9 @@
           </div>
         </div>
         </div>
+      </div>
 
-        
+      
       </div>
 
       

@@ -80,13 +80,13 @@
             <table class="selection1" >
               <tr>
                 <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                  <a href="/sold">Sold</a>
+                  <a href="/sold">Completed</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
                   <a href="/cancelled">Cancelled</a>
                 </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
-                  <a href="/orders">Order</a>
+                  <a href="/orders">Process Order</a>
                 </td>
               
               </tr>
@@ -98,11 +98,12 @@
           <div class="container-under-table">
             <!-- Your container content under the table goes here -->
             <div class="selection-title">
-                <h5>Sold</h5>
+                <h5>Completed</h5>
             </div>
             
             <div class="products-listing">
               <div class="row g-2" >
+                <div container style=" background-color: white;  border: none;min-height: 50vh;">
                 @foreach ($order_items as $order_item)
                 <div class="col">
                     <div class="card  text-center mb-3 " style="width: 210px; height: 250px;">
@@ -163,10 +164,7 @@
                 </div>
                     
                 @endforeach
-                
-            
-                
-      
+                </div>
               </div>
         
 

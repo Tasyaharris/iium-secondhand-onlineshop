@@ -36,6 +36,7 @@
             
             <div class="products-listing">
               <div class="row g-2" >
+                <div container style=" background-color: white;  border: none;min-height: 50vh;">
                 @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)
                     <div class="col">       
                         <div class="card-body d-flex flex-column">
@@ -88,6 +89,7 @@
                         
                       </div>
                       @endforeach
+                </div>
                     </div>
                     
                  

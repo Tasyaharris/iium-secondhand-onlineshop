@@ -58,8 +58,8 @@
                 <td class="clickable-row  active{{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/profile">My Listings</a>
                 </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/reviews">
-                  <a href="/reviews">Reviews</a>
+                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/review">
+                  <a href="/review">Reviews</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
                   <a href="/cart">My Cart</a>
@@ -80,7 +80,7 @@
             <table class="selection1" >
               <tr>
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                  <a href="/sold">Sold</a>
+                  <a href="/sold">Completed</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
                   <a href="/cancelled">Cancelled</a>
@@ -103,6 +103,7 @@
             
             <div class="products-listing">
               <div class="row g-2" >
+                <div container style=" background-color: white;  border: none;min-height: 50vh;">
             @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)
                 <div class="col">       
                     <div class="card-body d-flex flex-column">
@@ -195,6 +196,7 @@
                 </div>
                 
              @endforeach
+              </div>
            
               </div>
         

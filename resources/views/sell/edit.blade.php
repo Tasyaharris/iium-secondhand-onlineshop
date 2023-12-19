@@ -65,24 +65,35 @@
       <form method="post"  action="/sell/{{ $product->id }}" enctype="multipart/form-data" id="myForm">
         @csrf
         @method('PUT')
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
+
           <!--Image-->
-          <input type="hidden" name="product_id" value="{{ $product->id }}">
           <div class="inp_img mb-3 mt-0" >
             <div class="elements-box" id="elementsBox">
-            <div class="mb-4 mt-5 d-flex justify-content-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
-                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                    <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-                  </svg>
-            </div>
-            <div class="d-flex justify-content-center">
-                <div class="btn_upload">
-                
+                <div class="mb-2 mt-3 d-flex justify-content-center">
+                  
+                </div>
+            <div class="justify-content-center">
+                <input type="hidden" name="oldPic" value="{{$product->product_pic }}">
+                @if ($product->product_pic)
+                <div class="d-block">
+                @if (is_array(json_decode($product->product_pic)))
+                    <div class="image-flex-container">
+                        @foreach(json_decode($product->product_pic) as $index => $imagePath)
+                            <div class="image-flex-item">
+                                <img src="{{ asset('storage/' . $imagePath) }}" width="100" height="100" alt="Image {{ $index + 1 }}">
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                @else
+                    <img src="{{ asset('storage/' . $product->product_pic) }}" width="100" height="100">
+                @endif
+                @endif
+                <div class="btn_upload mt-4 justify-content-center d-block" style="width:100px;align-items:center;">
                 <label class="form-label m-1 " for="customFile1">
-                    Select Photos
+                    Edit Photos
                 </label>
-               
-                
                 <input type="file" class="form-control @error('image') is-invalid @enderror d-none" id="customFile1" name="images[]" multiple required  required accept=".png, .jpg, .jpeg" onchange="displaySelectedImages(this)" />
 
                 @error('image')
@@ -103,6 +114,7 @@
             </div>
 
         </div>
+      
  
 
         <div class="form-floating mb-3 mt-3">
