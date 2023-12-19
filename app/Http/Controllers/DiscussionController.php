@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Http\Requests\StoreDiscussionRequest;
 use App\Http\Requests\UpdateDiscussionRequest;
+use Illuminate\Database\QueryException;
 
 class DiscussionController extends Controller
 {
@@ -25,6 +26,18 @@ class DiscussionController extends Controller
         ]);
     }
 
+    public function yourdiscussion()
+    {
+        return view('userdiscussion',[
+            "title"=> "Your Post",
+            "discussions"=> Discussion::join('users','discussions.username','=','users.id')
+            ->select('discussions.*','users.username as user_name')
+            ->orderBy('discussions.created_at', 'desc') 
+            ->where('discussions.username',auth()->user()->id)
+            ->get()
+            //'profiles'=> Profile::all()
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -69,8 +82,16 @@ class DiscussionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Discussion $discussion)
+    public function destroy($id)
     {
-        //
+         // Find the product by ID
+         $discussion = Discussion::findOrFail($id);
+
+         // Delete the product
+         $discussion->delete();
+         
+         return redirect('/yourdiscussion')->with('success', 'Post deleted!');
+ 
+
     }
 }

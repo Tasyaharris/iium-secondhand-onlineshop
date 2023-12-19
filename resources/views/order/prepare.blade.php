@@ -88,10 +88,10 @@
                   <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/prepare">
                     <a href="/prepare">Preparing</a>
                   </td>
-                  <td class="clickable-row{{ Request::is('delivering') ? 'active' : ' ' }}" data-href="#">
-                    <a href="#">Delivering</a>
+                  <td class="clickable-row{{ Request::is('delivering') ? 'active' : ' ' }}" data-href="" disabled>
+                    <a href="">Delivering</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received">
+                  <td class="clickable-row {{ Request::is('received') ? 'active' : ' ' }}" data-href="/received" disabled>
                     <a href="/received">Received</a>
                   </td>
                 </tr>

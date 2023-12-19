@@ -18,20 +18,24 @@
             <div class="user-info">
               <div class="flex-container">
                 <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
+                @if($profile)
                 <div class="uname">
                   <div class="nameuser">
                     <h6 >{{ $profile->first_name }} </h6>
                     <h6>{{ $profile->last_name }}</h6>
                   </div>
                 </div>
+                @endif
               </div>
               <br>
-                <div class="location">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                </svg> 
-                <p>{{ $profile->mahallah }}</p>
-                </div>
+              @if($profile)
+              <div class="location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+              <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+              </svg> 
+              <p>{{ $profile->mahallah }}</p>
+              </div>
+              @endif
             </div>
           </div>  
         </div>
@@ -42,11 +46,11 @@
               <div class="table-container">
               <table class="selection">
                 <tr>
-                  <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                    <a href="/listings">Products</a>
+                  <td class="clickable-row active {{ Request::is('sellerprofile') ? 'active' : ' ' }}"  data-href="{{ route('sellerprofile.show',$user->id) }}">
+                    <a href="{{ route('sellerprofile.show',$user->id) }}">Products</a>
                   </td>
-                  <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/sellerreviews/{{ $profile->id }}">
-                    <a href="/sellerreviews/{{ $profile->id }}">Reviews</a>
+                  <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/sellerreviews/{{ $user->id }}">
+                    <a href="/sellerreviews/{{ $user->id }}">Reviews</a>
                   </td>
                 </tr>
               </table>

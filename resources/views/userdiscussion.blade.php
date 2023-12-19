@@ -12,6 +12,16 @@
 
     @include('partials.navbar')
     
+    <!--success messages; later will be replaced with pop up alert/messages-->
+    @if(session()->has('success'))
+    <div class="alert alert-success d-flex align-items-center" role="alert">
+      {{ session('success') }}
+      <button type="button" id="closeBtn" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    @endif
+
     <div class="box1 ">
         <div class="content">
             <div class="logo">
@@ -38,11 +48,11 @@
           <div class="table-container"  >
           <table class="selection" style=" margin:0;padding:0;">
             <tr>
-              <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
-                <a href="/recent">Recent</a>
+              <td class="clickable-row {{ Request::is('discussion') ? 'active' : ' ' }}"  data-href="/discussion">
+                <a href="/discussion">Recent</a>
               </td>
-              <td class="clickable-row {{ Request::is('yourdiscussion') ? 'active' : ' ' }}" data-href="/yourdiscussion">
-                <a href="/yourdiscussion">Your Post</a>
+              <td class="clickable-row active{{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/yourpost">
+                <a href="/yourpost">Your Post</a>
               </td>
             </tr>
           </table>
@@ -60,7 +70,7 @@
                       <div class="col-md-0" style="margin-left: 25px;" >
                           <h6>{{ $discussion->user_name }}</h6>
                       </div>
-                      <div class="col-md-18">
+                      <div class="col-md-8">
                       <div class="row" style="margin-left: 7px;" >
                           <h6>{{ $discussion->title }}</h6>
                           <p>{{ $discussion->discussion }}</p>
@@ -73,6 +83,16 @@
                   <livewire:comments :model="$discussion"/>
               </div>
             </div>
+
+            <form action="{{ route('createdisc.destroy', $discussion->id)}}" method="post">
+                @method('DELETE')
+                @csrf
+              <div class="col-md-12 delete d-flex justify-content-end" style="margin-right:15px;">
+                <button type="submit" class="bg-body-tertiary" style="border:none; text-decoration:underline;margin-right:15px;" onclick="return confirm('Are you sure to delete this post?')">
+                   Delete Post
+                </button>
+              </div>
+            </form>
           </nav>
             @endforeach
               <!-- Create Discussion button -->

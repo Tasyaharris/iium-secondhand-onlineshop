@@ -8,6 +8,8 @@ use App\Models\Condition;
 use App\Models\Selleroption;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Like;
+
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -132,6 +134,32 @@ class ProductController extends Controller
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name')
             ->get()    
             ]);
+    }
+
+    public function storelike(Request $request)
+    {
+        $productId = $request->input('product_id');
+        $userId = auth()->user()->id;
+    
+        $like = Like::where('product_id', $productId)
+                    ->where('username', $userId)
+                    ->first();
+    
+        if ($like) {
+            // If the like already exists, remove it
+            $like->delete();
+            $liked = false;
+        } else {
+            // If the like doesn't exist, add it
+            Like::create([
+                'product_id' => $productId,
+                'username' => $userId,
+            ]);
+            $liked = true;
+        }
+    
+        return response()->json(['liked' => $liked]);
+
     }
 
 

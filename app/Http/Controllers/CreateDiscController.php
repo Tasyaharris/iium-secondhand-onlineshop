@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Discussion;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+
 
 class CreateDiscController extends Controller
 {
@@ -79,8 +81,16 @@ class CreateDiscController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Discussion $discussion)
+    public function destroy($id)
     {
-        //
+            // Find the product by ID
+            $discussion = Discussion::findOrFail($id);
+
+            // Delete the product
+            $discussion->delete();
+            
+            return redirect('/userdiscussion')->with('success', 'Item has been deleted!');
+    
+
     }
 }

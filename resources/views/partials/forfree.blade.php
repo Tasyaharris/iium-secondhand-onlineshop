@@ -35,7 +35,7 @@
                                             <small id="condition">{{ $product->condition_name }}</small>
                                             <br>
                                             
-                                            <form method="post" action="{{ url('likes') }}" id="addLike">
+                                            <form method="post" action="{{ url('likeprodutc') }}" id="addLike">
                                               @csrf
                                               <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}  ">
                                               <button type="submit" class="heart-button" data-product-id="{{ $product->id }}" style="cursor: pointer; border: none; background: none;">
@@ -110,7 +110,7 @@
          var productId = clickedButton.data('product-id');
  
          $.ajax({
-             url: "{{ url('likes') }}",
+             url: "{{ url('likeproduct') }}",
              data: { product_id: productId, _token: "{{ csrf_token() }}" },
              type: 'post',
              success: function(result) {

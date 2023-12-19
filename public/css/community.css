@@ -1,7 +1,7 @@
 .box1 {
     display: flex;
     justify-content: center; /* Horizontally center content */
-    height: 30vh; /* Optionally set a height to center vertically within the viewport */
+    height: 20vh; /* Optionally set a height to center vertically within the viewport */
 }
 
 .content {

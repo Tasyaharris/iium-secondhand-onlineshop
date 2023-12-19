@@ -112,6 +112,7 @@ Route::get('/createdisc', function () {
 });
 
 Route::resource('/createdisc', CreateDiscController::class)->middleware('auth');
+Route::post('/discussion/{id}', ['CreateDiscController::class','destroy'])->name('createdisc.destroy');
 
 
 Route::get('/afterbuy', function () {
@@ -154,6 +155,9 @@ Route::get('/shoes',[ExploreController::class,'getShoes']);
 Route::get('/sendmail',[SendEmailController::class,'index']);
 
 Route::get('/product/search',[ProductController::class,'search']);
+Route::post('/likeproduct', [ProductController::class,'storelike'])->middleware('auth');
+
+
 
 Route::get('/orders',[ProcessOrderController::class,'getOrder'])->middleware('auth');
 Route::get('/prepare/{id}',[ProcessOrderController::class,'prepare'])->middleware('auth');
@@ -196,8 +200,8 @@ Route::get('/process',[MyOrderController::class,'process'])->middleware('auth');
 
 
 Route::resource('likes', LikeController::class)->middleware('auth');
-Route::post('/likes', [LikeController::class,'store'])->middleware('auth');
-Route::post('/like.destroy', 'LikeController@destroy')->name('like.destroy')->middleware('auth');
+//Route::post('/likes', [LikeController::class,'store'])->middleware('auth');
+//Route::post('/like.destroy', 'LikeController@destroy')->name('like.destroy')->middleware('auth');
 
 
 Route::get('/sellerprofile',[SellerProfileController::class,'index']);
@@ -205,8 +209,9 @@ Route::get('/sellerprofile/{id}',[SellerProfileController::class,'show'])->name(
 Route::get('/sellerreviews/{id}',[SellerProfileController::class,'sellerreview']);
 
 
-Route::resource('/discussion', DiscussionController::class)->middleware('auth');
+Route::resource('/discussion', DiscussionController::class);
 Route::get('/discussion/{discussion}',[DiscussionController::class,'show']);
+Route::get('/yourdiscussion',[DiscussionController::class,'yourdiscussion'])->middleware('auth');
 
 
 Route::resource('/products',ProductController::class);
