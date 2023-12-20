@@ -94,7 +94,7 @@
         <div class="container-under-table" style=" border: none; margin-top:0;">
           <div container style=" background-color: white;  border: none;min-height: 50vh;">
           <div style="display:flex; margin-top:15px;">
-            <div id="roundedButton" class="radio-button" onclick="showAdditionalButton()"> </div> 
+            <a id="roundedButton" class="radio-button" href="{{ url('delivering', $order->id) }}" onclick="showAdditionalButton(event)"></a>
             <small style="margin-left:5px;">On my way to deliver</small>
           </div>
          
@@ -116,23 +116,84 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script>
-      function showAdditionalButton() {
-        var radioButton = document.getElementById('roundedButton');
-        radioButton.classList.toggle('checked');
+       $(document).ready(function() {
+          // Check the orderstatus_id when the document is ready
+          checkOrderStatus();
+  
+          function checkOrderStatus() {
+              var orderStatus = {{ $order->orderstatus_id }};
+  
+              // Update the UI based on the orderstatus_id
+              if (orderStatus === 1) {
+                  var radioButton = document.getElementById('roundedButton');
+                  radioButton.classList.add('checked');
+                  var additionalButton = document.getElementById('additionalButton');
+                  var additionalButton1 = document.getElementById('additionalButton1');
+                  additionalButton.classList.remove('hidden');
+                  additionalButton.classList.add('displayed');
+                  additionalButton1.classList.remove('hidden');
+                  additionalButton1.classList.add('displayed');
+              }
 
-        var additionalButton = document.getElementById('additionalButton');
-        
+              if (orderStatus === 2) {
+                  var radioButton = document.getElementById('roundedButton');
+                  radioButton.classList.add('checked');
+                  var additionalButton = document.getElementById('additionalButton');
+                  var additionalButton1 = document.getElementById('additionalButton1');
+                  additionalButton.classList.add('checked');
+                  additionalButton.classList.add('displayed');
+                  additionalButton1.classList.add('displayed');
+              }
 
-        var additionalButton1 = document.getElementById('additionalButton1');
-        additionalButton.classList.toggle('hidden');
-        additionalButton.classList.toggle('displayed');
-        additionalButton1.classList.toggle('hidden');
-        additionalButton1.classList.toggle('displayed');
+
+
+          }
+
+      function showAdditionalButton(event) {
+        event.preventDefault(); // Prevent the default link behavior
+    
+       var orderId = {{ $order->id }};
+
+          // Make an AJAX request using jQuery's $.ajax
+          $.ajax({
+                url: '/delivering/' + orderId,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Handle the successful response
+                    if (data.status == 'success') {
+                        if (data.delivered) {
+                        // 'delivered' is true, perform actions accordingly
+                        console.log('Order on the way.');
+                                      // Update the UI (change color, show/hide elements, etc.)
+                    var radioButton = document.getElementById('roundedButton');
+                    var isAlreadyChecked = radioButton.classList.contains('checked');
+
+                    if (!isAlreadyChecked) {
+                        radioButton.classList.add('checked');  
+                    }
+                    
+                    var additionalButton = document.getElementById('additionalButton');
+                        var additionalButton1 = document.getElementById('additionalButton1');
+                        additionalButton.classList.remove('hidden');
+                        additionalButton.classList.add('displayed');
+                        additionalButton1.classList.remove('hidden');
+                        additionalButton1.classList.add('displayed');
+
+                    } 
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle errors here
+                    console.error('Error in jQuery $.ajax request:', textStatus, errorThrown);
+                }
+            });
     }
 
-  
-
-
+    
+          // Call the checkOrderStatus function when the document is ready
+          checkOrderStatus();
+      });
   </script>
   </body>
 </html>

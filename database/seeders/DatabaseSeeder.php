@@ -188,6 +188,10 @@ class DatabaseSeeder extends Seeder
             'status'=> 'Cancelled by Buyer'
          ]);
 
+         Statusorder::create([
+            'status'=> 'Prepare'
+         ]);
+
          Subcategorie::create([
             'category_id' => '1',
             'name' => "All Fashion"
@@ -339,7 +343,6 @@ class DatabaseSeeder extends Seeder
 
          Discussion::create([
             'title'=>'Delivery System',
-            'slug'=> 'delivery-system',
             'discussion'=> 'It is important to set the maximum days of delivery time',
             'username'=>'1'
          ]);

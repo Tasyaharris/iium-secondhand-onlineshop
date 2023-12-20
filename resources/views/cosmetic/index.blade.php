@@ -17,9 +17,9 @@
     @include('partials.header')
     @include('cosmetic.filtercosmetic')
     
-    <div container style=" background-color: white;  border: none;min-height: 50vh;">
+   
       @include('book.unfiltered')
-      </div>
+     
     
     @include('partials.footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

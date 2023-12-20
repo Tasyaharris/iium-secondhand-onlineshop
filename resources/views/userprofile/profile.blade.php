@@ -79,13 +79,16 @@
 
           <nav class="side-navbar1" style="margin-left:10px;padding:0px; display:inline-block;">
             <div class="order-title" style="display: inline-flex;">
-            <h5 style="margin-top:10px; text-align:center; margin-left: 45px; ">My Listings</h5>
+
             <!-- Your sidebar content goes here -->
-            <div class="table-container1" style="margin-left:40px;">
+            <div class="table-container1">
             <table class="selection1" >
               <tr>
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Completed</a>
+                </td>
+                <td class="clickable-row  {{ Request::is('pending') ? 'active' : ' ' }}"  data-href="/pending">
+                  <a href="/pending">Await Confirmation</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
                   <a href="/cancelled">Cancelled</a>

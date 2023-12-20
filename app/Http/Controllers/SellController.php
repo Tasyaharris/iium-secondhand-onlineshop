@@ -85,7 +85,8 @@ public function getSubcategoriesAjax($categoryId)
             'nego_id' => 'required',
             'brand' => 'required',
             'material' => 'required',
-            'meetup_point' => 'required'
+            'meetup_point' => 'required',
+            'more_desc'=>'string|max:255'
         ]);
        // Handle multiple image uploads
          $imagePaths = [];
@@ -97,6 +98,8 @@ public function getSubcategoriesAjax($categoryId)
            }
        }
 
+       $validatedData['more_desc']= 
+    
        $validatedData['product_name']= ucwords($validatedData['product_name']);
     
         $validatedData['product_pic'] = json_encode($imagePaths); // Store paths as JSON

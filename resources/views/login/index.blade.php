@@ -16,7 +16,7 @@
 </div>
 @endif
 
-<div class="box1 w-100 m-auto">
+<div class="box1 flex-grow-1 w-100 m-auto">
     <div class="logo">
         <img class="mb-2" src="images/logo.png" alt="logo" width="65" height="57">
     </div>
@@ -27,7 +27,7 @@
 
 
 <main class="form-signin">
-    <div class="center">
+    <div class="center mb-3">
         <div class="title">
             <p style="font-weight: bold">USER LOGIN</p>
         </div>
@@ -63,4 +63,5 @@
     
   </main>
 @endsection
+
 

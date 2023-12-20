@@ -110,9 +110,6 @@
            success: function(result) {
                var liked = result.liked;
   
-               // Log the value of 'liked' to check if it's being correctly set
-               //console.log('Liked:', liked);
-  
                // Change the heart color based on the result
                var heartIcon = clickedButton.find('.bi-heart-fill');
                heartIcon.attr('fill', liked ? 'red' : 'white');

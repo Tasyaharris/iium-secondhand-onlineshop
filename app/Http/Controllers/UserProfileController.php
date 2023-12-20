@@ -44,7 +44,7 @@ class UserProfileController extends Controller
             'phone_number' => 'required',
             'mahallah' => 'required',
             'kuliyyah' => 'required',
-            'bio' => 'required'
+            'bio' => 'nullable|string'
             
         ]);
        

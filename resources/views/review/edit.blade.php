@@ -135,7 +135,7 @@
     <!--submit button-->
     <nav class="navbar navbar-expand-lg " style="height: 60px;border: 1px solid #000;">
         <div class="col d-flex mt-3" style="margin-right: 15px;">
-        <button type="submit" class="processBtn ms-auto" style="margin-right: 15px;border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 90px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">Update Review</a>
+        <button type="submit" class="processBtn ms-auto" style="margin-right: 15px;border-radius: 5px; border: 1px solid #000; background: rgba(168, 184, 208, 0.80); text-align: center; text-decoration: none; color: black; height: 30px; width: 130px; margin-right: 15px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center;">Update Review</a>
         </div>
     </nav>
 

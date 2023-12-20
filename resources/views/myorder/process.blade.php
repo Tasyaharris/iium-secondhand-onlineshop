@@ -86,8 +86,8 @@
             <div class="products-listing">
               <div class="row g-2" >
                 <div class="row g-2" >
-                <div container style=" background-color: white;  border: none;min-height: 50vh;">
-                  @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)
+                  <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+                    @forelse($order_items->groupBy('order.id') as $orderId => $orderGroup)
                       <div class="col">       
                           <div class="card-body d-flex flex-column">
                           <div class="card  text-center mt-1 " style="width: 670px; height: auto;">
@@ -181,7 +181,11 @@
                          
                       </div>
                       
-                   @endforeach
+                      @empty
+                      <div class="col">
+                          <h6 style="color:grey;text-align:center;align-items:center;">No order</h6>
+                      </div>
+                    @endforelse
                  
                 </div>
                 </div>

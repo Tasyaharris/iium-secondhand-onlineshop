@@ -64,15 +64,7 @@
             </div>
             @enderror
           </div>
-          <div class="col-md-8 mb-0 type-title">
-            <h6>Slug: </h6>
-            <input class="form-control @error('slug') is-invalid @enderror" type="text"  name="slug" id="slug" maxlength="255" required style="margin-left: 5px; border:none;">
-            @error('slug')
-            <div class="invalid-feedback">
-             {{ $message }}
-            </div>
-            @enderror
-          </div>
+          
           <div class="col-md-8 mt-0 type-desc" >
               <textarea class="form-control @error('discussion') is-invalid @enderror" id="discussion" name="discussion" placeholder="Type discussion here" required style="margin-top: 7px; border:none; height:180px;"></textarea>
               @error('discussion')
@@ -111,7 +103,6 @@
     submitButton.addEventListener("click", function (e) {
       if (
         document.getElementById('title').value.trim() === '' ||
-        document.getElementById('slug').value.trim() === '' ||
         document.getElementById('discussion').value.trim() === ''
       ) {
         e.preventDefault(); 

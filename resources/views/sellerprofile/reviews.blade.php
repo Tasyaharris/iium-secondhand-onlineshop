@@ -86,7 +86,7 @@
                                 <i class="fas fa-star" value="{{ $i }}" name="product_rating[{{ $order_item->id }}]" id="rating{{ $i }}_{{ $order_item->id }}"></i>
                               @endif
                             @endfor
-                            </div>
+                          </div>
                             <div class="comment">
                             <small>{{ $order_item->review->comment }}</small>
                             </div>

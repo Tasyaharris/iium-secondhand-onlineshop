@@ -28,7 +28,7 @@ class ProcessOrderController extends Controller
             ->join('products','product_id','=','products.id')
             ->join('users','orders.username','=','users.id')
             ->join('deliveries','orders.delivery_id','=','deliveries.id')
-            ->where('orders.orderstatus_id', 5)
+            ->whereIn('orders.orderstatus_id', [5,8,1])
             ->where('products.username', auth()->user()->id)
             ->select('order_items.*','deliveries.*')
             ->get()
@@ -79,11 +79,17 @@ class ProcessOrderController extends Controller
         ->first();
 
         if ($order->orderstatus_id == 5) {
-            $order->update(['orderstatus_id' => 1]);
+            $order->update(['orderstatus_id' => 8]);
+        }
+        
+        if ($order->orderstatus_id == 8) {
+            $order->update(['orderstatus_id' => 8]);
         }
 
+        if ($order->orderstatus_id == 2) {
+            $order->update(['orderstatus_id' => 2]);
+        }
 
-        
         $title = 'Deliver - '. $order->id;
 
         return view('order.deliver', [
@@ -100,6 +106,33 @@ class ProcessOrderController extends Controller
             
         ]);
     }
+
+    public function delivering($id){
+
+      
+        $order = Order::find($id);
+
+        if (!$order) {
+            // Handle the case where the order is not found
+            return response()->json(['status' => 'error', 'message' => 'Order not found'], 404);
+        }
+
+        if ($order->orderstatus_id == 8) {
+           $order->update(['orderstatus_id' => 1]);
+       }
+
+       
+     
+
+
+        $delivered = $order;
+
+        // Return any data if needed
+        return response()->json(['status' => 'success', 'delivered'=> $delivered]);
+    }
+
+    
+    
 
     //in my order view to display the product that received status by seller
     public function receive($id){
@@ -216,10 +249,11 @@ class ProcessOrderController extends Controller
            $order->update(['orderstatus_id' => 3]);
         }
 
+     
 
     // Return any data if needed
-    return view('userprofile.sold', [
-        'title' => 'Sold Products',
+    return view('order.pending', [
+        'title' => 'Await Confirmation',
         'users' => User::where('id',auth()->user()->id)->get(),
         'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos','nego_id','=','negos.id')
@@ -228,10 +262,11 @@ class ProcessOrderController extends Controller
         'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
             ->join('products','product_id','=','products.id')
             ->join('users','orders.username','=','users.id')
-            ->where('orders.orderstatus_id', '=','3')
+            ->where('orders.orderstatus_id', '=','2')
             ->where('products.username', auth()->user()->id)
             ->select('order_items.*')
-            ->get()
+            ->get(),
+       
     ]);
     }
 

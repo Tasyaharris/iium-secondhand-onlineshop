@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('discussions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('slug')->unique;
             $table->text('discussion');
             $table->timestamp('posted_at')->nullable;
             $table->foreignId('username');

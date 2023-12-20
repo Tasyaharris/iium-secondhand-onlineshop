@@ -42,8 +42,7 @@ class CreateDiscController extends Controller
     {
         $validatedData = $request->validate([
          'title'=> 'required',
-         'discussion'=>'required',
-         'slug'=>'required'
+         'discussion'=>'required'
         ]);
 
         $validatedData['username'] = auth()->user()->id;

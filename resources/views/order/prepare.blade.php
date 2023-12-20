@@ -145,6 +145,24 @@
       
 // Check if the buttons were previously checked and update the UI
 document.addEventListener('DOMContentLoaded', function() {
+     // Check the orderstatus_id when the document is ready
+     checkOrderStatus();
+  
+  function checkOrderStatus() {
+      var orderStatus = {{ $order->orderstatus_id }};
+
+      // Update the UI based on the orderstatus_id
+      if (orderStatus === 8 || orderStatus === 1 || orderStatus === 2) {
+          var radioButton = document.getElementById('roundedButton');
+          radioButton.classList.add('checked');
+          var additionalButton = document.getElementById('additionalButton');
+          additionalButton.classList.add('checked');
+      }
+
+      
+
+  }
+
     var radioButton = document.getElementById('roundedButton');
     var additionalButton = document.getElementById('additionalButton');
     var additionalButton1 = document.getElementById('additionalButton1');
@@ -179,6 +197,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     localStorage.setItem('isRadioButtonChecked', isRadioButtonChecked);
     localStorage.setItem('isAdditionalButtonChecked', isAdditionalButtonChecked);
+
+      // Call the checkOrderStatus function when the document is ready
+      checkOrderStatus();
   }
   </script>
   </body>

@@ -12,7 +12,7 @@
   </head>
   <body>
 
-      @include('partials.navbar')
+    @include('partials.navbar')
 
       @include('explore.showproducts')
       @include('partials.footer')

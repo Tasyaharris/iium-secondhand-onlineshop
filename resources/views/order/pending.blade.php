@@ -74,7 +74,7 @@
 
           <nav class="side-navbar1" style="margin-left:10px;padding:0px; display:inline-block;">
             <div class="order-title" style="display: inline-flex;">
-           
+          
             <!-- Your sidebar content goes here -->
             <div class="table-container1" >
             <table class="selection1" >
@@ -82,14 +82,14 @@
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Completed</a>
                 </td>
-                <td class="clickable-row  {{ Request::is('pending') ? 'active' : ' ' }}"  data-href="/pending">
-                  <a href="/pending">Await Confirmation</a>
-                </td>
-                <td class="clickable-row active {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
-                    <a href="/cancelled">Cancelled</a>
+                <td class="clickable-row active {{ Request::is('pending') ? 'active' : ' ' }}"  data-href="/pending">
+                    <a href="/pending">Await Confirmation</a>
                   </td>
+                <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
+                  <a href="/cancelled">Cancelled</a>
+                </td>
                 <td class="clickable-row {{ Request::is('orders') ? 'active' : ' ' }}" data-href="/orders">
-                  <a href="/orders">Order</a>
+                  <a href="/orders">Process Order</a>
                 </td>
               
               </tr>
@@ -101,65 +101,79 @@
           <div class="container-under-table">
             <!-- Your container content under the table goes here -->
             <div class="selection-title">
-                <h5>Cancelled</h5>
+                <h6>Waiting complete order confirmation by buyer</h6>
+               
             </div>
             
             <div class="products-listing">
-                <div class="row g-2" >
-                  <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
-                    @forelse($cancel_items->groupBy('cancel_order_id') as $cancelorderId => $cancelGroup)
-                        <div class="col">       
-                            <div class="card-body d-flex flex-column">
-                            <div class="card  text-center " style="width: 670px; height: auto;">
-                                <div class="buyer mt-3" style="display: inline-block; margin-left:15px;">
-                                    <div style="text-align: left;">
-                                   <h6>Order ID: {{ $cancelorderId}}</h6>
-                                   
-                        
-                                    </div>
-                                </div>
-                                @foreach($cancelGroup as $cancel_item)
-                                 <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >
-                                 <div class="img mb-1 ma-auto">
-                                    @if ($cancel_item->product->product_pic)
-                                    @if (is_array(json_decode($cancel_item->product->product_pic)))
-                                    <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-                                      <div class="carousel-inner">
-                                          @foreach(json_decode($cancel_item->product->product_pic) as $index => $imagePath)
-                                              <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                  <img src="{{ asset('storage/' . $imagePath) }}"width="50" height="50"  alt="Image {{ $index + 1 }}">
-                                              </div>
-                                          @endforeach
+              <div class="row g-2" >
+                <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+                @forelse ($order_items as $order_item)
+                <div class="col">
+                
+                    <div class="card  text-center mb-3 " style="width: 210px; height: 250px;">
+                      <div class="card-body d-flex flex-column">
+                        <div class="img text-center mb-1">
+                            @if ($order_item->product->product_pic)
+                            @if (is_array(json_decode($order_item->product->product_pic)))
+                            <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+                              <div class="carousel-inner">
+                                  @foreach(json_decode($order_item->product->product_pic) as $index => $imagePath)
+                                      <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                          <img src="{{ asset('storage/' . $imagePath) }}"width="100" height="100"  alt="Image {{ $index + 1 }}">
                                       </div>
-                                    </div>
-                                    @else
-                                    <img src="{{ asset('storage/' . $cancel_item->product->product_pic) }}" width="70" height="70">
-                                    @endif
-                                   @endif
-                                </div>
-    
-                                <div class="row ma-auto" style="display: flex; justify-content: left; text-align:left; margin-left:7px;">
-                                    <small style="font-weight: bold; font-size:15px;">
-                                        {{ $cancel_item->product->product_name }}</small>
-                                    <small style="font-size:15px;">RM{{ $cancel_item->product->product_price }}
-                                    </small>
-                                </div>
-                                </div>
-                                @endforeach
-                                
-                                <small class="ms-auto mb-3" style="margin-right:15px;">Order Cancelled </small>
-                        
+                                  @endforeach
                               </div>
                             </div>
-                            
-                          </div>
-                          @empty
-                             <div class="col">
-                                 <h6 style="color:grey;text-align:center;align-items:center;">No cancelled order</h6>
-                             </div>
-                           @endforelse
+                            @else
+                            <img src="{{ asset('storage/' . $order_item->product->product_pic) }}" width="100" height="100">
+                            @endif
+                           @endif
+                        </div>
+                        
+                        <div class="prod-desc mt-1 flex-grow-1">
+                        <h6 id="product_name" >{{ $order_item->product->product_name }}</h6>
+                        <small id="price" id="price" > RM {{ $order_item->product->product_price }}</small>
+                        
+                       
+                        </div>
+                      
+                        <br>
+                        
+                       
+                        <div class="options">
+                           <div class="dropdown ms-auto">
+                            <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <!--delete item button-->
+                              
+                                  <form action="{{ route('sell.destroy', $order_item->product->id) }}"  method="post">
+                                    <span class="dropdown-item">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
+                                      <i class="fas fa-trash mx-2"></i> Delete
+                                    </button>
+                                    </span>
+                                  </form>  
+                              </li> 
+                            </ul>
                         </div>
                         </div>
+                          
+
+                      </div> 
+                    </div>
+                  
+                </div>
+                @empty
+                  <div class="col">
+                      <h6 style="color:grey;text-align:center;align-items:center;">No awaiting confirmation product</h6>
+                  </div>
+                @endforelse
+                </div>
+              </div>
         
 
             </div>

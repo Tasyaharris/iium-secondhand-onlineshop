@@ -18,12 +18,9 @@
     @include('partials.header')
     <div class="wrapper">
       @include('fashion.filterfashion')
-
-   
-
-      <div container style=" background-color: white;  border: none;min-height: 50vh;">
+    
         @include('book.unfiltered')
-      </div>
+      
       
     </div>
   

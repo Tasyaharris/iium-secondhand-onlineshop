@@ -1,6 +1,6 @@
 <div  class="row g-2" style="border: none; margin-left:80px;">
-    
-    @foreach ($products as $product)
+  <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">   
+  @forelse($products as $product)
     <div class="col">
       <div   class="card mx-4 mb-3" style="border-radius: 10px;margin-top:50px;width: 210px; height: 290px; ">
  
@@ -40,7 +40,12 @@
         </a>
       </div>
     </div>
-    @endforeach
+    @empty
+    <div class="col">
+        <h6 style="color:grey;text-align:center;align-items:center;">There is no result</h6>
+    </div>
+    @endforelse
+  </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

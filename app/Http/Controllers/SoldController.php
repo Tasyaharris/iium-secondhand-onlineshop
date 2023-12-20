@@ -26,7 +26,35 @@ class SoldController extends Controller
 
     public function sold()
     {
+        $message = "Order status will be completed if the buyer has confirmed to receive the order";
+
         return view('userprofile.sold', [
+            'title' => 'Sold Products',
+            'users' => User::where('id',auth()->user()->id)->get(),
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+                ->join('negos','nego_id','=','negos.id')
+                ->where('username',auth()->user()->id)->select('products.*','conditions.condition as condition_name','negos.option as nego_option')->get(),
+            'profiles' => Profile::where('username',auth()->user()->id)->get(),
+            'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
+                ->leftJoin('reviews', 'order_items.id', '=', 'reviews.order_item_id')    
+                ->join('products','product_id','=','products.id')
+                ->join('users','orders.username','=','users.id')
+                ->where(function ($query) {
+                    $query->where('orders.orderstatus_id', '=', '6')
+                        ->orWhere('orders.orderstatus_id', '=', '3');
+                })
+                ->where('products.username', auth()->user()->id)
+                ->select('order_items.*')
+                ->get(),
+                'message'=> $message
+        ]);
+    }
+
+    public function pending()
+    {
+        $message = "Order status will be completed if the buyer has confirmed to receive the order";
+
+        return view('order.pending', [
             'title' => 'Sold Products',
             'users' => User::where('id',auth()->user()->id)->get(),
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
@@ -36,13 +64,11 @@ class SoldController extends Controller
             'order_items'=>OrderItem::join('orders','order_id','=','orders.id')
                 ->join('products','product_id','=','products.id')
                 ->join('users','orders.username','=','users.id')
-                ->where(function ($query) {
-                    $query->where('orders.orderstatus_id', '=', '6')
-                        ->orWhere('orders.orderstatus_id', '=', '3');
-                })
+                ->where('orders.orderstatus_id', '=', '2')
                 ->where('products.username', auth()->user()->id)
                 ->select('order_items.*')
-                ->get()
+                ->get(),
+                'message'=> $message
         ]);
     }
     /**

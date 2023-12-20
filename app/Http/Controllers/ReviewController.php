@@ -73,42 +73,44 @@ class ReviewController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $orderItemIds = $request->input('order_item');
-        $sellerRating = $request->input('seller_rating');
-    
-        // Loop through each order item
-        foreach ($orderItemIds as $orderItemId) {
-            $order_item = OrderItem::find($orderItemId);
-    
-            // Create a new Review instance
-            $review = new Review();
-    
-            // Set the values
-            $review->order_item_id = $orderItemId;
-    
-            // Retrieve the product rating for the current order item
-            $productRatingKey = 'product_rating.' . $orderItemId;
-            $review->rating = $request->input($productRatingKey);
-    
-            // Retrieve the comment for the current order item
-            $commentKey = 'comment.' . $orderItemId;
-            $review->comment = $request->input($commentKey, '');
-    
-            // Set the seller rating
-            $review->services = $sellerRating;
-    
-            // Save the review
-            $review->save();
-    
-            // Update the order item status
-            $orderItem = OrderItem::findOrFail($orderItemId);
-            $orderItem->update(['rstatus' => true]); 
-        }
-    
-        return redirect('/completedorder')->with('success', 'Thank you for your review!');
-    
+{
+    $orderItemIds = $request->input('order_item');
+    $sellerRating = $request->input('seller_rating');
+
+    // Loop through each order item
+    foreach ($orderItemIds as $orderItemId) {
+        $order_item = OrderItem::find($orderItemId);
+
+        // Create a new Review instance
+        $review = new Review();
+
+        // Set the values
+        $review->order_item_id = $orderItemId;
+
+        // Retrieve the product rating for the current order item
+        $productRatingKey = 'product_rating.' . $orderItemId;
+        $review->rating = $request->input($productRatingKey);
+
+        // Retrieve the comment for the current order item
+        $commentKey = 'comment.' . $orderItemId;
+        $comment = $request->input($commentKey, '');
+
+        // Set the comment to null if it is empty
+        $review->comment = $comment !== '' ? $comment : null;
+
+        // Set the seller rating
+        $review->services = $sellerRating;
+
+        // Save the review
+        $review->save();
+
+        // Update the order item status
+        $orderItem = OrderItem::findOrFail($orderItemId);
+        $orderItem->update(['rstatus' => true]); 
     }
+
+    return redirect('/completedorder')->with('success', 'Thank you for your review!');
+}
 
     /**
      * Display the specified resource.

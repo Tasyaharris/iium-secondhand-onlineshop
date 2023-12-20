@@ -76,14 +76,14 @@
               <div class="table-container" style="margin-bottom:5px;">
                 <table class="selection">
                   <tr>
-                    <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/prepare/{id}">
-                      <a href="/prepare/{id}">Preparing</a>
+                    <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="{{ url('prepare', $order->id) }}">
+                      <a href="{{ url('prepare', $order->id) }}">Preparing</a>
                     </td>
-                    <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="/deliver">
-                      <a href="/deliver/{$id}">Delivering</a>
+                    <td class="clickable-row {{ Request::is('delivering') ? 'active' : ' ' }}" data-href="{{ url('deliver', $order->id) }}">
+                      <a href="{{ url('deliver', $order->id) }}">Delivering</a>
                     </td>
-                    <td class="clickable-row active{{ Request::is('received') ? 'active' : ' ' }}" data-href="/receive/{id}">
-                      <a href="/receive/{id}">Received</a>
+                    <td class="clickable-row active{{ Request::is('received') ? 'active' : ' ' }}" data-href="{{ url('receive', $order->id) }}">
+                      <a href="{{ url('receive', $order->id) }}">Received</a>
                     </td>
                   </tr>
                 </table>
@@ -117,51 +117,67 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <script>
-      
+      $(document).ready(function() {
+          // Check the orderstatus_id when the document is ready
+          checkOrderStatus();
+  
+          function checkOrderStatus() {
+              var orderStatus = {{ $order->orderstatus_id }};
+  
+              // Update the UI based on the orderstatus_id
+              if (orderStatus === 2) {
+                  var radioButton = document.getElementById('roundedButton');
+                  radioButton.classList.add('checked');
+                  var additionalButton = document.getElementById('additionalButton');
+                  var additionalButton1 = document.getElementById('additionalButton1');
+                  additionalButton.classList.remove('hidden');
+                  additionalButton.classList.add('displayed');
+                  additionalButton1.classList.remove('hidden');
+                  additionalButton1.classList.add('displayed');
+              }
 
-        function showAdditionalButton(event) {
-            event.preventDefault(); // Prevent the default link behavior
-    
-            var orderId = {{ $order->id }};
-    
-            // Make an AJAX request using jQuery's $.ajax
-            $.ajax({
-                url: '/received/' + orderId,
-                method: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    // Handle the successful response
-                    if (data.status == 'success') {
-                        if (data.received) {
-                        // 'received' is true, perform actions accordingly
-                        console.log('Item has been received.');
-                                      // Update the UI (change color, show/hide elements, etc.)
-                    var radioButton = document.getElementById('roundedButton');
-                    var isAlreadyChecked = radioButton.classList.contains('checked');
-
-                    if (!isAlreadyChecked) {
-                        radioButton.classList.add('checked');  
-                    }
-                        var additionalButton = document.getElementById('additionalButton');
-                        var additionalButton1 = document.getElementById('additionalButton1');
-                        additionalButton.classList.remove('hidden');
-                        additionalButton.classList.add('displayed');
-                        additionalButton1.classList.remove('hidden');
-                        additionalButton1.classList.add('displayed');
-                         
-                    } 
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle errors here
-                    console.error('Error in jQuery $.ajax request:', textStatus, errorThrown);
-                }
-            });
-        }
-    </script>
-    
+          }
+  
+          function showAdditionalButton(event) {
+              event.preventDefault();
+  
+              var orderId = {{ $order->id }};
+  
+              $.ajax({
+                  url: '/received/' + orderId,
+                  method: 'GET',
+                  dataType: 'json',
+                  success: function(data) {
+                      if (data.status == 'success') {
+                          if (data.received) {
+                              var radioButton = document.getElementById('roundedButton');
+                              var isAlreadyChecked = radioButton.classList.contains('checked');
+  
+                              if (!isAlreadyChecked) {
+                                  radioButton.classList.add('checked');
+                              }
+  
+                              var additionalButton = document.getElementById('additionalButton');
+                              var additionalButton1 = document.getElementById('additionalButton1');
+                              additionalButton.classList.remove('hidden');
+                              additionalButton.classList.add('displayed');
+                              additionalButton1.classList.remove('hidden');
+                              additionalButton1.classList.add('displayed');
+                          }
+                      }
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                      console.error('Error in jQuery $.ajax request:', textStatus, errorThrown);
+                  }
+              });
+          }
+  
+          // Call the checkOrderStatus function when the document is ready
+          checkOrderStatus();
+      });
+  </script>
+  
     
   </body>
 </html>

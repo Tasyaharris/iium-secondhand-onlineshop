@@ -74,13 +74,16 @@
 
           <nav class="side-navbar1" style="margin-left:10px;padding:0px; display:inline-block;">
             <div class="order-title" style="display: inline-flex;">
-            <h5 style="margin-top:10px; text-align:center; margin-left: 45px; ">My Listings</h5>
+           
             <!-- Your sidebar content goes here -->
-            <div class="table-container1" style="margin-left:40px;">
+            <div class="table-container1" >
             <table class="selection1" >
               <tr>
                 <td class="clickable-row active {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Completed</a>
+                </td>
+                <td class="clickable-row  {{ Request::is('pending') ? 'active' : ' ' }}"  data-href="/pending">
+                  <a href="/pending">Await Confirmation</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
                   <a href="/cancelled">Cancelled</a>
@@ -103,9 +106,10 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                <div container style=" background-color: white;  border: none;min-height: 50vh;">
-                @foreach ($order_items as $order_item)
+                <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+                @forelse ($order_items as $order_item)
                 <div class="col">
+                
                     <div class="card  text-center mb-3 " style="width: 210px; height: 250px;">
                       <div class="card-body d-flex flex-column">
                         <div class="img text-center mb-1">
@@ -129,7 +133,23 @@
                         <div class="prod-desc mt-1 flex-grow-1">
                         <h6 id="product_name" >{{ $order_item->product->product_name }}</h6>
                         <small id="price" id="price" > RM {{ $order_item->product->product_price }}</small>
-                        
+                        @if($order_item->rstatus == true)
+                        <div class="rating-css">
+                          {{ $order_item->review->rating }}/5
+                          @php
+                            $maxStars = 5;
+                            $productRating = $order_item->review ? $order_item->review->rating : 0;
+                          @endphp
+
+                          @for ($i = 1; $i <= $maxStars; $i++)
+                            @if ($i <= $productRating)
+                              <i class="fas fa-star checked" value="{{ $i }}" name="product_rating[{{ $order_item->id }}]" id="rating{{ $i }}_{{ $order_item->id }}"></i>
+                            @else
+                              <i class="fas fa-star" value="{{ $i }}" name="product_rating[{{ $order_item->id }}]" id="rating{{ $i }}_{{ $order_item->id }}"></i>
+                            @endif
+                          @endfor
+                        </div>
+                        @endif
                        
                         </div>
                       
@@ -160,10 +180,13 @@
 
                       </div> 
                     </div>
-                    
+                  
                 </div>
-                    
-                @endforeach
+                @empty
+                  <div class="col">
+                      <h6 style="color:grey;text-align:center;align-items:center;">No completed order</h6>
+                  </div>
+                @endforelse
                 </div>
               </div>
         

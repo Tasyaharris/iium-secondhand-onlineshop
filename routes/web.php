@@ -162,6 +162,7 @@ Route::post('/likeproduct', [ProductController::class,'storelike'])->middleware(
 Route::get('/orders',[ProcessOrderController::class,'getOrder'])->middleware('auth');
 Route::get('/prepare/{id}',[ProcessOrderController::class,'prepare'])->middleware('auth');
 Route::get('/deliver/{id}',[ProcessOrderController::class,'deliver'])->middleware('auth');
+Route::get('/delivering/{id}',[ProcessOrderController::class,'delivering'])->middleware('auth');
 Route::get('/receive/{id}',[ProcessOrderController::class,'receive'])->middleware('auth');
 Route::get('/received/{id}',[ProcessOrderController::class,'received'])->middleware('auth');
 Route::get('/completed/{id}',[ProcessOrderController::class,'completed'])->middleware('auth');
@@ -170,6 +171,7 @@ Route::get('/cancelled',[ProcessOrderController::class,'cancelled'])->middleware
 
 
 Route::get('/sold',[SoldController::class,'sold'])->middleware('auth');
+Route::get('/pending',[SoldController::class,'pending'])->middleware('auth');
 
 //rate views
 Route::resource('/review',ReviewController::class)->middleware('auth');

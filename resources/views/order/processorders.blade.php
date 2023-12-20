@@ -74,13 +74,16 @@
 
           <nav class="side-navbar1" style="margin-left:10px;padding:0px; display:inline-block;">
             <div class="order-title" style="display: inline-flex;">
-            <h5 style="margin-top:10px; text-align:center; margin-left: 45px; ">My Listings</h5>
+            
             <!-- Your sidebar content goes here -->
-            <div class="table-container1" style="margin-left:40px;">
+            <div class="table-container1">
             <table class="selection1" >
               <tr>
                 <td class="clickable-row  {{ Request::is('listings') ? 'active' : ' ' }}"  data-href="/listings">
                   <a href="/sold">Completed</a>
+                </td>
+                <td class="clickable-row  {{ Request::is('pending') ? 'active' : ' ' }}"  data-href="/pending">
+                  <a href="/pending">Await Confirmation</a>
                 </td>
                 <td class="clickable-row {{ Request::is('cancelled') ? 'active' : ' ' }}" data-href="/cancelled">
                   <a href="/cancelled">Cancelled</a>
@@ -103,8 +106,8 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                <div container style=" background-color: white;  border: none;min-height: 50vh;">
-            @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)
+                <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+              @forelse($order_items->groupBy('order.id') as $orderId => $orderGroup)
                 <div class="col">       
                     <div class="card-body d-flex flex-column">
                     <div class="card  text-center mt-1 " style="width: 670px; height: auto;">
@@ -172,14 +175,32 @@
                           @if ($order_item->order->delivery->id == 1)
                               <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Deliver to:</h6>
                               {{ $order_item->order->del_place }}
+                          @elseif ($order_item->order->delivery->id == 2)
+                          <h6 style="text-align: center; margin-top: 10px; margin-left: 15px; margin-right: 5px;">Meeting Point:</h6>
+                          {{ $order_item->product->meetup_point }}
                           @endif
+                          </div>
+                          <div style="text-align: left; display: flex;align-items:center">
+                            @if ($order_item->order->orderstatus_id == 8)
+                            <small style="">Order prepared</small>  
+                            @elseif ($order_item->order->orderstatus_id == 1)
+                            <small style="">Order are on the way</small>    
+                            @endif
                           </div>
                         </div>
                       
 
                   
-                        <div class="processBtn" style="margin-left:15px; margin-top:10px; margin-bottom:20px;display:flex;">
-                            <a href="{{ url('prepare', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:130px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Process Delivery</a>
+                        <div class="processBtn" style="margin-left:15px; margin-top:10px; margin-bottom:20px;display:flex;align-items:center;">
+                            @if ($order_item->order->orderstatus_id == 5)
+                            <a href="{{ url('prepare', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:130px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Process Order</a>
+                            @elseif ($order_item->order->orderstatus_id == 8) 
+                            <a href="{{ url('deliver', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:130px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Process Delivery</a>  
+                            @elseif ($order_item->order->orderstatus_id == 1)
+                            <a href="{{ url('deliver', $order_item->order->id) }}"  style="border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:200px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">Update Order Status</a>
+                            @endif
+
+                            @if ($order_item->order->orderstatus_id == 5 || $order_item->order->orderstatus_id == 8 || $order_item->order->orderstatus_id == 1 )
                             <form action="{{ route('buy.destroy', $order_item->order->id) }}" method="post">
                               @method('DELETE')
                               @csrf
@@ -187,6 +208,7 @@
                                   Cancel order
                               </button>
                             </form>
+                            @endif
                             </div>
                         </div> 
                         
@@ -195,12 +217,14 @@
                    
                 </div>
                 
-             @endforeach
+             @empty
+             <div class="col">
+              <h6 style="color:grey;text-align:center;align-items:center;">No order</h6>
+             </div>
+             @endforelse
               </div>
            
               </div>
-        
-
             </div>
           </div>
        

@@ -7,8 +7,8 @@
 </div>
 @endif
 
-<div class="row g-2" style=" background-color: white;  border: none;min-height: 50vh;">
-  @foreach ($products as $product)
+<div class="row g-2" style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+  @forelse ($products as $product)
   <div class="col">
     <div   class="card mx-4 mb-3" style="border-radius: 10px;margin-top:50px;width: 210px; height: 290px; ">
 
@@ -48,7 +48,11 @@
       </a>
     </div>
   </div>
-  @endforeach
+  @empty
+  <div class="col">
+      <h6 style="color:grey;text-align:center;align-items:center;">No product</h6>
+  </div>
+  @endforelse
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
