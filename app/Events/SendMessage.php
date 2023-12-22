@@ -6,11 +6,11 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendMessage implements ShouldBroadcastNow
+class SendMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $roomId, $userId,$message;
@@ -31,6 +31,6 @@ class SendMessage implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chat.'.$this->roomId);
+        return [$this,new PresenceChannel('chat.'.$this->roomId)];
     }
 }

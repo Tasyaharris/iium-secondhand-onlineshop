@@ -58,25 +58,25 @@
         @csrf
         
     <!--address buyer-->
-    <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px;border: 1px solid #000;">
+    <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px; border: 1px solid #000; display: flex; align-items: center;">
         <div class="address1" style="display: inline-block;">           
             <div style="text-align: center; margin-left:20px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-left: 10px;">
-                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-            </svg>
-            <a href="/homepage" class="p-3 text-decoration-none d-inline" style="font-weight: bold; color: black; text-align: left; ">Address</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-left: 10px;">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                </svg>
+                <a href="/homepage" class="p-3 text-decoration-none d-inline" style="font-weight: bold; color: black; text-align: left; ">Address</a>
             </div>
             @foreach ($profiles as $profile)
             <div style="text-align: left; margin-top:3px; ">
-              <small style="margin-left:60px;"> Mahallah {{ $profile->mahallah }}</small>
+                <small style="margin-left:60px;"> Mahallah {{ $profile->mahallah }}</small>
             </div>
             @endforeach
         </div>
-        <div class="manage-address justify-right" style="margin-left: 930px">
-            <a href="/profile" style="color:black;font-size: 13px;">Manage Address</a>
+        <div class="manage-address" style="margin-left: auto; margin-right:20px;">
+            <a href="/profile" style="color: black; font-size: 13px;">Manage Address</a>
         </div>
-        <br>
     </nav>
+    
 
     
     <!--username seller-->
@@ -217,13 +217,12 @@
     </nav>
     
         <!--submit button-->
-        <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB;">
-            <div class="product1" style="display:inline-block; margin-left: 590px;text-align: center; justify-content:center;">
-                    <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
-           
+        <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB; display: flex; justify-content: center; align-items: center;">
+            <div class="product1">
+                <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
             </div>
-            
         </nav>
+        
     </form>
  
     @include('partials.footer')
@@ -315,24 +314,42 @@
         });
 
           
-        acceptButton.on("click", function () {
+        acceptButton.on("click",  async function () {
             if (acceptTermsCheckbox.prop("checked")) {
-                termsPopup.modal("hide");
+                let myRealForm = document.getElementById('myForm')
 
                // showTermsBtn.prop("disabled", true);
 
                 // Submit the form using AJAX
-                $.ajax({
-                    type: myForm.attr("method"),
-                    url: myForm.attr("action"),
-                    data: myForm.serialize(),
-                    success: function (response) {
+                // $.ajax({
+                //     type: myForm.attr("method"),
+                //     url: myForm.attr("action"),
+                //     data: myForm.serialize(),
+                //     success: function (response) {
                         
-                    },
-                    error: function (error) {
+                //     },
+                //     error: function (error) {
                        
-                    }
-                });
+                //     }
+                // });
+
+              const data = new URLSearchParams(new FormData(myRealForm));
+                await fetch(myForm.attr("action"),{
+                    method:'POST',
+                    mode:'cors',
+                    header:{
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    redirect: "follow", 
+                    body:data
+                }).then( data =>{
+                    console.log(data)
+                    termsPopup.modal("hide");
+                    window.open(data.url,"_self")
+                    console.debug("FORM SUCCESS")
+                }).catch(
+                    err => console.error(err)
+                ) 
             }
         });
 

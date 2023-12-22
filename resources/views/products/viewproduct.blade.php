@@ -166,7 +166,7 @@
 
                   <a href="{{ route('chat.show', $product->id) }}" class="button button3 mt-2">Chat</a>
                   @endif
-
+                  
                 
                 </div>
               </div>

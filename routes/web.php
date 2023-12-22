@@ -33,7 +33,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\ExploreController;
-
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChannelAuthorizationController;
 
 use Chatify\Http\Controllers\Api\MessagesController;
@@ -243,6 +243,7 @@ Route::middleware("auth")->group(function (){
 Route::resource('/buy',OrderController::class)->middleware('auth');
 //Route::get('buy/{id}', [OrderController::class, 'show'])->name('buy.show')->middleware('auth');
 Route::post('buyproduct',[OrderController::class,'addorder'])->middleware('auth');
+Route::post('buy',[OrderController::class,'store'])->middleware('auth');
 Route::get('show_items/{ids}', [OrderController::class, 'showitems'])->middleware('auth');
 
 
@@ -310,3 +311,6 @@ Route::middleware([
 ])->get('/mainpage',function(){
     return view('mainpage');
 })->name('mainpage');
+
+//for admin view
+Route::get('dashboard',[DashboardController::class,'index'])->middleware('auth');

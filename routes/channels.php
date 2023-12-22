@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
 
@@ -19,7 +20,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('chat.{roomId}', function (User $user, int $roomId) {
+Broadcast::channel('chat.{roomId}', function (User $user, string $roomId) {
     if ($user->canJoinRoom($roomId)) {
         return ['id' => $user->id, 'name' => $user->username];
     }

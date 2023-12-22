@@ -16,8 +16,8 @@ return [
     */
 
     'default' => env('BROADCAST_DRIVER', 'null'),
-    //'authEndpoint' => '/broadcasting/auth',
-    //'auth' => 'broadcasting/auth',
+    'authEndpoint' => '/broadcasting/auth',
+    'auth' => 'broadcasting/auth',
 
 
     /*

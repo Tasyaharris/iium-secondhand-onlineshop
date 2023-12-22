@@ -15,6 +15,11 @@ body {
     flex: 1;
 }
 
+.container-fluid {
+    height: 100%;
+  }
+  
+
 .parent{
     display: flex;
     gap: 10 px;
@@ -100,6 +105,16 @@ line-height: normal;
     margin-left:15px;
     margin-top: 1px;
 }
+
+.row {
+    height: 100%;
+  }
+  
+  /* Add the following style to make sure the main content area fills the available space */
+  main {
+    height: 100%;
+  }
+  
 
 .wrapper {
     flex: 1; /* This makes the wrapper div take up the remaining space */

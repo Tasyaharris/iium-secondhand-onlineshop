@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_item_id');
-            $table->integer('rating');
-            $table->text('comment')->nullable();
-            $table->integer('services');
+        Schema::create('messages', function (Blueprint $table) {
+            $table->uuid("id")->primary();         
+            $table->foreignUuid("room_id")->constrained("rooms");
+            $table->foreignId("user_id")->constrained("users")->index('messages_user_id_foreign');
+            $table->string("message");
             $table->timestamps();
         });
-
     }
 
     /**
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('messages');
     }
 };

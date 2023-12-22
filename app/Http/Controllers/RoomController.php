@@ -8,38 +8,50 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+
+use function RingCentral\Psr7\copy_to_stream;
+use function RingCentral\Psr7\copy_to_string;
+
 //use GuzzleHttp\Psr7\Request;
 
 class RoomController extends Controller
 {
-  public function create(Request $request)
-  {
-   
+    public function create(Request $request)
+{
     try {
-      $me = auth()->user()->id; 
-    $friend = $request->friend_id;
+        $me = auth()->user()->id;
+        $friend = $request->friend_id;
 
-    $room = Room::where('users', $me.":".$friend)
-            ->orWhere('users', $friend.":".$me)
-            ->first();
+        // Check if the room already exists
+        $room = Room::where(function ($query) use ($me, $friend) {
+            $query->where('users', $me . ':' . $friend)
+                ->orWhere('users', $friend . ':' . $me);
+        })->first();
 
-    if ($room) {
-        $dataRoom = $room;
-    } else { 
-        $dataRoom = Room::create([
-            'users'=> $me.":".$friend
+        //dd($room);
+
+        if (!$room) {
+            // Room does not exist, create a new one
+            $room = Room::create([
+                'users' => $me . ':' . $friend,
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $room,
         ]);
-    }
-
-    return response()->json([
-      'success' => true,
-      'data' => $dataRoom
-  ]);
     } catch (\Exception $e) {
-      // Log the error for further investigation
-      Log::error($e);
+        // Log the error
+        Log::error('Room creation error: ' . $e->getMessage());
 
-      return response()->json(['error' => 'Internal Server Error'], 500);
-  }
+        // Return an error response
+        return response()->json([
+            'success' => false,
+            'error' => $e,
+        ], 500);
+    }
 }
+
+  
 }

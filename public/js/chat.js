@@ -80,18 +80,27 @@ function showHideChatBox(show) {
     }
 }
 
-function createRoom(friendId){
+function createRoom(friendId) {
     let url = document.getElementById("room-url").value;
+    let authUserId = document.getElementById("auth-user-id").value;
+    
+ 
     let formData = new FormData();
-        formData.append("friend_id", friendId);
+    formData.append("friend_id", friendId);
+    formData.append("user_id", authUserId);
+
 
     axios.post(url, formData)
         .then(function (res) {
             let room = res.data.data;
-            
+
+            //console.log('Type of roomId:', typeof room.id);
+
+            // Convert to string if not already
+            room.id = String(room.id);
             Echo.join(`chat.${room.id}`)
             .here((users) => {
-                console.log("join channel chat success")
+                console.log("join channel chat success");
             })
             .joining((user) => {
                 console.log(user.name);
@@ -100,11 +109,13 @@ function createRoom(friendId){
                 console.log(user.name);
             })
             .error((error) => {
-                console.error("Error joining channel:", error);
-              
-            });
-            showHideChatBox(true);
-         
-        });
+                console.error(error);
+                console.error("Join Chat Failed")
+                console.debug(room.id)
+                //console.debug(users)
 
-}   
+            });
+
+            showHideChatBox(true);
+         });
+}

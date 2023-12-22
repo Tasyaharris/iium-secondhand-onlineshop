@@ -8,6 +8,6 @@
 </head>
 <body>
     <h4>IIUM SECONDHAND ONLINE SHOP</h4>
-    <p>{{ $data['body'] }}</p>
+   
 </body>
 </html>

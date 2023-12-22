@@ -36,7 +36,7 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+               
                   @forelse($cancel_items->groupBy('cancel_order_id') as $cancelorderId => $cancelGroup)
                     <div class="col">       
                         <div class="card-body d-flex flex-column">
@@ -94,7 +94,7 @@
                           <h6 style="color:grey;text-align:center;align-items:center;">No cancelled order</h6>
                       </div>
                     @endforelse
-                  </div>
+                
                     
                     </div>
                     

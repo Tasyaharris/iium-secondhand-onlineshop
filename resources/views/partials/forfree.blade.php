@@ -1,4 +1,21 @@
-
+<style>
+  /* Apply a box-sizing reset to ensure padding and borders are included in the element's total width and height */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Set a minimum height for the section to ensure content fits within the viewport */
+  .explore {
+    height: auto;
+  }
+  
+  /* Style the max-width container for responsiveness */
+  .max-width {
+    max-width: auto; /* Adjust as needed */
+    margin: 0 auto; /* Center the container */
+  }
+  
+  </style>
 <section class="explore border-bottom mt-0" id="explore" style="background-color: white; height: auto;">
   <div class="max-width">
     <div class="explore-content">

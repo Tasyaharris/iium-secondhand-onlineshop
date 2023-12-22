@@ -26,7 +26,7 @@
 </div>
 
 
-<main class="form-signin">
+<main class="form-signin flex-grow-1 w-100 m-auto mt-4 mb-4">
     <div class="center mb-3">
         <div class="title">
             <p style="font-weight: bold">USER LOGIN</p>

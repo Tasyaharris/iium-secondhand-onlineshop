@@ -43,9 +43,6 @@
               <li>
                 <a href="/sell" class="text-white">Post Product</a>
               </li>
-              <li>
-                <a href="/guidelines" class="text-white">Guidelines</a>
-              </li>
             </ul>
         </div>
         <!--Grid column-->

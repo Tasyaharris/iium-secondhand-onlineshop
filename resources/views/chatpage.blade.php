@@ -81,7 +81,8 @@
         </section>
         </div>
       </div>
-    
+
+      <input type="hidden" id="auth-user-id" value="{{ auth()->id() }}">
       <input type="hidden" id="room-url" value="{{ route("room.create") }}">
       @vite('resources/js/app.js')
 

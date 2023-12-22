@@ -17,10 +17,9 @@ class SendEmailController extends Controller
         ]; 
         try{
             Mail::to('salsabilatasya.syaa@gmail.com')->send(new MailNotify($data));
-            return response()->json(['email test']);
+            return "Helloo world";
         }catch(Exception $th){
-            return response()->json(['email test error']);
+            throw new Exception($th);
         }
-
     }
 }

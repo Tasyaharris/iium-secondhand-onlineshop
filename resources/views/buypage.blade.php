@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{{ $title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/buy.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js" integrity="sha512-bztGAvCE/3+a1Oh0gUro7BHukf6v7zpzrAb3ReWAVrt+bVNNphcl2tDTKCBr5zk7iEDmQ2Bv401fX3jeVXGIcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js" integrity="sha512-bztGAvCE/3+a1Oh0gUro7BHukf6v7zpzrAb3ReWAVrt+bVNNphcl2tDTKCBr5zk7iEDmQ2Bv401fX3jeVXGIcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
  
 
   </head>
@@ -57,25 +58,24 @@
     <form method="post" action="{{ url('buyproduct') }}" id="myForm"  enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="product_id" value="{{ $product->product_id }}">
-        <!--address buyer-->
-    <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px;border: 1px solid #000;">
+     <!--address buyer-->
+     <nav class="navbar bg-body-tertiary border-bottom mt-0" style="height: 100px; border: 1px solid #000; display: flex; align-items: center;">
         <div class="address1" style="display: inline-block;">           
             <div style="text-align: center; margin-left:20px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-left: 10px;">
-                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-            </svg>
-            <a href="/homepage" class="p-3 text-decoration-none d-inline" style="font-weight: bold; color: black; text-align: left; ">Address</a>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-left: 10px;">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                </svg>
+                <a href="/homepage" class="p-3 text-decoration-none d-inline" style="font-weight: bold; color: black; text-align: left; ">Address</a>
             </div>
             @foreach ($profiles as $profile)
             <div style="text-align: left; margin-top:3px; ">
-              <small style="margin-left:60px;"> Mahallah {{ $profile->mahallah }}</small>
+                <small style="margin-left:60px;"> Mahallah {{ $profile->mahallah }}</small>
             </div>
             @endforeach
         </div>
-        <div class="manage-address justify-right" style="margin-left: 930px">
-            <a href="/profile" style="color:black;font-size: 13px;">Manage Address</a>
+        <div class="manage-address" style="margin-left: auto; margin-right:20px;">
+            <a href="/profile" style="color: black; font-size: 13px;">Manage Address</a>
         </div>
-        <br>
     </nav>
 
     
@@ -215,13 +215,11 @@
         <br>
     </nav>
     
-        <!--submit button-->
-        <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB;">
-            <div class="product1" style="display:inline-block; margin-left: 590px;text-align: center; justify-content:center;">
-                    <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
-           
+         <!--submit button-->
+         <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB; display: flex; justify-content: center; align-items: center;">
+            <div class="product1">
+                <button type="submit" id="showTermsBtn" class="order-button" style="border: none; background: transparent;">Place Order</button>
             </div>
-            
         </nav>
     </form>
  
@@ -309,27 +307,43 @@
         });
         
 
-        acceptButton.on("click", function () {
+        acceptButton.on("click", async function () {
             if (acceptTermsCheckbox.prop("checked")) {
-                termsPopup.modal("hide");
-
+                let myRealForm = document.getElementById('myForm')
                 // Submit the form using AJAX
-                $.ajax({
-                    type: myForm.attr("method"),
-                    url: myForm.attr("action"),
-                    data: myForm.serialize(),
-                    headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                     },
-                    success: function (response) {
-                        // Handle the success response if needed
-                        console.log(response);
+                // $.ajax({
+                //     type: myForm.attr("method"),
+                //     url: myForm.attr("action"),
+                //     data: myForm.serialize(),
+                //     headers: {
+                //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //      },
+                //     success: function (response) {
+                //         // Handle the success response if needed
+                //         console.log(response);
+                //     },
+                //     error: function (error) {
+                //         // Handle the error response if needed
+                //         console.error(error);
+                //     }
+                // });
+                const data = new URLSearchParams(new FormData(myRealForm));
+                await fetch(myForm.attr("action"),{
+                    method:'POST',
+                    mode:'cors',
+                    header:{
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    error: function (error) {
-                        // Handle the error response if needed
-                        console.error(error);
-                    }
-                });
+                    redirect: "follow", 
+                    body:data
+                }).then( data =>{
+                    console.log(data)
+                    termsPopup.modal("hide");
+                    window.open(data.url,"_self")
+                    console.debug("FORM SUCCESS")
+                }).catch(
+                    err => console.error(err)
+                )
             }
         });
 

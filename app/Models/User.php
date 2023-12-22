@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,6 +29,10 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+
+     protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'username',
         'email',
@@ -63,6 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    
     public function products()
     {
         return $this->belongsTo(Product::class);
@@ -80,12 +87,13 @@ class User extends Authenticatable implements MustVerifyEmail
    
 
 
-    public function canJoinRoom($roomId){
+    public function canJoinRoom(string $roomId){
 
         $granted = false;
 
         $room = Room::findOrFail($roomId);
         $users = explode(":", $room->users);
+        dd($users);
         foreach($users as $id){
             if($this->id == $id){
                 $granted = true;
@@ -94,6 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $granted;
     }
 
- 
 }
+
+
 
