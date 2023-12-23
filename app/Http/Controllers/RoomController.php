@@ -23,10 +23,9 @@ class RoomController extends Controller
         $friend = $request->friend_id;
 
         // Check if the room already exists
-        $room = Room::where(function ($query) use ($me, $friend) {
-            $query->where('users', $me . ':' . $friend)
-                ->orWhere('users', $friend . ':' . $me);
-        })->first();
+        $room = Room::where("users", $me.":".$friend)
+                    ->orWhere("users", $friend.":".$me)
+                    ->first();
 
         //dd($room);
 

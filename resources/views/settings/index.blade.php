@@ -127,7 +127,7 @@
 
                             <!--bio-->
                           <div class="form-floating mb-3 " style="margin-top: 40px;">
-                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio"   name="bio" value="{{ old('bio', isset($oldInput['bio']) ? $oldInput['bio'] : (isset($profiles[0]->bio) ? $profiles[0]->bio : '')) }}" style="margin-top: 7px; height:180px;"></textarea>
+                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio"   name="bio" value="{{ old('bio', isset($oldInput['bio']) ? $oldInput['bio'] : (isset($profiles[0]->bio) ? $profiles[0]->bio : '')) }}" style="margin-top: 7px; height:180px;text-transform:uppercase;"></textarea>
                             @error('bio')
                                 <div class="invalid-feedback">
                                     {{ $message }}

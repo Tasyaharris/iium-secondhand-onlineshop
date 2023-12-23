@@ -14,10 +14,10 @@
             <a class="nav-link {{ ($title === "Fashion") ? 'active' : ' ' }}" aria-current="page" href="/fashion">FASHION</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Books") ? 'active' : ' ' }}"  aria-current="page" href="/books">BOOKS</a>
+            <a class="nav-link {{ Request::is('books') ? 'active' : ' ' }}"  aria-current="page" href="/books">BOOKS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Electronics") ? 'active' : ' ' }}"  aria-current="page" href="/electronics">ELECTRONICS</a>
+            <a class="nav-link {{ Request::is('electronics') ? 'active' : ' ' }}"  aria-current="page" href="/electronics">ELECTRONICS</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ ($title === "Cosmetics") ? 'active' : ' ' }}"  aria-current="page" href="/cosmetics">COSMETICS</a>

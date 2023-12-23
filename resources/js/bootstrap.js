@@ -32,24 +32,24 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-// Subscribe to a presence channel
-const channel = window.Echo.join(`chat.${room.id}`);
+// // Subscribe to a presence channel
+// const channel = window.Echo.join(`chat.${room.id}`);
 
-// Bind to events
-channel.here((users) => {
-    // Log the list of users present in the channel
-    console.log("Users present in the channel:", users);
-});
+// // Bind to events
+// channel.here((users) => {
+//     // Log the list of users present in the channel
+//     console.log("Users present in the channel:", users);
+// });
 
-channel.joining((user) => {
-    // Log when a user is joining the channel
-    console.log(user.name + ' is joining the channel');
-});
+// channel.joining((user) => {
+//     // Log when a user is joining the channel
+//     console.log(user.name + ' is joining the channel');
+// });
 
-channel.leaving((user) => {
-    // Log when a user is leaving the channel
-    console.log(user.name + ' is leaving the channel');
-});
+// channel.leaving((user) => {
+//     // Log when a user is leaving the channel
+//     console.log(user.name + ' is leaving the channel');
+// });
 
 //window.Echo = new Echo({
 //    broadcaster: 'pusher',

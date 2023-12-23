@@ -243,7 +243,7 @@
             <div class="row mb-3">
                 <label for="brand" name="brand" class="col-sm-2 col-form-label">Brand</label>
                 <div class="col-sm-10">
-                  <input type="text" name="brand" class="form-control @error('brand') is-invalid @enderror" id="brand" required value="{{ old("brand") }}" maxlength="255">
+                  <input type="text" name="brand" class="form-control @error('brand') is-invalid @enderror" id="brand" required value="{{ old("brand") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
                   @error('brand')
                   <div class="invalid-feedback">
                    {{ $message }}
@@ -255,7 +255,7 @@
             <div class="row mb-3">
                 <label for="material" name="material" class="col-sm-2 col-form-label">Material</label>
                 <div class="col-sm-10">
-                  <input type="text" name="material" class="form-control @error('brand') is-invalid @enderror" id="material" required value="{{ old("material") }}" maxlength="255">
+                  <input type="text" name="material" class="form-control @error('brand') is-invalid @enderror" id="material" required value="{{ old("material") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
                   @error('material')
                   <div class="invalid-feedback">
                    {{ $message }}
@@ -268,14 +268,14 @@
             <div class="row mb-3">
                 <label for="description"  name="description" class="col-sm-2 col-form-label" >More Description(Optional)</label>
                 <div class="col-sm-10">
-                  <input type="text"   name="description" class="form-control" id="description" value="{{ old("description") }}" maxlength="255">
+                  <input type="text"   name="description" class="form-control" id="description" value="{{ old("description") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)" >
                 </div>
             </div>
 
             <div class="meetup">
                 <h6>Meet-Up Point</h6>
                 <div class="col-12">
-                    <input type="text" name="meetup_point" class="form-control @error('meetup_point') is-invalid @enderror"  id="meetup_point" placeholder="Please provide specific point, e.g. KICT" required value="{{ old("meetup_point") }}" maxlength="255">
+                    <input type="text" name="meetup_point" class="form-control @error('meetup_point') is-invalid @enderror"  id="meetup_point" placeholder="Please provide specific point, e.g. KICT" required value="{{ old("meetup_point") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
                     @error('meetup_point')
                     <div class="invalid-feedback">
                      {{ $message }}

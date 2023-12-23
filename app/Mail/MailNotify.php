@@ -33,8 +33,9 @@ class MailNotify extends Mailable
     }
 
     public function build(){
-        return $this->from('salsabilatasya.syaaa@gmail.com','IIUM SECONDHAND ONLINE SHOP')
-        ->view('emails.index');
+        return $this->from('iiumsecondhand@example.com','IIUM SECONDHAND ONLINE SHOP')
+        ->subject($this->data['subject'])
+        ->view('emails.index')->with('data'.$this->data);
     }
 
     /**
@@ -52,8 +53,8 @@ class MailNotify extends Mailable
      *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
-    // public function attachments(): array
-    // {
-    //     return [];
-    // }
+    public function attachments(): array
+    {
+        return [];
+    }
 }

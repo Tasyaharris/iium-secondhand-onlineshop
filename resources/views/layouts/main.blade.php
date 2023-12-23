@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -35,8 +36,62 @@
 
       
       @include('partials.footer')
-    
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      
+<script>
+  $(document).ready(function() {
+      // Function to get liked status from localStorage for a specific product and user
+      function getLikedStatus(productId, userId) {
+          return localStorage.getItem('liked_' + userId + '_' + productId) === 'true';
+      }
+
+      // Function to set liked status in localStorage for a specific product and user
+      function setLikedStatus(productId, userId, liked) {
+          localStorage.setItem('liked_' + userId + '_' + productId, liked);
+      }
+
+      @auth
+          var authUserId = {{ auth()->user()->id }};
+          // Set the initial heart icon color for each item based on the liked status
+          $('.bi-heart-fill').each(function() {
+              var productId = $(this).closest('.heart-button').data('product-id');
+              var liked = getLikedStatus(productId, authUserId);
+              if (liked) {
+                  $(this).attr('fill', 'red');
+                  $(this).attr('stroke', 'red');
+              }
+          });
+
+          $(document).on('click', '.heart-button', function(event) {
+              event.preventDefault();
+
+              // Store the value of 'this' in a variable
+              var clickedButton = $(this);
+
+              // Retrieve the product ID from the data attribute
+              var productId = clickedButton.data('product-id');
+
+              $.ajax({
+                  url: "{{ url('likeproduct') }}",
+                  data: { product_id: productId, _token: "{{ csrf_token() }}" },
+                  type: 'post',
+                  success: function(result) {
+                      var liked = result.liked;
+
+                      // Change the heart color based on the result
+                      var heartIcon = clickedButton.find('.bi-heart-fill');
+                      heartIcon.attr('fill', liked ? 'red' : 'white');
+                      heartIcon.attr('stroke', liked ? 'red' : 'black');
+
+                      // Store the liked status in localStorage for this specific product and user
+                      setLikedStatus(productId, authUserId, liked);
+                  }
+              });
+          });
+      @endauth
+  });
+</script>
 
   </body>
 </html>

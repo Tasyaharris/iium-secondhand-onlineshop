@@ -93,14 +93,12 @@ function createRoom(friendId) {
     axios.post(url, formData)
         .then(function (res) {
             let room = res.data.data;
-
-            //console.log('Type of roomId:', typeof room.id);
-
             // Convert to string if not already
             room.id = String(room.id);
+
             Echo.join(`chat.${room.id}`)
             .here((users) => {
-                console.log("join channel chat success");
+                console.log("join channel success");
             })
             .joining((user) => {
                 console.log(user.name);
@@ -109,13 +107,12 @@ function createRoom(friendId) {
                 console.log(user.name);
             })
             .error((error) => {
-                console.error(error);
-                console.error("Join Chat Failed")
-                console.debug(room.id)
-                //console.debug(users)
+                console.log("join channel failed");
+                console.log(error);
+                console.log(room.id)
 
             });
 
             showHideChatBox(true);
          });
-}
+} 

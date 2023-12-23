@@ -101,7 +101,11 @@ public function getSubcategoriesAjax($categoryId)
        $validatedData['more_desc']= 
     
        $validatedData['product_name']= ucwords($validatedData['product_name']);
-    
+       $validatedData['brand']= ucfirst($validatedData['brand']);
+       $validatedData['material']= ucfirst($validatedData['material']);
+       $validatedData['meetup_point']= ucfirst($validatedData['meetup_point']);
+       $validatedData['more_desc']= ucfirst($validatedData['more_desc']);
+
         $validatedData['product_pic'] = json_encode($imagePaths); // Store paths as JSON
     
         $validatedData['username'] = auth()->user()->id;

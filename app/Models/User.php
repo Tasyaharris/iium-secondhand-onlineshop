@@ -87,13 +87,13 @@ class User extends Authenticatable implements MustVerifyEmail
    
 
 
-    public function canJoinRoom(string $roomId){
+    public function canJoinRoom($roomId){
 
         $granted = false;
 
-        $room = Room::findOrFail($roomId);
+        $room = Room::find($roomId);
         $users = explode(":", $room->users);
-        dd($users);
+        //dd($users);
         foreach($users as $id){
             if($this->id == $id){
                 $granted = true;

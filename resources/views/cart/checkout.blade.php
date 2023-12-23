@@ -203,7 +203,7 @@
                 <!-- Add the container for the address input -->
                 <div class="address-input-container mt-1" id="addressInputContainer" style="display: none;">
                     <label for="del_place" style="display:none;"></label>
-                    <input type="text" id="del_place" name="del_place" class="form-control" placeholder="Enter your delivery address" value="{{ old("del_place") }}" maxlength="255">
+                    <input type="text" id="del_place" name="del_place" class="form-control" placeholder="Enter your delivery address" value="{{ old("del_place") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
                 </div>
 
                 <!-- display meeting point -->

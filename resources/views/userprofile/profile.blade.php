@@ -24,31 +24,38 @@
         <div class="col-md-4">
           <div class="user-profile">
             <div class="user-info">
+              @if ($profiles->isEmpty())
+              <!-- Show a button to fill profile details -->
+              <p>{{ auth()->user()->username }}</p>
+              <a type="button" class="btn btn-secondary mt-3" href="/settings" >Please fill in your profile </a>
+          @else
+              {{-- Display profile information --}}
               @foreach ($profiles as $profile)
-              <div class="flex-container">
-                @if ($profile->profile_pic)
-                <img class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
-            @else
-                <!-- Default image if profile_pic is not set -->
-                <img class="profile-picture" src="{{ asset('images/default-profile-pic.png') }}" alt="Default Profile Picture">
-            @endif
-                <div class="uname">
-                  <div class="nameuser">
-                    <h6 >{{ $profile->first_name }} </h6>
-                    <h6>{{ $profile->last_name }}</h6>
+                  <div class="flex-container">
+                      @if ($profile->profile_pic)
+                          <img class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
+                      @else
+                          <!-- Default image if profile_pic is not set -->
+                          <img class="profile-picture" src="{{ asset('images/default-profile-pic.png') }}" alt="Default Profile Picture">
+                      @endif
+                      <div class="uname">
+                          <div class="nameuser">
+                              <h6>{{ $profile->first_name }}</h6>
+                              <h6>{{ $profile->last_name }}</h6>
+                          </div>
+                          <p>{{ auth()->user()->username }}</p>
+                      </div>
                   </div>
-                 
-                  <p>{{ auth()->user()->username }}</p>
-                </div>
-              </div>
-              <br>
-                <div class="location">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                </svg> 
-                <p>{{ $profile->mahallah }}</p>
-                </div>
+                  <br>
+                  <div class="location">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                          <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                      </svg>
+                      <p>{{ $profile->mahallah }}</p>
+                  </div>
               @endforeach
+
+          @endif
             </div>
           </div>
           
@@ -149,15 +156,7 @@
                         <h6 style="text-align: left;margin-bottom:40px;color:red">Sold</h6>
                         @else
                         <!--like-->
-                        <form method="post" action="{{ url('likeproduct') }}" id="addLike">
-                          @csrf
-                          <input type="hidden" name="product_id" id="product_id" value="{{ $product->id }}  ">
-                          <button type="submit" class="heart-button" data-product-id="{{ $product->id }}" style="cursor: pointer; border: none; background: none;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="black" class="bi-heart-fill liked-heart" viewBox="-1 -1 18 14" id="heart-icon">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-                            </svg>
-                        </button>                                            
-                        </form>
+                   
 
                         <div class="options">
                            <div class="dropdown ms-auto">
@@ -212,55 +211,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<script>
-  $(document).ready(function() {
-   // Function to get liked status from localStorage for a specific product
-   function getLikedStatus(productId) {
-       return localStorage.getItem('liked_' + productId) === 'true';
-   }
-  
-   // Function to set liked status in localStorage for a specific product
-   function setLikedStatus(productId, liked) {
-       localStorage.setItem('liked_' + productId, liked);
-   }
-  
-   // Set the initial heart icon color for each item based on the liked status
-   $('.bi-heart-fill').each(function() {
-       var productId = $(this).closest('.heart-button').data('product-id');
-       var liked = getLikedStatus(productId);
-       $(this).attr('fill', liked ? 'red' : 'white');
-       $(this).attr('stroke', liked ? 'red' : 'black');
-   });
-  
-   $(document).on('click', '.heart-button', function(event) {
-       event.preventDefault();
-  
-       // Store the value of 'this' in a variable
-       var clickedButton = $(this);
-  
-       // Retrieve the product ID from the data attribute
-       var productId = clickedButton.data('product-id');
-  
-       $.ajax({
-           url: "{{ url('likeproduct') }}",
-           data: { product_id: productId, _token: "{{ csrf_token() }}" },
-           type: 'post',
-           success: function(result) {
-               var liked = result.liked;
-  
-               // Change the heart color based on the result
-               var heartIcon = clickedButton.find('.bi-heart-fill');
-               heartIcon.attr('fill', liked ? 'red' : 'white');
-               heartIcon.attr('stroke', liked ? 'red' : 'black');
-  
-               // Store the liked status in localStorage for this specific product
-               setLikedStatus(productId, liked);
-           }
-       });
-   });
-  });
-  
-  </script>
+
+ 
   
   </body>
 </html>

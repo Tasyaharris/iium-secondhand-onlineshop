@@ -35,7 +35,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChannelAuthorizationController;
-
+use App\Http\Controllers\OrderDashboardController;
 use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Contracts\Cache\Store;
 
@@ -314,3 +314,5 @@ Route::middleware([
 
 //for admin view
 Route::get('dashboard',[DashboardController::class,'index'])->middleware('auth');
+Route::get('orderdashboard',[OrderDashboardController::class,'index'])->middleware('auth');
+Route::get('productdashboard',[DashboardController::class,'getProduct'])->middleware('auth');
