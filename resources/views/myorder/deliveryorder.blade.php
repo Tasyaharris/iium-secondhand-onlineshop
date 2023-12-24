@@ -51,6 +51,9 @@
                                   @endforeach
                                 </div>
                             </div> 
+                            <div style="text-align:left;margin-left:15px;">
+                              <small style="font-weight: bold; font-size:15px; text-align:left;">Order ID: {{ $orderId}}</small>  
+                            </div> 
                             @foreach($orderGroup as $order_item)
                              <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >
                              <div class="img mb-1 ma-auto">

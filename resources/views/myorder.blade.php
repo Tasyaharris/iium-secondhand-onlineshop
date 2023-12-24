@@ -85,12 +85,12 @@
             <div class="products-listing">
               <div class="row g-2" >
                 <div class="row g-2" >
-                  <div container style=" background-color: white;  border: none;min-height: 50vh;">
-                  @foreach($order_items->groupBy('order.id') as $orderId => $orderGroup)
+                  <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+                    @forelse($order_items->groupBy('order.id') as $orderId => $orderGroup)
                       <div class="col">       
                           <div class="card-body d-flex flex-column">
                           <div class="card  text-center mt-1 " style="width: 670px; height: auto;">
-                              <div class="buyer mt-3" style="display: inline-block; margin-left:15px;">
+                              <div class="buyer mt-3" style="display: flex; flex-direction:column; margin-left:15px;">
                                   <div style="text-align: left;display:flex;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16" style="margin-left: 10px;">
                                       <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zM4 15h3v-5H4v5zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3zm3 0h-2v3h2v-3z"/>
@@ -99,11 +99,14 @@
                                   @if($orderGroup->first() && $orderGroup->first()->order && $orderGroup->first()->order->user)
                                   <h6> {{ $orderGroup->first()->product->user->username }}</h6>
                                   @else
-                                  <h6></h6>
                                    @endif
                                   </div>
                                   </div>
                               </div> 
+                              <div style="text-align:left;margin-left:15px;">
+                                <small style="font-weight: bold; font-size:15px; text-align:left;">Order ID: {{ $orderId}}</small>  
+                              </div> 
+                              
                               @foreach($orderGroup as $order_item)
                                <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >
                                <div class="img mb-1 ma-auto">
@@ -125,7 +128,7 @@
                               </div>
 
                               <div class="row ma-auto" style="display: flex; justify-content: left; text-align:left; margin-left:7px;">
-                                  <small style="font-weight: bold; font-size:15px;">
+                                <small style="font-weight: bold; font-size:15px;">
                                       {{ $order_item->product->product_name }}</small>
                                   <small style="font-size:15px;">RM{{ $order_item->product->product_price }}
                                   </small>
@@ -176,12 +179,16 @@
                                   </button>
                                 </form>
                               </div>
-                            </div>
+                          </div>
                           </div>
                          
                       </div>
                       
-                   @endforeach
+                      @empty
+                      <div class="col">
+                          <h6 style="color:grey;text-align:center;align-items:center;">No order</h6>
+                      </div>
+                    @endforelse
                   </div>
                  
                 </div>

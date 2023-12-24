@@ -10,12 +10,15 @@ use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\OrderItem;
+use App\Models\Like;
 use App\Models\CancelItem;
 use App\Models\CancelOrder;
 use App\Models\Delivery;
 use App\Models\Bank;
-use App\Mail\SendEmailNotification;
+use App\Mail\MailNotify;
+use App\Notifications\SendNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -184,6 +187,9 @@ class OrderController extends Controller
             // Delete cart entry for the current product and authenticated user
             Cart::where('product_id', $productId)
                 ->delete();
+            
+            Like::where('product_id', $productId)
+            ->delete();
         }
 
         
@@ -276,7 +282,24 @@ public function addorder(Request $request)
         // Delete cart entry for the current product and authenticated user
         Cart::where('product_id', $productId)
             ->delete();
+
+        Like::where('product_id', $productId)
+            ->delete();
+        //     $seller = OrderItem::where('product_id', $productId)
+        //     ->select('email')
+        //     ->get();
+        
+        //     $details =[
+        //         'greeting' => 'Your product has sold',
+        //         'message' => 'Your have new order in IIUM SECOND-HAND ONLINE SHOP. Prosess your order now!'
+        //    ];
+        
+        //    Mail::to($seller)->send(new MailNotify());
+
+           //Notification::send($seller, new SendNotification($details));
     }
+
+  
 
     return redirect('/afterbuy1');
 }

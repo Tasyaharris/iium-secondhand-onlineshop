@@ -72,7 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(Product::class,'username', 'id');
     }
     public function bank()
     {
@@ -83,8 +83,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(User::class, 'id','username');
     }
-
-   
 
 
     public function canJoinRoom($roomId){

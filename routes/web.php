@@ -316,3 +316,8 @@ Route::middleware([
 Route::get('dashboard',[DashboardController::class,'index'])->middleware('auth');
 Route::get('orderdashboard',[OrderDashboardController::class,'index'])->middleware('auth');
 Route::get('productdashboard',[DashboardController::class,'getProduct'])->middleware('auth');
+Route::get('/dashboard/search',[DashboardController::class,'search'])->middleware('auth');
+Route::get('/customers',[DashboardController::class,'getUser'])->middleware('auth');
+Route::get('/user/search',[DashboardController::class,'searchUser'])->middleware('auth');
+Route::get('/order/search',[OrderDashboardController::class,'searchOrder'])->middleware('auth');
+Route::get('/discussions',[DashboardController::class,'discussions'])->middleware('auth');

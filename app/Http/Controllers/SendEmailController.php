@@ -10,17 +10,10 @@ use App\Mail\MailNotify;
 class SendEmailController extends Controller
 {
     //
-    function index(){
-        $data =[
-            'subject' => 'IIUM SECOND-HAND ONLINE SHOP',
-            'body' => 'Test email'
-        ]; 
-        try{
-            Mail::to('salsabilatasya.syaa@gmail.com')->send(new MailNotify($data));
-            return response()->json(['email test']);
-        }catch(Exception $th){
-            return response()->json(['email test error']);
-        }
+    public function index(){
+       
+        Mail::to('salsabilatasya.syaaa@gmail.com')->send(new MailNotify());
+        return "email send!";
 
     }
 }

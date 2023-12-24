@@ -13,7 +13,7 @@
     <p>You have new order</p>
 
     <ul>
-        <li>Order ID: {{ $order->id }}</li>
+        <li>Order ID: </li>
         <!-- Add more order details as needed -->
     </ul>
 

@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -13,13 +14,13 @@ class MailNotify extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $data = [];
+    private $data;
     /**
      * Create a new message instance.
      */
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data = $data;
+       // $this->data = $data;
     }
 
     /**
@@ -28,14 +29,13 @@ class MailNotify extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address('iiumsecondhand@example.com','IIUM SECONDHAND ONLINE SHOP'),
             subject: 'Mail Notify',
         );
     }
 
     public function build(){
-        return $this->from('iiumsecondhand@example.com','IIUM SECONDHAND ONLINE SHOP')
-        ->subject($this->data['subject'])
-        ->view('emails.index')->with('data'.$this->data);
+        return $this->view('emails.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class MailNotify extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.index',
         );
     }
 
