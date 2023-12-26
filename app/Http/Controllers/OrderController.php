@@ -65,17 +65,39 @@ class OrderController extends Controller
         )
         ->whereIn('products.id', $idArray)
         ->get();
+
+        $productsById = $products->groupBy('product_id');
+        $productsByUsername = $products->groupBy('username');
     
-         $totalOrder = 0; 
-         $com = 0;
-         $totalPrice =0;
-         foreach ($products as $product) {
-             $price = $product->product_price;
-             $com = 0.02 * $price;
-             $totalPrice = $price+$com;
-             $totalOrder += $totalPrice;
-         }
- 
+        $totalOrderById = [];
+        $comById = [];
+        $totalPriceById = [];
+    
+        foreach ($productsById as $productId => $productsGroup) {
+            $com = 0;
+            $totalPrice = 0;
+    
+            foreach ($productsGroup as $product) {
+                $price = $product->product_price;
+                $com += 0.02 * $price;
+                $totalPrice += $price + $com;
+            }
+    
+            $comById[$productId] = $com;
+            $totalPriceById[$productId] = $totalPrice;
+        }
+    
+        $totalOrderByUsername = [];
+    
+        foreach ($productsByUsername as $username => $productsGroup) {
+            $subtotalOrder = 0;
+    
+            foreach ($productsGroup as $product) {
+                $subtotalOrder += $totalPriceById[$product->product_id];
+            }
+    
+            $totalOrderByUsername[$username] = $subtotalOrder;
+        }
     
         return view('cart.checkout', [
             'title' => "Checkout",
@@ -83,12 +105,13 @@ class OrderController extends Controller
             'products' => $products,
             'profiles' => Profile::where('id', auth()->user()->id)->get(),
             'payments' => Payment::all(),
-            'com'=>$com,
-            'totalPrice'=>$totalPrice,
-            'totalOrder' => $totalOrder,
-            'bank' => $product->bank,
+            //'comById' => $comById,
+            //'totalPriceById' => $totalPriceById,
+            //'totalOrder' => $totalOrder,
+            'bank' => $product->bank, // Note: This is outside the loop; check if it's intended
             'deliveries' => Delivery::all(),
         ]);
+    
     }
 
   
@@ -112,95 +135,194 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
+     /**
      * Store a newly created resource in storage from cart 
      */
-    public function store(Request $request)
-{
-    $validatedData = $request->validate([
-        'paymentoption_id' => 'required',
-        'delivery_id' => 'required',
-    ]);
 
-    // Assuming product_ids is an array of product IDs
-    $productIds = $request->input('product_id');
-    $totalOrder = $request->input('totalOrder');
-    $paymentoptionId = $request->input('paymentoption_id');
-    $deliveryId = $request->input('delivery_id');
+     public function store(Request $request)
+     {
+       
+        $productIds = $request->input('product_id');
+        $groupedProductIds = collect($productIds);
+        //dd($productIds);
+    
+        $validatedData = $request->validate([
+            'paymentoption_id.*' => 'required',
+            'delivery_id.*' => 'required',
+        ]);
 
-    $validatedData['username'] = auth()->user()->id;
-    $validatedData['totalOrder'] = $totalOrder;
-    $validatedData['order_date'] = now();
-
-    if ($paymentoptionId == 1) {
-        $validatedData['paymentstatus_id'] = 4;
-        $validatedData['orderstatus_id'] = 5;
-        $validatedData['paymentProof'] = "cash";
-    }
-
-    // Handle paymentProof file upload
-    if ($paymentoptionId == 2 && $request->hasFile('paymentProof')) {
-        $paymentProofFile = $request->file('paymentProof');
-        $originalFilename = $paymentProofFile->getClientOriginalName();
-        $paymentProofPath = $paymentProofFile->storeAs('payment-proofs', $originalFilename);
-
-        $validatedData['paymentProof'] = $paymentProofPath;
-        $validatedData['paymentstatus_id'] = 2;
-        $validatedData['orderstatus_id'] = 5;
-    }
-
-    if ($deliveryId == 1) {
-        $validatedData['del_place'] = $request->input('del_place');
-        $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
-    } else {
-        $validatedData['del_place'] = "pick up";
-        $validatedData['delivery_id'] = $deliveryId; // Add this line to include 'delivery_id'
-    }
-
-    // Check if an existing order exists for any of the products and the user
-    $existingOrder = Order::join('order_items', 'orders.id', '=', 'order_items.order_id')
-        ->whereIn('order_items.product_id', $productIds)
-        ->where('orders.username', auth()->user()->id)
-        ->first();
-
-    if (!$existingOrder) {
-        // Create a new order
-        $order = Order::create($validatedData);
-
-        // Associate products with the order
-        foreach ($productIds as $productId) {
-            // Retrieve the product based on the ID
-            $product = Product::find($productId);
-
-            // Create order item for each product in the order
-            $orderItem = new OrderItem([
-                'product_id' => $productId,
-                'email' => $product->user->email
-            ]);
-
-            // Save the order item
-            $order->orderItems()->save($orderItem);
-
-            $product->productstatus_id = 1;
-            $product->save();
-
-            // Delete cart entry for the current product and authenticated user
-            Cart::where('product_id', $productId)
-                ->delete();
-            
-            Like::where('product_id', $productId)
-            ->delete();
+        //total order
+        $totalOrder = $request->input('totalOrder');    
+        $data = [];
+        foreach($totalOrder as $id) {
+          $data[] = [
+            'totalOrderProduct' => $id,
+          ]; 
         }
 
-        
-    } 
 
-    return redirect('/afterbuy');
+        //payment
+        $paymentoptionId = $request->input('paymentoption_id');
+        $data1 = [];
+        foreach($paymentoptionId as $id) {
+          $data1[] = [
+            'paymentOptionProduct' => $id,
+          ]; 
+        }
+
+        //delivery id
+        $deliveryId = $request->input('delivery_id');
+        $data2 = [];
+        foreach( $deliveryId as $id) {
+          $data2[] = [
+            'deliveryProduct' => $id,
+          ]; 
+        }
+
+        //delplace
+        $del_place = $request->input('del_place');
+        $data3 = [];
+        
+        foreach ($del_place as $id) {
+            // Check if 'delOption' is null
+            $delOption = ($id !== null) ? $id : "pick up";
+        
+            $data3[] = [
+                'delOption' => $delOption
+            ];
+        }
+
+        //for payment status
+        $paymentoptionId = $request->input('paymentoption_id');
+
+        $paymentProof = $request->file('paymentProof');
+
+        if (is_array($paymentProof)) {
+            // Handle each file in the array
+            foreach ($paymentProof as $file) {
+                $originalFilename = $file->getClientOriginalName();
+                $paymentProofPath = $file->storeAs('payment-proofs', $originalFilename);
+                $paymentProof =  $paymentProofPath;
+            }
+        } elseif ($paymentProof) {
+            // A single file was uploaded
+            $originalFilename = $paymentProof->getClientOriginalName();
+            $paymentProofPath = $paymentProof->storeAs('payment-proofs', $originalFilename);
+            $paymentProof =  $paymentProofPath;
+        } else {
+            // No file was uploaded, set to "cash"
+            $paymentProofPath = 'cash';
+            $paymentProof =  $paymentProofPath;
+        }
+
+        //dd($paymentProof);
+        $data4 = [];
+        
+        // Default values
+        $defaultPaymentstatusId = null;
+        $defaultOrderstatusId = null;
+        
+        foreach ($paymentoptionId as $index => $paymentoption) {
+            $paymentProofValue = null; // Default value
+        
+            if ($paymentoption == 1) {
+                $paymentProofValue = "cash";
+                $defaultPaymentstatusId = 4;
+                $defaultOrderstatusId = 5;
+            }
+        
+            if ($paymentoption == 2) {
+                if ($request->hasFile("paymentProof.$index")) {
+                    $paymentProofFile = $request->file("paymentProof.$index");
+            
+                    // Check if the file is valid
+                    if ($paymentProofFile->isValid()) {
+                        $originalFilename = $paymentProofFile->getClientOriginalName();
+                        $paymentProofPath = $paymentProofFile->storeAs('payment-proofs', $originalFilename);
+            
+                        $paymentProofValue = $paymentProofPath;
+                        $defaultPaymentstatusId = 2;
+                        $defaultOrderstatusId = 5;
+                    }
+                } else {
+                    $defaultPaymentstatusId = 2;
+                    $defaultOrderstatusId = 5;
+                }
+            }
+        
+            $data4[] = [
+                'paymentProof' => $paymentProofValue,
+                'paymentstatus_id' => $defaultPaymentstatusId,
+                'orderstatus_id' => $defaultOrderstatusId,
+            ];
+        }
+        
+        $username = auth()->user()->id;
+        $order_date = now();
+        $data = array_map(function ($total, $payment, $delivery, $delPlace, $data4Item) use ($username, $order_date) {
+            return array_merge(
+                [
+                    'totalOrder' => $total,
+                    'paymentoption_id' => $payment,
+                    'delivery_id' => $delivery,
+                    'del_place' => $delPlace ?? 'pick up',
+                    'username' => $username,
+                    'order_date' => $order_date,
+                ],
+                $data4Item
+            );
+        }, $totalOrder, $paymentoptionId, $deliveryId, $del_place, $data4);
+    
+        // Ensure 'username' is present in every $data item
+        foreach ($data as &$item) {
+            $item['username'] = $username;
+            $item['order_date'] = $order_date;
+        }
+    
+        //$order=Order::insert($data);
+
+          // Insert data into the 'orders' table
+           Order::insert($data);
+
+         // Retrieve the IDs of the recently inserted orders
+$orderIds = Order::latest()->take(count($data))->pluck('id');
+
+// Prepare data for the 'orderitems' table
+$productIds = $request->input('product_id');
+$orderItemsData = [];
+
+foreach ($orderIds as $orderId) {
+    foreach ($productIds as $productId) {
+        // Retrieve the product based on the ID
+        $product = Product::find($productId);
+
+        // Create order item for each product in the order
+        $orderItemsData[] = [
+            'order_id' => $orderId,
+            'product_id' => $productId,
+            'email' => $product->user->email,
+        ];
+
+        // Update product status
+        $product->productstatus_id = 1;
+        $product->save();
+
+        // Delete cart entry for the current product and authenticated user
+        Cart::where('product_id', $productId)->delete();
+        Like::where('product_id', $productId)->delete();
+    }
 }
 
+// Insert data into the 'orderitems' table
+OrderItem::insert($orderItemsData);
+  
+        return redirect('/afterbuy');
+     }
+     
 
     
     
+
 public function addorder(Request $request)
 {
     $validatedData = $request->validate([

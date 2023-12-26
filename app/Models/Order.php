@@ -11,9 +11,18 @@ class Order extends Model
 {
     use HasFactory;
     use Notifiable;
-    //protected $fillable = ['username', 'product_id', 'order_date','totalOrder', 'paymentoption_id','paymentstatus_id','orderstatus_id'];
-
-    protected $guarded=[''];
+    protected $fillable = [
+        'totalOrder',
+        'paymentoption_id',
+        'delivery_id',
+        'del_plaace',
+        'username', // Make sure 'username' is included here
+        'order_date',
+        'paymentProof',
+        'paymentstatus_id',
+        'orderstatus_id',
+    ];
+    //protected $guarded=[''];
       public function user()
       {
           return $this->belongsTo(User::class,'username');

@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div style="text-align:left;margin-left:15px;">
-                              <small style="font-weight: bold; font-size:15px; text-align:left;">Order ID: {{ $orderId}}</small>  
+                              <small style="font-weight: bold; font-size:15px; text-align:left;">Cancel Order ID: {{ $cancelorderId}}</small>  
                             </div> 
                             @foreach($cancelGroup as $cancel_item)
                              <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >

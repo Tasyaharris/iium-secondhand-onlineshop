@@ -24,29 +24,34 @@
                   <p>{{ $discussion->discussion }}</p>
               </div>
 
-             
-                <div class="options">
-                    <div class="dropdown ms-auto">
-                        <i class="bi bi-three-dots-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                     <ul class="dropdown-menu">
-                       <li>
-                          
-                       </li>
-                       <li>
-                         <!--delete item button-->
-                           <form action="{{ route('sell.destroy', $discussion->id) }}"  method="post">
-                             <span class="dropdown-item">
-                             @method('DELETE')
-                             @csrf
-                             <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
-                               <i class="fas fa-trash mx-2"></i> Delete
-                             </button>
-                             </span>
-                           </form>  
-                       </li> 
-                     </ul>
-                 </div>
-                 </div>
+              <div class="options">
+                <div class="dropdown ms-auto">
+                 <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                 <ul class="dropdown-menu">
+                   <li>
+                       <!--update item button-->
+                       <span class="dropdown-item">
+                         <a href="" style="color: black; text-decoration:none; font-style: normal;">
+                           <i class="fas fa-pen mx-2 "></i>Update
+                         </a>  
+                       </span>
+                   </li>
+                   <li>
+                     <!--delete item button-->
+                   
+                       <form action=""  method="post">
+                         <span class="dropdown-item">
+                         @method('DELETE')
+                         @csrf
+                         <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
+                           <i class="fas fa-trash mx-2"></i> Delete
+                         </button>
+                         </span>
+                       </form>  
+                   </li> 
+                 </ul>
+             </div>
+             </div>
               </div>
             
               

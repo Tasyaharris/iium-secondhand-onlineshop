@@ -62,7 +62,7 @@
   <div class="max-width">
     <div class="explore-content">
       <div class="text-1">
-        <p class= "p-3"  style ="font-weight: bold"> EXPLORE </p>
+        <p class= "p-3"  style ="font-weight: bold"> Click this to Quick Explore </p>
       </div>
       <div class="parent" style="display: flex; align-items:center;margin-left:17px;justify-items:center;">
         <div class="pic" id="icons">

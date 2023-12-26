@@ -72,9 +72,9 @@
             </div>
             @endforeach
         </div>
-        <div class="manage-address" style="margin-left: auto; margin-right:20px;">
+        {{-- <div class="manage-address" style="margin-left: auto; margin-right:20px;">
             <a href="/profile" style="color: black; font-size: 13px;">Manage Address</a>
-        </div>
+        </div> --}}
     </nav>
     
 
@@ -100,70 +100,72 @@
      <!--product detail-->
      <nav class="navbar  border-bottom mt-0" style="height: auto;border: 1px solid #000; ">
         <div class="product1" style="display:inline-block; margin-left:30px;">
-            <div style="text-align: left; margin-left:10px;">
-            <h6>Order Summary</h6>
-            </div>
+           
 
             <div class="product-container1">
+                @php
+                    $totalOrder = 0; // Initialize total order variable
+                @endphp
+            
                 @foreach($productGroup as $product)
-                <input type="hidden" name="product_id[]" value="{{ $product->product_id }}">
-                <div class="col " style="display: flex; align-items: center; margin-top:10px;">
-                    <!--product details--> 
-                    <div class="col text-center" style="margin-left: 10px;">  
-                        @if (is_array(json_decode($product->product_pic)))
-                        @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
-                                  <div class=" img_recom" style="margin-left: 3px; margin-bottom:0px">
-                                      <img src="{{ asset('storage/' . $firstImagePath) }}"width="130" height="130" >
-                                  </div>   
-                        @endif
-                     </div>
-                     
-                     <div class="row" style="margin-left:5px;">
-                        <h6>{{ $product->product_name }}</h6>
-                        <br>
-                       <small>Item Price: RM {{ $product->product_price }}</small>
-                       <small>Platform Fee: RM {{ $com }}</small>
-                       <small>Total Fee : RM {{ $totalPrice }}</small>
-                       
-                     </div>
-                </div>
+                    <input type="hidden" name="product_id[]" value="{{ $product->product_id }}">
+                    {{-- <input type="hidden" name="seller_username[{{ $username }}]" value="{{ $username }}"> --}}
+                    <div class="col" style="display: flex; align-items: center; margin-top:10px;">
+                        <!--product details-->
+                        <div class="col text-center" style="margin-left: 10px;">
+                            @if (is_array(json_decode($product->product_pic)))
+                                @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
+                                <div class="img_recom" style="margin-left: 3px; margin-bottom:0px">
+                                    <img src="{{ asset('storage/' . $firstImagePath) }}" width="130" height="130">
+                                </div>
+                            @endif
+                        </div>
+            
+                        <div class="row" style="margin-left:5px;">
+                            <h6>{{ $product->product_name }}</h6>
+                            <br>
+                            <small>Item Price: RM {{ $product->product_price }}</small>
+                        </div>
+                    </div>
+            
+                    @php
+                        // Accumulate product prices to calculate total order amount
+                        $totalOrder += $product->product_price;
+                    @endphp
                 @endforeach
-
-                <h6 style="margin-top:10px;margin-left:30px;">Total Order: RM{{ $totalOrder }} </h6>
-                 <input type="hidden" name="totalOrder" value="{{ $totalOrder }}">
-               
+            
+                <h6 style="margin-top:10px; margin-left:30px;">Total Order: RM{{ $totalOrder }}</h6>
+                <input type="hidden" name="totalOrder[]" value="{{ $totalOrder }}">
             </div>
         <br>
     </nav>
-    @endforeach
-
-     <!--payment method-->
-     <nav class="navbar  border-bottom mt-0" style="height: auto;border: 1px solid #000; background-color: rgba(255, 240, 219, 0.35);">
+      <!--payment method-->
+      <nav class="navbar  border-bottom mt-0" style="height: auto;border: 1px solid #000; background-color: rgba(255, 240, 219, 0.35);">
         <div class="product1" style="display:inline-block; margin-left:30px;">
             <div style="text-align: left;">
             <h6>Payment Method: </h6>
             </div>
             <div style="text-align: left;">      
-                @foreach ($payments as $payment) 
-                <div class="form-check form-check-inline" id="paymentoption_id" required>   
-                    @if ($payment->id == 2 && !$product->user->bstatus)
-                        <input class="form-check-input" type="radio" name="paymentoption_id" id="inlineRadio{{ $payment->id }}" value="{{  $payment->id}}" required disabled>
-                        <label class="form-check-label" for="inlineRadio{{ $payment->id }}">Online Transfer (Seller only accepts cash payment)</label>
-                    @else
-                        <input class="form-check-input" type="radio" name="paymentoption_id" id="inlineRadio{{ $payment->id }}" value="{{  $payment->id}}" required>
-                        <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
-                    @endif
-                </div>
-            @endforeach
+                @foreach ($payments as $payment)
+                    <div class="form-check form-check-inline" id="paymentoption_id" required>
+                        @if ($payment->id == 2 && !$product->user->bstatus)
+                            <input class="form-check-input" type="radio" name="paymentoption_id[{{ $username }}]" id="paymentOption{{ $username }}_{{ $payment->id }}" value="{{ $payment->id }}" required disabled>
+                            <label class="form-check-label" for="paymentOption{{ $username }}_{{ $payment->id }}">Online Transfer (Seller only accepts cash payment)</label>
+                        @else
+                            <input class="form-check-input" type="radio" name="paymentoption_id[{{ $username }}]" id="paymentOption{{ $username }}_{{ $payment->id }}" value="{{ $payment->id }}" required>
+                            <label class="form-check-label" for="paymentOption{{ $username }}_{{ $payment->id }}">{{ $payment->payment_opt }}</label>
+                        @endif
+                    </div>
+                @endforeach
                 
                 <div id="paymentError" class="alert alert-danger" style="display: none;">
                     Please select a payment method.
                 </div>
 
-                <!--upload payment proof-->
-                <div class="file-upload-container mt-2" id="fileUploadContainer" style="display: none;">
+            <!--upload payment proof-->
+            <div class="file-upload-container mt-2" id="fileUploadContainer_{{ $username }}" style="display: none;">
                     <div class="bank-info mt-2" style="text-align:left;">
-                        @if ($product->bank)
+                    @if ($product->bank)
                         <small>Bank: {{ $product->user->bank->bankName }}</small>
                         <br>
                         <small>Name: {{ $product->user->bank->nameInBank }}</small>
@@ -173,10 +175,10 @@
                         <small>No bank information available</small>
                     @endif
                 </div>
-
-                    <label for="paymentProof" style="font-size: 15px;margin-top:5px;">Upload Payment Proof:</label>
-                    <input type="file" id="paymentProof" name="paymentProof" accept=".pdf, .jpeg, .jpg, .png">
-                </div>
+            
+                <label for="paymentProof" style="font-size: 15px; margin-top:5px;">Upload Payment Proof:</label>
+                <input type="file" id="paymentProof" name="paymentProof[{{ $username }}]" accept=".pdf, .jpeg, .jpg, .png">
+            </div>
             </div>
         </div>
         <br>
@@ -190,24 +192,23 @@
             </div>
             <div style="text-align: center;">      
                 @foreach ($deliveries as $delivery) 
-                <div class="form-check form-check-inline" id="delivery_id" required>   
-                        <input class="form-check-input" type="radio" name="delivery_id" id="inlineRadio{{ $delivery->id }}" value="{{  $delivery->id}}" required>
-                        <label class="form-check-label" for="inlineRadio{{ $delivery->id }}">{{ $delivery->del_option }}</label>
-                </div>
+                    <div class="form-check form-check-inline" id="delivery_id" required>   
+                        <input class="form-check-input" type="radio" name="delivery_id[{{ $username }}]" id="inlineRadio{{ $username }}_{{ $delivery->id }}" value="{{  $delivery->id}}" required>
+                        <label class="form-check-label" for="inlineRadio{{ $username }}_{{ $delivery->id }}">{{ $delivery->del_option }}</label>
+                    </div>
                 @endforeach   
-               
-                <div id="deliveryError" class="alert alert-danger" style="display: none;">
+                {{-- <div id="deliveryError" class="alert alert-danger" style="display: none;">
                     Please select a delivery method.
-                </div>
+                </div> --}}
 
                 <!-- Add the container for the address input -->
-                <div class="address-input-container mt-1" id="addressInputContainer" style="display: none;">
+                <div class="address-input-container mt-1" id="addressInputContainer_{{ $username }}" style="display: none;">
                     <label for="del_place" style="display:none;"></label>
-                    <input type="text" id="del_place" name="del_place" class="form-control" placeholder="Enter your delivery address" value="{{ old("del_place") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
+                    <input type="text" id="del_place" name="del_place[{{ $username }}]" class="form-control" placeholder="Enter your delivery address" value="{{ old("del_place") }}" maxlength="255" oninput="this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1)">
                 </div>
-
-                <!-- display meeting point -->
-                <div class="meetup_point" id="meetup_point" style="display: none;text-align:left;">
+                
+                <!-- Display meeting point -->
+                <div class="meetup_point" id="meetup_point_{{ $username }}" style="display: none; text-align:left;">
                     <small id="meeting_point">Meeting Point: {{ $product->meetup_point }}</small>
                 </div>
 
@@ -215,6 +216,9 @@
         </div>
         <br>
     </nav>
+    @endforeach
+
+   
     
         <!--submit button-->
         <nav class="navbar border-bottom mt-0" style="height: 50px; border: 1px solid #000; background-color: #FFF0DB; display: flex; justify-content: center; align-items: center;">
@@ -230,6 +234,7 @@
     
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    
     <script>
         var termsModal = document.getElementById("termsModal");
        const closeBtn = document.getElementById("closeBtn");
@@ -238,9 +243,9 @@
             termsModal.style.display = "none";
            
         });
-</script>
+    </script>
 <script>
-    $(document).ready(function () {
+      $(document).ready(function () {
         const showTermsBtn = $("#showTermsBtn");
         const termsPopup = $("#termsModal");
         const acceptTermsCheckbox = $("#acceptTerms");
@@ -249,109 +254,116 @@
         const paymentError = $("#paymentError");
 
         showTermsBtn.on("click", function () {
-            const paymentMethods = $("[name='paymentoption_id']");     
-            let paymentMethodSelected = false;
-       
-            paymentMethods.each(function () {
-                if ($(this).prop("checked")) {
-                    paymentMethodSelected = true;
-                    return false; // exit the loop
-                }
-            });
-         
-            if (paymentMethodSelected) {
-             // Get an array of product IDs from the checkboxes
-             const productIds = $('[name="product_id[]"]:checked').map(function () {
-                 return $(this).val();
-             }).get();
-         
-             // Append the product_ids as hidden inputs to the form
-             productIds.forEach(function (productId) {
-                 const productIdInput = $("<input>").attr({
-                     type: "hidden",
-                     name: "product_id[]",
-                     value: productId
-                 });
-                 myForm.append(productIdInput);
-             });
+        // Loop through each unique username
+        $('[name^="paymentoption_id"]').each(function () {
+            const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
+            const paymentMethodSelected = $('[name="paymentoption_id[' + username + ']"]:checked').length > 0;
 
-             termsPopup.modal("show");
-             }
+            if (!paymentMethodSelected) {
+                //paymentError.show(); // Show an error if payment method is not selected
+                return false; // Exit the loop
+            } else {
+                paymentError.hide(); // Hide the error if payment method is selected
+
+                // Get an array of product IDs from the checkboxes for the current username
+                const productIds = $('[name="product_id[]"][name*=' + username + ']:checked').map(function () {
+                    return $(this).val();
+                }).get();
+
+                // Remove existing hidden inputs for the current username
+                $('[name="product_id[]"][name*=' + username + ']').remove();
+
+                // Append the product_ids as hidden inputs to the form for the current username
+                productIds.forEach(function (productId) {
+                    const productIdInput = $("<input>").attr({
+                        type: "hidden",
+                        name: "product_id[]",
+                        value: productId
+                    });
+                    myForm.append(productIdInput);
+                });
+
+                termsPopup.modal("show"); // Show the terms popup if payment method is selected
+            }
         });
+    });
 
-        // Handle the change event of the payment options
-        $('[name="paymentoption_id"]').on("change", function () {
-            const selectedPaymentId = $('[name="paymentoption_id"]:checked').val();
-
+       
+      // Handle the change event of the payment options
+      $('[name^="paymentoption_id"]').on("change", function () {
+            const selectedPaymentId = $(this).val();
+            const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
+        
+            // Hide all file upload containers initially
+            $('[id^="fileUploadContainer"]').hide();
+        
             // Check if the selected payment option requires a file upload
             if (selectedPaymentId == 2) {
-                // Show the file upload container
-                $('#fileUploadContainer').show();
-            } else {
-                // Hide the file upload container
-                $('#fileUploadContainer').hide();
+                // Show the corresponding file upload container
+                $(`#fileUploadContainer_${username}`).show();
             }
         });
 
-        //handle the change event deliver
-        $('[name="delivery_id"]').on("change", function () {
-            const selectedDeliveryId = $('[name="delivery_id"]:checked').val();
-
+                // Handle the change event of the delivery options
+        $('[name^="delivery_id"]').on("change", function () {
+            const selectedDeliveryId = $(this).val();
+            const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
+        
+            // Hide all address input containers and meeting points initially
+            $('[id^="addressInputContainer"]').hide();
+            $('[id^="meetup_point"]').hide();
+        
             // Check if the selected delivery option requires an address
             if (selectedDeliveryId == 1) {
-                // Show the address input container
-                $('#addressInputContainer').show();
-            } else {
-                // Hide the address input container
-                $('#addressInputContainer').hide();
+                // Show the corresponding address input container
+                $(`#addressInputContainer_${username}`).show();
             }
+        
+                // Check if the selected delivery option requires displaying a meeting point
+                if (selectedDeliveryId == 2) {
+                    // Show the corresponding meeting point container
+                    $(`#meetup_point_${username}`).show();
+                }
+            });
 
-            if (selectedDeliveryId == 2){
-                $('#meetup_point').show();
-            }else{
-                $('#meetup_point').hide();
-            }
-        });
 
-          
-        acceptButton.on("click",  async function () {
+        //     acceptButton.on("click",  async function () {
+        //     if (acceptTermsCheckbox.prop("checked")) {
+        //         let myRealForm = document.getElementById('myForm')
+
+        //       const data = new URLSearchParams(new FormData(myRealForm));
+        //         await fetch(myForm.attr("action"),{
+        //             method:'POST',
+        //             mode:'cors',
+        //             header:{
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             redirect: "follow", 
+        //             body:data
+        //         }).then( data =>{
+        //             console.log(data)
+        //             termsPopup.modal("hide");
+        //             window.open(data.url,"_self")
+        //             console.debug("FORM SUCCESS")
+        //         }).catch(
+        //             err => console.error(err)
+        //         ) 
+        //     }
+        // });
+
+        acceptButton.on("click", function () {
+            // Check if the terms checkbox is checked
             if (acceptTermsCheckbox.prop("checked")) {
-                let myRealForm = document.getElementById('myForm')
-
-               // showTermsBtn.prop("disabled", true);
-
-                // Submit the form using AJAX
-                // $.ajax({
-                //     type: myForm.attr("method"),
-                //     url: myForm.attr("action"),
-                //     data: myForm.serialize(),
-                //     success: function (response) {
-                        
-                //     },
-                //     error: function (error) {
-                       
-                //     }
-                // });
-
-              const data = new URLSearchParams(new FormData(myRealForm));
-                await fetch(myForm.attr("action"),{
-                    method:'POST',
-                    mode:'cors',
-                    header:{
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    redirect: "follow", 
-                    body:data
-                }).then( data =>{
-                    console.log(data)
-                    termsPopup.modal("hide");
-                    window.open(data.url,"_self")
-                    console.debug("FORM SUCCESS")
-                }).catch(
-                    err => console.error(err)
-                ) 
+                
+                // Trigger the form submission
+                document.getElementById("myForm").submit();
+            } else {
+                // Show an error message or handle it as needed
+                alert("Please accept the terms and conditions.");
             }
         });
+
+
 
         myForm.on("submit", function (e) {
             console.log("Form submitted!");

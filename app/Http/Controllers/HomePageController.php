@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\Category;
+use App\Models\Order;
 use App\Models\Condition;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -17,7 +19,28 @@ class HomePageController extends Controller
 
         if($usertype =='1')
         {
-            return view('admin.index');
+            $totalUsers = User::where('usertype',0)->count();
+        $totalOrders = Order::count();
+        $totalProducts = Product::count();
+        $totalSoldProducts = Product::where('productstatus_id',1)->count();
+        $data = [
+            'totalProducts' => $totalProducts,
+            'totalSoldProducts' => $totalSoldProducts,
+        ];
+
+        return view('admin.index',[
+            'totalUsers' => $totalUsers,
+            'totalOrders' => $totalOrders,
+            'totalProducts' => $totalProducts,
+            'products'=> Product::join('users', 'products.username', '=', 'users.id')
+            ->join('categories', 'category_id', '=', 'categories.id')
+            ->join('statusproducts', 'productstatus_id', '=', 'statusproducts.id')
+            ->select('products.*', 'users.username as user_name', 'categories.name as category_name','statusproducts.status as statusproduct')
+            ->get(),
+            'categories' => Category::with('products')->get(),
+            'totalSoldProducts'=> $totalSoldProducts,
+            'data'=>$data
+        ]);
         }
         else{
             return view('homepage', [

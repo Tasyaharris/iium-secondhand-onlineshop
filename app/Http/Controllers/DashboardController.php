@@ -5,6 +5,8 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Category;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\DB;
 use App\Models\Discussion;
 
 use Illuminate\Http\Request;
@@ -13,30 +15,40 @@ class DashboardController extends Controller
 {
     public function index(){
 
-        $totalUsers = User::where('usertype',0)->count();
+        $totalUsers = User::where('usertype', 0)->count();
         $totalOrders = Order::count();
         $totalProducts = Product::count();
-        $totalSoldProducts = Product::where('productstatus_id',1)->count();
+        $totalSoldProducts = Product::where('productstatus_id', 1)->count();
+    
+        $categories = Category::with('products')->get();
+    
+        $topSoldProducts = [];
+        
+    
+       //$soldProductCategories = Category::j->where('products.productstatus_id', 1)->get();
+
+      
         $data = [
             'totalProducts' => $totalProducts,
             'totalSoldProducts' => $totalSoldProducts,
         ];
-
-        return view('admin.index',[
+    
+        return view('admin.index', [
             'totalUsers' => $totalUsers,
             'totalOrders' => $totalOrders,
             'totalProducts' => $totalProducts,
-            'products'=> Product::join('users', 'products.username', '=', 'users.id')
-            ->join('categories', 'category_id', '=', 'categories.id')
-            ->join('statusproducts', 'productstatus_id', '=', 'statusproducts.id')
-            ->select('products.*', 'users.username as user_name', 'categories.name as category_name','statusproducts.status as statusproduct')
-            ->get(),
-            'categories' => Category::with('products')->get(),
-            'totalSoldProducts'=> $totalSoldProducts,
-            'data'=>$data
+            'products' => Product::join('users', 'products.username', '=', 'users.id')
+                ->join('categories', 'category_id', '=', 'categories.id')
+                ->join('statusproducts', 'productstatus_id', '=', 'statusproducts.id')
+                ->select('products.*', 'users.username as user_name', 'categories.name as category_name', 'statusproducts.status as statusproduct')
+                ->get(),
+            'categories' => $categories,
+            'totalSoldProducts' => $totalSoldProducts,
+            'data' => $data,
+            //'soldProductCategory' => $soldProductCategory,
         ]);
     }
-
+    
    
     public function getProduct(){
         return view('admin.products',[
