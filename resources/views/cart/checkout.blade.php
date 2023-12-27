@@ -41,9 +41,6 @@
             <div class="modal-body">
                 <!-- Add your terms and conditions text here -->
                 <p style="font-weight: bold">Terms and Conditions: </p>
-                <p>1. We hereby declares that it bears no responsibility for any transactions conducted between sellers and buyers on the platform, including any incidents or issues that may occur before, during, or after a transaction.</p>
-                <p>2. We acknowledges that this website serves solely as a facilitator, providing a platform for sellers to list their items and for buyers to browse and purchase these items. The website does not participate in or influence any negotiations, agreements, or transactions between sellers and buyers.</p> 
-                <p>3. In the event of any disputes or issues arising from a transaction, the website administration encourages buyers to engage in open communication with the seller directly. </p>
                 <input type="checkbox" id="acceptTerms"> I agree to the Terms and Conditions
                 <br>
                 <br>
@@ -112,7 +109,7 @@
                     {{-- <input type="hidden" name="seller_username[{{ $username }}]" value="{{ $username }}"> --}}
                     <div class="col" style="display: flex; align-items: center; margin-top:10px;">
                         <!--product details-->
-                        <div class="col text-center" style="margin-left: 10px;">
+                        <div class="col text-center" style=o"margin-left: 10px;">
                             @if (is_array(json_decode($product->product_pic)))
                                 @php $firstImagePath = json_decode($product->product_pic)[0]; @endphp
                                 <div class="img_recom" style="margin-left: 3px; margin-bottom:0px">

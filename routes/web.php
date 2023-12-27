@@ -137,6 +137,8 @@ Route::get('/send-event', function () {
 //      broadcast(new HelloEvent());
 //});
 //
+Route::get('/guidelines',[HomePageController::class,'guidelines']);
+
 
 Route::get('/freeproducts',[ExploreController::class,'getFree']);
 Route::get('/electronicproducts',[ExploreController::class,'getElectronic']);
@@ -321,3 +323,8 @@ Route::get('/customers',[DashboardController::class,'getUser'])->middleware('aut
 Route::get('/user/search',[DashboardController::class,'searchUser'])->middleware('auth');
 Route::get('/order/search',[OrderDashboardController::class,'searchOrder'])->middleware('auth');
 Route::get('/discussions',[DashboardController::class,'discussions'])->middleware('auth');
+Route::get('/viewusers/{id}', [DashboardController::class, 'viewUser'])->name('view.users')->middleware('auth');
+Route::post('/deleteusers/{id}', [DashboardController::class, 'deleteUser'])->name('delete.users')->middleware('auth');
+Route::get('/contactusers/{id}', [DashboardController::class, 'viewUser'])->name('contact.users')->middleware('auth');
+Route::post('/deleteproducts/{id}', [DashboardController::class, 'deleteProduct'])->name('delete.product')->middleware('auth');
+Route::post('/deletediscussion/{id}', [DashboardController::class, 'deleteDiscussion'])->name('delete.discussion')->middleware('auth');

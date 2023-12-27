@@ -5,6 +5,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Category;
+use App\Models\Profile;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
 use App\Models\Discussion;
@@ -21,17 +22,13 @@ class DashboardController extends Controller
         $totalSoldProducts = Product::where('productstatus_id', 1)->count();
     
         $categories = Category::with('products')->get();
-    
-        $topSoldProducts = [];
-        
-    
-       //$soldProductCategories = Category::j->where('products.productstatus_id', 1)->get();
-
-      
-        $data = [
-            'totalProducts' => $totalProducts,
-            'totalSoldProducts' => $totalSoldProducts,
-        ];
+        $topSoldProducts = Product::join('categories', 'products.category_id', '=', 'categories.id')
+        ->select('categories.name as category_name', DB::raw('COUNT(products.id) as total_sold'))
+        ->where('products.productstatus_id', 1)
+        ->groupBy('categories.name')
+        ->orderByDesc('total_sold')
+        ->take(3)
+        ->get();
     
         return view('admin.index', [
             'totalUsers' => $totalUsers,
@@ -44,8 +41,8 @@ class DashboardController extends Controller
                 ->get(),
             'categories' => $categories,
             'totalSoldProducts' => $totalSoldProducts,
-            'data' => $data,
-            //'soldProductCategory' => $soldProductCategory,
+            'topSoldProducts' => $topSoldProducts
+           
         ]);
     }
     
@@ -60,6 +57,7 @@ class DashboardController extends Controller
         ]);
     }
     
+ 
     public function getUser(){
         return view('admin.users',[
             'users'=> User::where('usertype',0)
@@ -69,6 +67,34 @@ class DashboardController extends Controller
         ]);
     }
 
+    // to view users data
+    public function viewUser($id){
+
+        $user = User::find($id);
+        $user = User::select('users.*')->where('users.id',$id) ->first(); 
+
+        $profile= Profile::join('users','profiles.username','=','users.id')
+        ->select('profiles.*','users.username as user_name')
+        ->where('profiles.username', $id)
+        ->first(); 
+
+        
+        return view('admin.userdata',[
+            'user'=> $user,
+            'profile' => $profile,
+            'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
+            ->join('negos', 'nego_id', '=', 'negos.id')
+            ->join('categories', 'category_id', '=', 'categories.id')
+            ->join('users', 'products.username', '=', 'users.id')
+            ->join('statusproducts','products.productstatus_id','=','statusproducts.id')
+            ->where('products.username',$id)
+            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'categories.name as category', 'users.username as user_name','statusproducts.status as statusProduct')
+            ->get(),
+            
+        ]);
+    }
+
+
     public function discussions(){
         return view('admin.discussions',[
             "discussions"=> Discussion::join('users','discussions.username','=','users.id')
@@ -77,6 +103,11 @@ class DashboardController extends Controller
             ->get()
             
         ]);
+    }
+
+    public function deleteDiscussion($id){
+        Discussion::destroy($id);
+        return back()->with('success', 'Discussion has been deleted!');
     }
 
     public function search(Request $request)
@@ -120,5 +151,15 @@ class DashboardController extends Controller
 
             
          ]);
+    }
+
+    public function deleteUsers($id){
+        User::destroy($id);
+        return back()->with('success', 'User has been deleted!');
+    }
+
+    public function deleteProduct($id){
+        Product::destroy($id);
+        return back()->with('success', 'Product has been deleted!');
     }
 }

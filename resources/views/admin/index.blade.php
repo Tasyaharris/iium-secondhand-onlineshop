@@ -29,7 +29,7 @@
     <img src="/images/products.png" alt="logo" width="100" height="100">
     <div class="stack text-center" style="margin-left:40px;">
     <h1 >{{ $totalProducts }}</h1>
-    <h4 style="align-text:center;">Products Listed</h4>
+    <h4 style="align-text:center;"> Listed Products</h4>
     </div>
    </div>
   </div>
@@ -43,8 +43,8 @@
     <div style="display: flex; align-items:center;">
     <img src="/images/orders.png" alt="logo" width="100" height="100">
     <div class="stack text-center" style="margin-left:40px;">
-    <h1 >{{ $totalOrders }}</h1>
-    <h4 style="align-text:center;">Completed Orders</h4>
+    <h1 >{{ $totalSoldProducts }}</h1>
+    <h4 style="align-text:center;">Sold Products</h4>
     </div>
    </div>
   </div>
@@ -78,18 +78,45 @@
     <!-- Sales card -->
     <div class="col-md-6">
       <h3>Sales</h3>
-      <div class="card mt-4" style="width: auto; border-radius: 10px; margin-left: 20px; background: rgba(0, 0, 0, 0.75);">
-        <div class="card-body">
-          <div style="text-align:center;color:white;">
-            <h3 style="text-align: center;">{{ $totalSoldProducts }} Product Sold</h3>
-          </div>
-        </div>
+      <div class="col-md-6" style="width: auto; border-radius: 10px; margin-left: 10px;">
+        <h6>Top 3 Sold Products by Category</h6>
+        <canvas id="barChart" width="400" height="200"></canvas>
       </div>
     </div>
   </div>
 </div>
 
+<script>
+  // Get data from the controller
+  const categories = @json($categories);
+  const topSoldProducts = @json($topSoldProducts); // Make sure to pass this from the controller
 
+  // Prepare data for the chart
+  const categoryNames = categories.map(category => category.name);
+  const productCounts = topSoldProducts.map(product => product.total_sold);
+
+  // Create the bar chart
+  const ctx = document.getElementById('barChart').getContext('2d');
+  const barChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: categoryNames,
+      datasets: [{
+        label: 'Total Sold Products',
+        data: productCounts,
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
 
 @endsection
-

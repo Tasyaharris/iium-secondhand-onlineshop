@@ -118,7 +118,8 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                @foreach ($products as $product)
+                <div container style=" background-color: white;   border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center; ">
+                  @forelse ($products as $product)
                 <div class="col">
                     <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
                       <div class="card-body d-flex flex-column">
@@ -193,7 +194,11 @@
                     
                 </div>
                     
-                @endforeach
+                @empty
+                      <div class="col  d-flex align-items-center justify-content-center">
+                          <h6 style="color:grey;text-align:center;align-items:center;">No product listed</h6>
+                      </div>
+                    @endforelse
                 
               </div>
             </div>

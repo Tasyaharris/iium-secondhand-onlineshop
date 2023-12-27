@@ -7,10 +7,17 @@
 
 @include('admin.layouts.search')
 
+  <!--success messages; later will be replaced with pop up alert/messages-->
+  @if(session()->has('success'))
+  <div class="alert alert-success" role="alert">
+    {{ session('success') }}
+  </div>
+  @endif
+
 <div class="col-md-16" style="">
     <!-- Content for the second half of the page -->
     @foreach ($discussions->take(5) as $discussion)
-    <nav class="navbar bg-body-tertiary mt-0 " style="border:1px solid grey;border-radius:10px;width:auto;">
+    <nav class="navbar bg-body-tertiary mt-3 " style="border:1px solid grey;border-radius:10px;width:auto;">
       <div class="row" >
       <div class="discussion-bar"  data-discussion-id="{{ $discussion->id }}" >
         <!--seller profile-->
@@ -23,41 +30,24 @@
                   <h6>{{ $discussion->title }}</h6>
                   <p>{{ $discussion->discussion }}</p>
               </div>
-
-              <div class="options">
-                <div class="dropdown ms-auto">
-                 <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                 <ul class="dropdown-menu">
-                   <li>
-                       <!--update item button-->
-                       <span class="dropdown-item">
-                         <a href="" style="color: black; text-decoration:none; font-style: normal;">
-                           <i class="fas fa-pen mx-2 "></i>Update
-                         </a>  
-                       </span>
-                   </li>
-                   <li>
-                     <!--delete item button-->
-                   
-                       <form action=""  method="post">
-                         <span class="dropdown-item">
-                         @method('DELETE')
-                         @csrf
-                         <button type="submit" onclick="return confirm('Are you sure to delete this item?')" style="border: none; background-color: white;">
-                           <i class="fas fa-trash mx-2"></i> Delete
-                         </button>
-                         </span>
-                       </form>  
-                   </li> 
-                 </ul>
-             </div>
-             </div>
               </div>
-            
-              
-          </div>
-          
+             
+                     <!--delete item button-->
+              <div class="ma-auto">
+                <form action="{{ route('delete.discussion', $discussion->id) }}"  method="post">
+                  <span class="dropdown-item">
+                  @method('DELETE')
+                  @csrf
+                  <button type="submit" onclick="return confirm('Are you sure to delete this discussion?')" style="border: none; background-color: none;">
+                    <i class="fas fa-trash mx-2"></i> 
+                  </button>
+                  </span>
+                </form>  
+             </div>          
+          </div> 
       </div>
+
+   
       
       <div class="comments-container" style="display: none;"  data-discussion-id="{{ $discussion->id }}"> <!-- Initially hide comments -->
           <livewire:comments :model="$discussion"/>

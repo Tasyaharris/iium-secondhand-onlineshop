@@ -17,15 +17,17 @@ class HomePageController extends Controller
 
         $usertype=Auth::user()->usertype;
 
+
         if($usertype =='1')
         {
-            $totalUsers = User::where('usertype',0)->count();
+        $totalUsers = User::where('usertype',0)->count();
         $totalOrders = Order::count();
         $totalProducts = Product::count();
         $totalSoldProducts = Product::where('productstatus_id',1)->count();
+       
         $data = [
-            'totalProducts' => $totalProducts,
-            'totalSoldProducts' => $totalSoldProducts,
+            'labels' => ['January', 'February', 'March', 'April', 'May'],
+            'data' => [65, 59, 80, 81, 56],
         ];
 
         return view('admin.index',[
@@ -51,6 +53,7 @@ class HomePageController extends Controller
                 'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
                 ->join('negos', 'nego_id', '=', 'negos.id')
                 ->join('users', 'products.username', '=', 'users.id')
+                ->where('option_id','=','1')
                 ->where('products.productstatus_id','!=','1')
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
                 ->get(),
@@ -67,5 +70,11 @@ class HomePageController extends Controller
         }
 
        
+    }
+
+    public function guidelines(){
+        return view('guidelines',[
+            "title"=>"Guidelines"
+        ]);
     }
 }

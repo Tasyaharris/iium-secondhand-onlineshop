@@ -11,11 +11,14 @@ class Order extends Model
 {
     use HasFactory;
     use Notifiable;
+    
+    protected $primaryKey = 'id'; // Make sure this matches your actual primary key column name.
+
     protected $fillable = [
         'totalOrder',
         'paymentoption_id',
         'delivery_id',
-        'del_plaace',
+        'del_place',
         'username', // Make sure 'username' is included here
         'order_date',
         'paymentProof',

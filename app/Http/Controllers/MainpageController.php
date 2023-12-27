@@ -25,6 +25,8 @@ class MainpageController extends Controller
                 'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
                 ->join('negos', 'nego_id', '=', 'negos.id')
                 ->join('users', 'products.username', '=', 'users.id')
+                ->where('option_id','=','1')
+                ->where('products.productstatus_id','!=','1')
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
                 ->get(),
                //for free filtering
@@ -34,6 +36,7 @@ class MainpageController extends Controller
               
                ->join('users', 'products.username', '=', 'users.id')
                ->where('option_id','=','2')
+               ->where('products.productstatus_id','!=','1')
                ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name')
                ->get()  
             ]);

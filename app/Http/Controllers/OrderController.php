@@ -20,6 +20,7 @@ use App\Notifications\SendNotification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Redirect;
 
 
@@ -144,8 +145,15 @@ class OrderController extends Controller
        
         $productIds = $request->input('product_id');
         $groupedProductIds = collect($productIds);
-        //dd($productIds);
-    
+        
+        $data6 = [];
+        foreach( $productIds as $id) {
+          $data6[] = [
+            'productid' => $id,
+          ]; 
+        }
+      
+
         $validatedData = $request->validate([
             'paymentoption_id.*' => 'required',
             'delivery_id.*' => 'required',
@@ -153,14 +161,14 @@ class OrderController extends Controller
 
         //total order
         $totalOrder = $request->input('totalOrder');    
+
         $data = [];
         foreach($totalOrder as $id) {
           $data[] = [
             'totalOrderProduct' => $id,
           ]; 
         }
-
-
+        
         //payment
         $paymentoptionId = $request->input('paymentoption_id');
         $data1 = [];
@@ -179,6 +187,7 @@ class OrderController extends Controller
           ]; 
         }
 
+      
         //delplace
         $del_place = $request->input('del_place');
         $data3 = [];
@@ -257,6 +266,7 @@ class OrderController extends Controller
             ];
         }
         
+     
         $username = auth()->user()->id;
         $order_date = now();
         $data = array_map(function ($total, $payment, $delivery, $delPlace, $data4Item) use ($username, $order_date) {
@@ -273,48 +283,50 @@ class OrderController extends Controller
             );
         }, $totalOrder, $paymentoptionId, $deliveryId, $del_place, $data4);
     
+        
         // Ensure 'username' is present in every $data item
         foreach ($data as &$item) {
             $item['username'] = $username;
             $item['order_date'] = $order_date;
         }
-    
-        //$order=Order::insert($data);
 
-          // Insert data into the 'orders' table
-           Order::insert($data);
+        //Order::insert($data);
 
-         // Retrieve the IDs of the recently inserted orders
-$orderIds = Order::latest()->take(count($data))->pluck('id');
+            // Retrieve the IDs of the recently inserted orders
+        //$orderIds = Order::latest()->take(count($data))->pluck('id');
 
-// Prepare data for the 'orderitems' table
-$productIds = $request->input('product_id');
-$orderItemsData = [];
+        // Prepare data for the 'orderitems' table
+        $productIds = $request->input('product_id');
+        $orderItemsData = [];
 
-foreach ($orderIds as $orderId) {
-    foreach ($productIds as $productId) {
-        // Retrieve the product based on the ID
-        $product = Product::find($productId);
-
-        // Create order item for each product in the order
-        $orderItemsData[] = [
-            'order_id' => $orderId,
-            'product_id' => $productId,
-            'email' => $product->user->email,
-        ];
-
-        // Update product status
-        $product->productstatus_id = 1;
-        $product->save();
-
-        // Delete cart entry for the current product and authenticated user
-        Cart::where('product_id', $productId)->delete();
-        Like::where('product_id', $productId)->delete();
-    }
-}
-
-// Insert data into the 'orderitems' table
-OrderItem::insert($orderItemsData);
+      
+        foreach ($data as $orderData) {
+            // Insert data into the 'orders' table and retrieve the ID
+            $orderId = Order::insertGetId($orderData);
+            
+            // Retrieve the product based on the ID
+            foreach ($productIds as $productId) {
+                $product = Product::find($productId);
+        
+                // Create order item for each product in the order
+                $orderItemsData[] = [
+                    'order_id' => $orderId,
+                    'product_id' => $productId,
+                    'email' => $product->user->email,
+                ];
+        
+                // Update product status
+                $product->productstatus_id = 1;
+                $product->save();
+        
+                // Delete cart entry for the current product and authenticated user
+                Cart::where('product_id', $productId)->delete();
+                Like::where('product_id', $productId)->delete();
+            }
+        }
+        
+    // Insert data into the 'orderitems' table
+    OrderItem::insert($orderItemsData);
   
         return redirect('/afterbuy');
      }

@@ -106,7 +106,7 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+                <div container style=" background-color: white;  border: none;min-height: 50vh;">
               @forelse($order_items->groupBy('order.id') as $orderId => $orderGroup)
                 <div class="col">       
                     <div class="card-body d-flex flex-column">
@@ -120,6 +120,9 @@
                             @endif
                             </div>
                         </div> 
+                        <div style="text-align:left;margin-left:15px;">
+                          <small style="font-weight: bold; font-size:15px; text-align:left;">Order ID: {{ $orderId}}</small>  
+                        </div>
                         @foreach($orderGroup as $order_item)
                          <div class="order-details mt-3"  style="display: flex; align-items: center; margin-left:15px; " >
                          <div class="img mb-1 ma-auto">

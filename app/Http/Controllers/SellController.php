@@ -98,8 +98,8 @@ public function getSubcategoriesAjax($categoryId)
            }
        }
 
+       $validatedData['more_desc']= 
        
-    
        $validatedData['product_name']= ucwords($validatedData['product_name']);
        $validatedData['brand']= ucfirst($validatedData['brand']);
        $validatedData['material']= ucfirst($validatedData['material']);
