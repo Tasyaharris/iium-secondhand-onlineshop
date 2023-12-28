@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Category;
 use App\Models\Profile;
 use App\Models\OrderItem;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Discussion;
 
@@ -23,11 +24,11 @@ class DashboardController extends Controller
     
         $categories = Category::with('products')->get();
         $topSoldProducts = Product::join('categories', 'products.category_id', '=', 'categories.id')
-        ->select('categories.name as category_name', DB::raw('COUNT(products.id) as total_sold'))
         ->where('products.productstatus_id', 1)
+        ->select('categories.name as category_name', DB::raw('COUNT(products.id) as total_sold'))
         ->groupBy('categories.name')
         ->orderByDesc('total_sold')
-        ->take(3)
+        ->limit(3)
         ->get();
     
         return view('admin.index', [
@@ -106,9 +107,27 @@ class DashboardController extends Controller
     }
 
     public function deleteDiscussion($id){
-        Discussion::destroy($id);
-        return back()->with('success', 'Discussion has been deleted!');
+        try {
+            // Find the product by ID
+            $discussion = Discussion::findOrFail($id);
+
+            // Delete the product
+            $discussion->delete();
+            
+            return back()->with('success', 'Discussion has been deleted!');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            // Check for foreign key constraint violation
+            if ($errorCode == 1451) {
+                return back()->with('error', 'Cannot delete the item because it is associated with other records.');
+            }
+    
+            // Handle other database-related errors if needed
+            return back()->with('error', 'An error occurred while deleting the item.');
+        }
     }
+    
 
     public function search(Request $request)
     {
@@ -153,13 +172,49 @@ class DashboardController extends Controller
          ]);
     }
 
-    public function deleteUsers($id){
-        User::destroy($id);
-        return back()->with('success', 'User has been deleted!');
+    public function deleteUser($id){
+      
+        try {
+            // Find the product by ID
+            $user = User::findOrFail($id);
+
+            // Delete the product
+            $user->delete();
+            
+            return back()->with('success', 'User has been deleted!');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            // Check for foreign key constraint violation
+            if ($errorCode == 1451) {
+                return back()->with('error', 'Cannot delete the item because it is associated with other records.');
+            }
+    
+            // Handle other database-related errors if needed
+            return back()->with('error', 'An error occurred while deleting the item.');
+        }
     }
 
     public function deleteProduct($id){
-        Product::destroy($id);
-        return back()->with('success', 'Product has been deleted!');
+        try {
+            // Find the product by ID
+            $product = Product::findOrFail($id);
+
+            // Delete the product
+            $product->delete();
+            
+            return back()->with('success', 'Product has been deleted!');
+        } catch (QueryException $e) {
+            $errorCode = $e->errorInfo[1];
+            
+            // Check for foreign key constraint violation
+            if ($errorCode == 1451) {
+                return back()->with('error', 'Cannot delete the item because it is associated with other records.');
+            }
+    
+            // Handle other database-related errors if needed
+            return back()->with('error', 'An error occurred while deleting the item.');
+        }
+        
     }
 }

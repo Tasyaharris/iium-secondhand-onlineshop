@@ -28,7 +28,7 @@
         </ul>
 
         <ul class="navbar-nav ms-auto" >
-
+          
           <li class="nav-item mt-2" style="margin-right:6px;">
             <a href="/chatpage">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chat-fill" viewBox="0 0 16 16">

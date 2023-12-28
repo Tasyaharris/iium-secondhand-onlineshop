@@ -120,8 +120,8 @@
                         <h6>{{ $product->product_name }}</h6>
                         <br>
                        <small>Item Price: RM {{ $product->product_price }}</small>
-                       <small>Platform Fee: {{ $com }}</small>
-                       <small>Total Fee : {{ $totalPrice }}</small>
+                       {{-- <small>Platform Fee: {{ $com }}</small>
+                       <small>Total Fee : {{ $totalPrice }}</small> --}}
                        <input type="hidden" name="total_price" value="{{ $totalPrice}}">
 
                        <h6 style="margin-top:10px;">Total Order: RM{{ $totalOrder }} </h6>
@@ -154,7 +154,7 @@
                         <label class="form-check-label" for="inlineRadio{{ $payment->id }}">{{ $payment->payment_opt }}</label>
                     @endif
                 </div>
-            @endforeach
+                @endforeach
                 
                 <div id="paymentError" class="alert alert-danger" style="display: none;">
                     Please select a payment method.
@@ -275,11 +275,13 @@
            // Handle the change event of the payment options
            $('[name="paymentoption_id"]').on("change", function () {
             const selectedPaymentId = $('[name="paymentoption_id"]:checked').val();
+            const paymentProofInput = document.getElementById('paymentProof');
 
             // Check if the selected payment option requires a file upload
             if (selectedPaymentId == 2) {
                 // Show the file upload container
                 $('#fileUploadContainer').show();
+                paymentProofInput.setAttribute('required', 'required');
             } else {
                 // Hide the file upload container
                 $('#fileUploadContainer').hide();
@@ -307,43 +309,56 @@
         });
         
 
-        acceptButton.on("click", async function () {
+        // acceptButton.on("click", async function () {
+        //     if (acceptTermsCheckbox.prop("checked")) {
+        //         let myRealForm = document.getElementById('myForm')
+        //         // Submit the form using AJAX
+        //         // $.ajax({
+        //         //     type: myForm.attr("method"),
+        //         //     url: myForm.attr("action"),
+        //         //     data: myForm.serialize(),
+        //         //     headers: {
+        //         //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //         //      },
+        //         //     success: function (response) {
+        //         //         // Handle the success response if needed
+        //         //         console.log(response);
+        //         //     },
+        //         //     error: function (error) {
+        //         //         // Handle the error response if needed
+        //         //         console.error(error);
+        //         //     }
+        //         // });
+        //         const data = new URLSearchParams(new FormData(myRealForm));
+        //         await fetch(myForm.attr("action"),{
+        //             method:'POST',
+        //             mode:'cors',
+        //             header:{
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             redirect: "follow", 
+        //             body:data
+        //         }).then( data =>{
+        //             console.log(data)
+        //         termsPopup.modal("hide");
+        //             window.open(data.url,"_self")
+        //             console.debug("FORM SUCCESS")
+        //         }).catch(
+        //             err => console.error(err)
+        //         )
+        //     }
+        // });
+
+        
+        acceptButton.on("click", function () {
+            // Check if the terms checkbox is checked
             if (acceptTermsCheckbox.prop("checked")) {
-                let myRealForm = document.getElementById('myForm')
-                // Submit the form using AJAX
-                // $.ajax({
-                //     type: myForm.attr("method"),
-                //     url: myForm.attr("action"),
-                //     data: myForm.serialize(),
-                //     headers: {
-                //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //      },
-                //     success: function (response) {
-                //         // Handle the success response if needed
-                //         console.log(response);
-                //     },
-                //     error: function (error) {
-                //         // Handle the error response if needed
-                //         console.error(error);
-                //     }
-                // });
-                const data = new URLSearchParams(new FormData(myRealForm));
-                await fetch(myForm.attr("action"),{
-                    method:'POST',
-                    mode:'cors',
-                    header:{
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    redirect: "follow", 
-                    body:data
-                }).then( data =>{
-                    console.log(data)
-                    termsPopup.modal("hide");
-                    window.open(data.url,"_self")
-                    console.debug("FORM SUCCESS")
-                }).catch(
-                    err => console.error(err)
-                )
+                
+                // Trigger the form submission
+                document.getElementById("myForm").submit();
+            } else {
+                // Show an error message or handle it as needed
+                alert("Please accept the terms and conditions.");
             }
         });
 

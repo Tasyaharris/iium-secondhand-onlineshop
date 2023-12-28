@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Condition;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class HomePageController extends Controller
@@ -25,10 +26,13 @@ class HomePageController extends Controller
         $totalProducts = Product::count();
         $totalSoldProducts = Product::where('productstatus_id',1)->count();
        
-        $data = [
-            'labels' => ['January', 'February', 'March', 'April', 'May'],
-            'data' => [65, 59, 80, 81, 56],
-        ];
+        $topSoldProducts = Product::join('categories', 'products.category_id', '=', 'categories.id')
+        ->where('products.productstatus_id', 1)
+        ->select('categories.name as category_name', DB::raw('COUNT(products.id) as total_sold'))
+        ->groupBy('categories.name')
+        ->orderByDesc('total_sold')
+        ->limit(3)
+        ->get();
 
         return view('admin.index',[
             'totalUsers' => $totalUsers,
@@ -41,7 +45,7 @@ class HomePageController extends Controller
             ->get(),
             'categories' => Category::with('products')->get(),
             'totalSoldProducts'=> $totalSoldProducts,
-            'data'=>$data
+            'topSoldProducts' => $topSoldProducts
         ]);
         }
         else{

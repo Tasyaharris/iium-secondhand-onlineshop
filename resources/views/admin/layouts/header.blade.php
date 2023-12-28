@@ -14,9 +14,6 @@
                 {{ auth()->user()->username }}
              </a>
               <ul class="dropdown-menu">
-            
-               <li><a class="dropdown-item" href="/settings">Settings</a></li>
-               <li><hr class="dropdown-divider"></li>
                <li>
                   <form action="/logout" method="post">
                     @csrf

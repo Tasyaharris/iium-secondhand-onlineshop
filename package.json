@@ -3,7 +3,10 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "development" :"mix",
+        "build": "vite build",
+        "watch": "npm run development -- --watch",
+        "hot" : "mix watch --hot"
     },
     "devDependencies": {
         "@alpinejs/focus": "^3.10.5",

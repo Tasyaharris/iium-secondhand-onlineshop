@@ -10,18 +10,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendMessage implements ShouldBroadcast
+class PusherBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $roomId, $userId,$message;
+
     /**
      * Create a new event instance.
      */
-    public function __construct($roomId, $userId,$message)
+    public function __construct()
     {
-        $this->roomId = $roomId;
-        $this->userId = $userId;
-        $this->message = $message;
+        //
     }
 
     /**
@@ -29,15 +27,10 @@ class SendMessage implements ShouldBroadcast
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn()
+    public function broadcastOn(): array
     {
         return [
-            new PresenceChannel('chat.'.$this->roomId),
+            new PrivateChannel('channel-name'),
         ];
     }
-
-    // public function broadcastWith()
-    // {
-    //     return ['name' => $this->userId->username];
-    // }
 }

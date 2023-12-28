@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER', 'null'),
+    'default' => env('BROADCAST_DRIVER'),
     'authEndpoint' => '/broadcasting/auth',
     'auth' => 'broadcasting/auth',
 
@@ -43,7 +43,7 @@ return [
                 'host'=> env('PUSHER_HOST'),
                 //'host' => env('PUSHER_HOST') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'ap1').'.pusher.com',
                 'port' => env('PUSHER_PORT', 6001),
-                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'scheme' => env('PUSHER_SCHEME', 'http'),
                 //'encrypted' => true,
                 'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
             ],

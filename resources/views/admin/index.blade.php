@@ -92,7 +92,7 @@
   const topSoldProducts = @json($topSoldProducts); // Make sure to pass this from the controller
 
   // Prepare data for the chart
-  const categoryNames = categories.map(category => category.name);
+  const categoryNames = categories.map(category => category.name).slice(0, 3);
   const productCounts = topSoldProducts.map(product => product.total_sold);
 
   // Create the bar chart

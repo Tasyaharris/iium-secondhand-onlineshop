@@ -30,7 +30,7 @@ class MailNotify extends Mailable
     {
         return new Envelope(
             from: new Address('iiumsecondhand@example.com','IIUM SECONDHAND ONLINE SHOP'),
-            subject: 'Mail Notify',
+            subject: 'You have new order!',
         );
     }
 

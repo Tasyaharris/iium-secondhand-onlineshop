@@ -36,6 +36,8 @@ use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChannelAuthorizationController;
 use App\Http\Controllers\OrderDashboardController;
+use App\Http\Controllers\PusherController;
+
 use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Contracts\Cache\Store;
 
@@ -127,10 +129,6 @@ Route::get('/afterbuy1', function () {
     ]);
 });
 
-Route::get('/send-event', function () {
-    $text = "Ths is test event";
-    broadcast(new HelloEvent($text));
-});
 
 
 //Route::get(uri:"send-event", function (){
@@ -219,6 +217,16 @@ Route::get('/yourdiscussion',[DiscussionController::class,'yourdiscussion'])->mi
 
 
 Route::resource('/products',ProductController::class);
+
+//try new chat system
+Route::get('/demoevent',function(){
+    $text = "Ths is test event";
+    broadcast(new HelloEvent('text'));
+    //return view('testdemo');
+});
+
+Route::get('/chatting','PusherController@index')->middleware('auth');
+
 
 //for contact the seller
 Route::resource('/chat',MessageController::class)->middleware('auth');
@@ -324,7 +332,7 @@ Route::get('/user/search',[DashboardController::class,'searchUser'])->middleware
 Route::get('/order/search',[OrderDashboardController::class,'searchOrder'])->middleware('auth');
 Route::get('/discussions',[DashboardController::class,'discussions'])->middleware('auth');
 Route::get('/viewusers/{id}', [DashboardController::class, 'viewUser'])->name('view.users')->middleware('auth');
-Route::post('/deleteusers/{id}', [DashboardController::class, 'deleteUser'])->name('delete.users')->middleware('auth');
+Route::delete('/deleteusers/{id}', [DashboardController::class, 'deleteUser'])->name('delete.users')->middleware('auth');
 Route::get('/contactusers/{id}', [DashboardController::class, 'viewUser'])->name('contact.users')->middleware('auth');
-Route::post('/deleteproducts/{id}', [DashboardController::class, 'deleteProduct'])->name('delete.product')->middleware('auth');
-Route::post('/deletediscussion/{id}', [DashboardController::class, 'deleteDiscussion'])->name('delete.discussion')->middleware('auth');
+Route::delete('/deleteproducts/{id}', [DashboardController::class, 'deleteProduct'])->name('delete.product')->middleware('auth');
+Route::delete('/deletediscussion/{id}', [DashboardController::class, 'deleteDiscussion'])->name('delete.discussion')->middleware('auth');

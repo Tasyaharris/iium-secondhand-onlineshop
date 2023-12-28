@@ -325,8 +325,18 @@ class OrderController extends Controller
             }
         }
         
-    // Insert data into the 'orderitems' table
-    OrderItem::insert($orderItemsData);
+             // Insert data into the 'orderitems' table
+             OrderItem::insert($orderItemsData);
+            //  foreach ($orderItemsData as $orderItemData) {
+            //     $orderId = $orderItemData['order_id'];
+            
+            //     // Retrieve the seller for the current product
+            //     $seller = OrderItem::where('order_id', $orderId)->get();
+            
+            //     // Send email to the seller
+            //     Mail::to($seller)->send(new MailNotify());
+            // }
+       
   
         return redirect('/afterbuy');
      }
@@ -419,23 +429,15 @@ public function addorder(Request $request)
 
         Like::where('product_id', $productId)
             ->delete();
-        //     $seller = OrderItem::where('product_id', $productId)
-        //     ->select('email')
-        //     ->get();
-        
-        //     $details =[
-        //         'greeting' => 'Your product has sold',
-        //         'message' => 'Your have new order in IIUM SECOND-HAND ONLINE SHOP. Prosess your order now!'
-        //    ];
-        
-        //    Mail::to($seller)->send(new MailNotify());
 
-           //Notification::send($seller, new SendNotification($details));
+            $seller = OrderItem::where('product_id', $productId)->get();
+   
+            Mail::to($seller)->send(new MailNotify());
+        
     }
-
-  
-
     return redirect('/afterbuy1');
+      
+  
 }
 
 
@@ -470,10 +472,10 @@ public function addorder(Request $request)
     }
     
     $price = $product->product_price;
-    $com = 0.02 * $price;
-    $totalPrice = $price + $com;
+    // $com = 0.02 * $price;
+    $totalPrice = $price;
 
-    $totalOrder = 0;
+    // $totalOrder = 0;
     $totalOrder = $totalPrice;
 
     //$user = User::join('banks','users.id','=','banks.user_id')
@@ -489,7 +491,7 @@ public function addorder(Request $request)
                 'payment'=> $payment,
                 'profiles'=> Profile::where('id',auth()->user()->id)->get(),
                 'title' => $title,
-                'com'=> $com,
+                // 'com'=> $com,
                 'totalPrice'=> $totalPrice,
                 'payments'=> Payment::all(),
                 'paymentoption_id' => request()->input('paymentoption_id'),

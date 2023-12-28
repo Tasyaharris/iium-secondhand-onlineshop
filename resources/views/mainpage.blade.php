@@ -5,13 +5,16 @@
 
 @endsection
 
-<script>
+{{-- <script>
     document.addEventListener("DOMContentLoaded", function(event)){
-        Echo.channel('hello-channel')
-            .listen('HelloEvent'),(e) => {
-                console.log(e);
-            }
+        Echo.channel('HelloChannel')
+        .listen('HelloEvent',(e) => {
+            console.log('Event from hello');
+            console.log(e);
+        });
     }
-</script>
+</script> --}}
+
+
 
 

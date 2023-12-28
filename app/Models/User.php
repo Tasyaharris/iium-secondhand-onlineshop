@@ -79,9 +79,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Bank::class,'id','user_id');
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id','username');
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'id','username');
+    // }
+
+    public function messages(){
+        return $this->hasMany(Message::class);
     }
 
 
@@ -89,7 +93,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $granted = false;
 
-        $room = Room::find($roomId);
+        $room = Room::findOrFail($roomId);
         $users = explode(":", $room->users);
         //dd($users);
         foreach($users as $id){
@@ -99,6 +103,19 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return $granted;
     }
+
+//     public function canJoinRoom($roomId)
+// {
+//     $room = Room::find($roomId);
+
+//     if ($room) {
+//         $users = collect(explode(',', $room->users));
+//         return $users->contains($this->id);
+//     }
+
+//     return false;
+// }
+
 
 }
 
