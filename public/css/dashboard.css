@@ -46,3 +46,40 @@
 .navbar .form-control {
   padding: .75rem 1rem;
 }
+
+
+.selection{
+  table-layout: fixed;
+}
+
+
+.clickable-row:active {
+  background-color: #D9D9D9; /* Change to the desired color when clicked */
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #D9D9D9; /* Change to the desired hover background color */
+}
+
+.active {
+  background-color: #D9D9D9; /* Change to the desired color */
+  font-weight: bold; /* Optionally, make the text bold */
+  
+  /* Add any other styles you want to distinguish the active link */
+}
+
+.table-container {
+
+  padding: 10px; /* Add padding for spacing inside the container */
+}
+
+.side-navbar {
+  flex-basis: 600px; /* Set a fixed width for the sidebar */
+  color: black;
+  display: flex; /* Display the items in a horizontal line */
+  flex-direction: row;
+  margin-top: 0px;
+  margin-left: 0;
+
+}

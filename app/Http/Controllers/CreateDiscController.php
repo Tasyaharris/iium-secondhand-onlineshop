@@ -18,8 +18,6 @@ class CreateDiscController extends Controller
         return view('createdisc',[
             'users' => User::where('username',auth()->user()->id)->get(),
             'title'=> 'Create Discussion'
-        
-
         ]);
     }
 

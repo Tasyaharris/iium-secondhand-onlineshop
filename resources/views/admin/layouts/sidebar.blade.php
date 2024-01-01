@@ -51,39 +51,47 @@
 
 
 
-<div class="sidebar border border-right col-md-3 col-lg-2 p-0">
+<div class="sidebar border  col-md-3 col-lg-2 p-0">
       <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto" >
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/dashboard " style="color: black;">
+            <a class="nav-link d-flex align-items-center gap-2  {{ request()->is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard " style="color: black;">
               <svg class="bi"><use xlink:href="#house-fill"/></svg>
               Overview
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/orderdashboard" style="color: black;">
+            <a class="nav-link d-flex align-items-center gap-2 {{ request()->is('orderdashboard') ? 'active' : '' }}" href="/orderdashboard" style="color: black;">
               <svg class="bi"><use xlink:href="#file-earmark"/></svg>
               Orders
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/productdashboard" style="color: black;">
+            <a class="nav-link d-flex align-items-center gap-2  {{ request()->is('productdashboard') ? 'active' : '' }}" href="/productdashboard" style="color: black;">
               <svg class="bi"><use xlink:href="#cart"/></svg>
               Products
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/customers" style="color: black;">
+            <a class="nav-link d-flex align-items-center gap-2  {{ request()->is('customers') ? 'active' : '' }}" href="/customers" style="color: black;">
               <svg class="bi"><use xlink:href="#people"/></svg>
               Users
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link d-flex align-items-center gap-2" href="/discussions" style="color: black;">
+            <a class="nav-link d-flex align-items-center gap-2  {{ request()->is('discussions') ? 'active' : '' }}" href="/discussions" style="color: black;">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-text-fill" viewBox="0 0 16 16">
                 <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
               </svg>
               Discussions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center gap-2   {{ request()->is('adminmessage') ? 'active' : '' }}" href="/adminmessage" style="color: black;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-open" viewBox="0 0 16 16">
+                <path d="M8.47 1.318a1 1 0 0 0-.94 0l-6 3.2A1 1 0 0 0 1 5.4v.817l5.75 3.45L8 8.917l1.25.75L15 6.217V5.4a1 1 0 0 0-.53-.882l-6-3.2ZM15 7.383l-4.778 2.867L15 13.117zm-.035 6.88L8 10.082l-6.965 4.18A1 1 0 0 0 2 15h12a1 1 0 0 0 .965-.738ZM1 13.116l4.778-2.867L1 7.383v5.734ZM7.059.435a2 2 0 0 1 1.882 0l6 3.2A2 2 0 0 1 16 5.4V14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V5.4a2 2 0 0 1 1.059-1.765l6-3.2"/>
+              </svg>
+              User Messages
             </a>
           </li>
         </ul>

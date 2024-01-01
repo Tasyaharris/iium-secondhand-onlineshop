@@ -24,8 +24,6 @@ class MessageController extends Controller
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->get(),
             
-
-            
         ]);
     }
 

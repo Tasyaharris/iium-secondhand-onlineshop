@@ -31,22 +31,26 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        $validatedData = $request->validate([
+            'username' => 'required|min:3|max:255|unique:users',
+             'email' => 'required|email:dns|unique:users',
+             'password'=> 'required|min:5|max:255',
+             'confirm_password'=> 'required|min:5|max:255'
+           ]);
+   
+           if ($validatedData['password'] !== $validatedData['confirm_password']){ }
+   
+           $validatedData['password']= Hash::make($validatedData['password']);
+           $validatedData['confirm_password']=  Hash::make($validatedData['password']);
+           //store in database
+           $user = User::create($validatedData);
+           Auth::login($user);
+       
+               //flash message
+          session()->flash('success', 'Registration Successfull! Please login');
+   
+       
+            //redirect to login page
+            return redirect('/login');
     }
 }

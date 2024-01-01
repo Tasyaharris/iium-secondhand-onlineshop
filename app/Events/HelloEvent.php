@@ -31,7 +31,7 @@ class HelloEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-       return new Channel('hello-channel');
+       return [new Channel('hello-channel')];
     }
 
     public function broadcastWith()

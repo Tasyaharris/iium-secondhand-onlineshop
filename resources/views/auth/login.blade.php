@@ -1,48 +1,72 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+@extends('layouts.headerlogin')
 
-        <x-validation-errors class="mb-4" />
+@section('container')
 
-        @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ session('status') }}
+@if(session()->has('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  {{ session('success') }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
+@if(session()->has('loginError'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{ session('loginError') }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
+<div class="box1 flex-grow-1 w-100 m-auto">
+    <div class="logo">
+        <img class="mb-2" src="images/logo.png" alt="logo" width="65" height="57">
+    </div>
+    <div class="text">
+        <h5 style="text-align: center">IIUM SECOND-HAND ONLINE SHOP</h5>
+    </div>
+</div>
+
+
+<main class="form-signin flex-grow-1 w-100 m-auto mt-4 mb-4">
+    <div class="center mb-3">
+        <div class="title">
+            <p style="font-weight: bold">USER LOGIN</p>
+        </div>
+        
+        <form action="{{ route('login') }}" method="post" >
+          @csrf
+            <div class="form-floating">
+              <input type="username"  name="username" class="form-control @error('email') is-invalid @enderror" id="username" placeholder="username" autofocus required value="{{ old ('username') }}">
+              <label for="floatingInput">Username</label>
+              @error('username')
+              <div class="invalid-feedback">
+                {{ $message }}
+              </div>
+              @enderror
             </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <div class="form-floating">
+              <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+              <label for="floatingPassword">Password</label>
             </div>
+        
+            
+            <button class="button" type="submit" style="border-radius: 5px; font-weight: bold;">LOGIN</button>
+            
+            
+          </form>
 
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
+          <div class="text1">
+            <small class="d-block text-center"> Don't have an account yet?<a href="/register"> Create an account</a></small>
+          </div>
+         
+    </div>
 
-            <div class="block mt-4">
-                <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
+    
+  </main>
+  
+  @vite('resources/js/app.jsx')
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
 
-                <x-button class="ml-4">
-                    {{ __('Log in') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
+@endsection
+
+

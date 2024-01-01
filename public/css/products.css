@@ -50,11 +50,15 @@
 .button.button3{
     background-color: white; 
     border: 1px solid #000; /* Border style, color, and width */
-    padding: 7px 118px; /* Adjust the padding as needed for spacing inside the button */
+    padding: 7px 90px;
+     /* Adjust the padding as needed for spacing inside the button */
     text-decoration: none; /* Remove default link underline */
-    width: 10px;
-    margin-bottom: 3px;
+    width: 250px;
+ 
     margin-top: 10px;
+    overflow: hidden;
+     text-overflow: ellipsis; 
+     white-space: nowrap;
 
 }
 

@@ -1,7 +1,9 @@
 <?php
 
+use App\Providers\FortifyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\BroadcastServiceProvide;
 
 return [
 
@@ -159,6 +161,8 @@ return [
         /*
          * Package Service Providers...
          */
+        //App\Providers\FortifyServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -170,6 +174,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
+        Laravel\Sanctum\SanctumServiceProvider::class,
         Usamamuneerchaudhary\Commentify\Providers\CommentifyServiceProvider::class,
     ])->toArray(),
 

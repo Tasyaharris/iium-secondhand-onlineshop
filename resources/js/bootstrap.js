@@ -7,8 +7,9 @@
 import axios from 'axios';
 window.axios = axios;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+// window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// axios.defaults.withCredentials = true;
+// axios.defaults.withXSRFToken = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -21,27 +22,38 @@ import Pusher from 'pusher-js';
 window.Pusher = Pusher;
 
 // window.Echo = new Echo({
-//    broadcaster: 'pusher',
-//    key: import.meta.env.VITE_PUSHER_APP_KEY,
-//    //cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'ap1',
-//    //encrypted: true,
-//    wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-//    wsPort: import.meta.env.VITE_PUSHER_PORT,
-//    //disableStats :true,
-//    forceTLS: true
-
+//     broadcaster: 'pusher',
+//     key: import.meta.env.VITE_PUSHER_APP_KEY,
+//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+//     wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+//     wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
+//     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
+//     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
+//     authEndpoint: '/broadcasting/auth',
+//     enabledTransports: ['ws', 'wss'],
 // });
-
 
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-    wsHost: import.meta.env.VITE_PUSHER_HOST ? import.meta.env.VITE_PUSHER_HOST : `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
-    wsPort: import.meta.env.VITE_PUSHER_PORT,
+    key: 'c51eb7ec0f05b95fa7a2',
+    cluster: 'ap1',
+    encrypted: true,
+    //authEndpoint: '/broadcast/auth',
+    wsHost: import.meta.env.VITE_PUSHER_HOST ?? `ws-${import.meta.env.VITE_PUSHER_APP_CLUSTER}.pusher.com`,
+    wsPort: 6001,
     wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
-    //authEndpoint: process.env.VUE_APP_SERVER_URL + '/api/broadcasting/auth',
     enabledTransports: ['ws', 'wss'],
-});
+   
+  });
+
+// window.Echo.channel("messages").listen("MessageCreated", (event) => {
+//     console.log('success listen to pusher');
+//     console.log(event);
+// });
+
+// window.Echo.private('chat.{roomId}').listen("SendMessage", (event) => {
+//   console.log('success listen to pusher');
+//   console.log(event);
+// });

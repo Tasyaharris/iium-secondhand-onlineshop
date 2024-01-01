@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/chat.css">
     
-    
 
   </head>
   <body>
@@ -84,11 +83,10 @@
       </div>
 
       <input type="hidden" id="auth-user-id" value="{{ auth()->id() }}">
-      {{-- <input type="hidden" id="message-url" value="{{ route("chat.save") }}"> --}}
       <input type="hidden" id="room-url" value="{{ route("room.create") }}">
-      @vite('resources/js/app.js')
+      @vite('resources/js/app.jsx')
 
-    @include('partials.footer')
+   
 
     {{-- url --}}
       

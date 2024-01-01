@@ -15,6 +15,13 @@
   <body>
 
     @include('partials.header')
+
+       <!--success messages; later will be replaced with pop up alert/messages-->
+       @if(session()->has('success'))
+       <div class="alert alert-success" role="alert">
+         {{ session('success') }}
+       </div>
+       @endif
     
     <div class="container mt-2">
        
@@ -166,7 +173,7 @@
                <div  class="form-check mb-3 mt-3" aria-label="Default checkbox example" id="subcategoryCheckboxes"> 
                 <div id="checkBoxes" > 
                     @foreach($subcategories as $subcategory)
-                    <input type="checkbox" class="form-check-input" value="{{ $subcategory->id }}" id="flexCheckDefault{{ $subcategory->id }}" name="subcategory_ids[]" @if(old('subcategory_ids') && in_array($subcategory->id, old('subcategory_ids'))) checked @endif>
+                    <input type="checkbox" class="form-check-input" value="{{ $subcategory->id }}" id="flexCheckDefault{{ $subcategory->id }}"  name="subcategory_ids[]" required @if(old('subcategory_ids') && in_array($subcategory->id, old('subcategory_ids'))) checked @endif >
                     <label class="form-check-label" for="flexCheckDefault{{ $subcategory->id }}">
                         {{ $subcategory->name }}
                     </label>

@@ -38,17 +38,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
 /*
     handel send message function
  */
-function sendMessage(message) {
-    let url = document.getElementById("message-url").value;
-    let formData = new formData();
-        formData.append("roomId", roomId);
-        formData.append("message",message);
-
-    axios.post(url,formData)
-        .then(function(res){
-
-        });
-
+function sendMessage(message, date) {
     let html = ' <div id="your-chat" class="your-chat">\n' +
         '                <p class="your-chat-balloon">'+ message +'</p>\n' +
         '            </div>';
@@ -93,48 +83,47 @@ function showHideChatBox(show) {
 function createRoom(friendId) {
     let url = document.getElementById("room-url").value;
     let authUserId = document.getElementById("auth-user-id").value;
+    
+ 
     let formData = new FormData();
-        formData.append("friend_id", friendId);
-   // formData.append("user_id", authUserId);
+    formData.append("friend_id", friendId);
+    formData.append("user_id", authUserId);
+
 
     axios.post(url, formData)
         .then(function (res) {
-             let room = res.data.data;
-             let users = res.data.data;
-       
+            let room = res.data.data;
             // Convert to string if not already
             room.id = String(room.id);
-            // users = String(users.users);
-            // console.log(users);
-            
-                Echo.join(`chat.${room.id}`)
-                    .here((users) => {
-                        console.log("join channel success");
-                    })
-                    .listen("SendMessage",(e)=> {
-                        console.log(e);
-                    })
-                    .joining((user) => {
-                        console.log(user.name);
-                    })
-                    .leaving((user) => {
-                        console.log(user.name);
-                    })
-                    .error((error) => {
-                        console.log("join channel failed",error);
-                      
-                    });
+        //     console.log(room.id)
+        // console.log(res)
 
-                showHideChatBox(true);
-            
-        });
-
+      
+        
+            Echo.join(`chat.${room.id}`)
+            .here((users) => {
+                console.log("join channel success");
+            })
+            .joining((user) => {
+                console.log(user.name);
+            })
+            .leaving((user) => {
+                console.log(user.name);
+            })
+            .listen('SendMessage', (e) => {
+                console.log('success channel');
+            })
+            .error((error) => {
+                console.log("join channel failed");
+                console.log(error);
+                console.log(room.id)
+            });
+        
             // Echo.private(`chat.${room.id}`)
-            // .listen('SendMessage', (e) => {
-            //     console.log(e);
+            //     .listen('SendMessage', (e) => {
+            //     console.log('success channel');
             // });
-            //console.log(res);
+          
             showHideChatBox(true);
-         
+         });
 } 
-

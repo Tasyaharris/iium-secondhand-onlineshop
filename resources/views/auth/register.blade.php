@@ -1,60 +1,75 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+@extends('layouts.headerlogin')
 
-        <x-validation-errors class="mb-4" />
+@section('container')
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+<div class="box1 w-100 m-auto">
+    <div class="logo">
+        <img class="mb-2" src="images/logo.png" alt="logo" width="65" height="57">
+    </div>
+    <div class="text">
+        <h5 style="text-align: center">IIUM SECOND-HAND ONLINE SHOP</h5>
+    </div>
+</div>
 
-            <div>
-                <x-label for="name" value="{{ __('Name') }}" />
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
-
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
-
-                            <div class="ml-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </x-label>
+<main class="form-signin">
+    <div class="center-regis">
+        <div class="title">
+            <p style="font-weight: bold">SIGN UP</p>
+        </div>
+        
+        <form action="{{ route('register') }}" method="post">
+        @csrf
+            <div class="form-floating">
+              <input type="text"  name="username" id="username" class="form-control @error('username') is-invalid @enderror" placeholder="Username" required value="{{ old('username') }}">
+              <label for="username">Username</label>
+               @error('username')
+                <div class="invalid-feedback">
+                    {{ $message }}
                 </div>
-            @endif
-
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
+               @enderror
             </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
+            <div class="form-floating">
+                <input type="email" name="email" id="email"  class="form-control @error('email') is-invalid @enderror"  placeholder="name@example.com" required value="{{ old('email') }}">
+                <label for="email">Email Address</label>
+                @error('email')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                 </div>
+                @enderror
+              </div>
+            <div class="form-floating">
+              <input type="password" name="password" id="password" class="form-control  @error('password') is-invalid @enderror"  placeholder="Password" required >
+              <label for="password">Password</label>
+              @error('password')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+               @enderror
+            </div>
+            <div class="form-floating">
+                <input type="password" name="confirm_password" id="confirm_password" class="form-control @error('confirm_password') is-invalid @enderror"   placeholder="Confirm Password" required >
+                <label for="cpassword">Confirm Password</label>
+                @error('confirm_password')
+                     <div class="invalid-feedback">
+                        {{ $message }}
+                     </div>
+               @enderror
+            </div>
+        
+            
+            <button class="button" type="submit" style="border-radius: 5px; font-weight: bold;">REGISTER</button>
+            
+            
+          </form>
+
+          <div class="text1">
+            <small class="d-block text-center"> Already have an account?<a href="/login"> Login </a></small>
+          </div>
+
+        
+    </div>
+
+    
+  </main>
+@endsection
+

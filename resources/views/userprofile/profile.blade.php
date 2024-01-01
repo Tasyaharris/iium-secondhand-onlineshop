@@ -19,6 +19,14 @@
         {{ session('success') }}
       </div>
       @endif
+
+      <div id="cancelOrderModal" style="display: none;">
+        <!-- Your modal content goes here -->
+        <p>Are you sure to cancel this order?</p>
+        <button onclick="confirmCancelOrder()">Yes</button>
+        <button onclick="closeCancelOrderModal()">No</button>
+      </div>
+    
    
       <div class="row g-3">
         <div class="col-md-4">
@@ -118,7 +126,7 @@
             
             <div class="products-listing">
               <div class="row g-2" >
-                <div container style=" background-color: white;   border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center; ">
+                <div container style=" background-color: white;  border: none;min-height: 50vh;justify-content: center;">
                   @forelse ($products as $product)
                 <div class="col">
                     <div class="card  text-center mb-3 " style="width: 210px; height: 290px;">
@@ -183,6 +191,8 @@
                                     </button>
                                     </span>
                                   </form>  
+
+                  
                               </li> 
                             </ul>
                         </div>
@@ -199,8 +209,8 @@
                           <h6 style="color:grey;text-align:center;align-items:center;">No product listed</h6>
                       </div>
                     @endforelse
-                
-              </div>
+                </div>
+             
             </div>
           </div>
        
@@ -215,7 +225,20 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+   <script>
+    function openCancelOrderModal() {
+        document.getElementById('cancelOrderModal').style.display = 'block';
+    }
 
+    function closeCancelOrderModal() {
+        document.getElementById('cancelOrderModal').style.display = 'none';
+    }
+
+    function confirmCancelOrder() {
+        // You can perform additional actions here before submitting the form
+        document.getElementById('cancelOrderForm').submit();
+    }
+</script>
 
  
   

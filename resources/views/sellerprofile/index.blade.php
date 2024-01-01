@@ -16,9 +16,11 @@
         <div class="col-md-4">
           <div class="user-profile">
             <div class="user-info">
-              <div class="flex-container">
-                <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
+              <h6 style="justify-content: center;text-align:center;">{{ $user->username }}</h6>
+              <div class="flex-container" class="justify-content: center;">
+             
                 @if($profile)
+                <img  class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
                 <div class="uname">
                   <div class="nameuser">
                     <h6 >{{ $profile->first_name }} </h6>
@@ -37,6 +39,9 @@
               </div>
               @endif
             </div>
+
+            <a href="https://wa.me/{{ $user->phone_number }}" target="_blank" rel="noopener noreferrer" type="button" class="btn btn-secondary">Contact Seller</a>
+
           </div>  
         </div>
 

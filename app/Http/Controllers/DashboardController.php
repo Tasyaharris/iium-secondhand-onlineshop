@@ -10,6 +10,8 @@ use App\Models\OrderItem;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use App\Models\Discussion;
+use App\Models\Response;
+use App\Models\ContactAdmin;
 
 use Illuminate\Http\Request;
 
@@ -127,6 +129,54 @@ class DashboardController extends Controller
             return back()->with('error', 'An error occurred while deleting the item.');
         }
     }
+
+    public function responseMessage(){
+        return view('admin.messages',[
+            "messages" => ContactAdmin::leftJoin('responses', function ($join) {
+                $join->on('contact_admins.id', '=', 'responses.commentable_id')
+                     ->where('responses.commentable_type', '=', 'App\Models\ContactAdmin');
+            })
+            ->join('users', 'contact_admins.username', '=', 'users.id')
+            ->select('contact_admins.*', 'users.username as user_name')
+            ->whereNull('responses.id') // Fetch only messages without replies
+            ->orderBy('contact_admins.created_at', 'desc')
+            ->get()
+            
+        ]);
+    }
+
+    public function storeReply(Request $request)
+    {
+        $request->validate([
+            'reply_message' => 'required',
+            'parent_message_id' => 'required|exists:contact_admins,id', // Assuming the parent_id is a valid response id
+        ]);
+
+        $reply = new Response();
+        $reply->user_id = auth()->user()->id;
+        $reply->parent_id = $request->input('parent_message_id');
+        $reply->body = $request->input('reply_message');
+        $reply->commentable_type = 'App\Models\ContactAdmin'; // Set the commentable_type
+        // // You might need to adjust the following line based on your relationship between Response and ContactAdmin
+        $reply->commentable_id =  $request->input('parent_message_id');
+        $reply->save();
+    
+        return redirect()->back()->with('success', 'Reply posted successfully.');
+}
+
+    public function repliedMessage(){
+        return view('admin.replied', [
+            "messages" => ContactAdmin::join('responses', function ($join) {
+                $join->on('contact_admins.id', '=', 'responses.commentable_id')
+                     ->where('responses.commentable_type', '=', 'App\Models\ContactAdmin');
+            })
+            ->join('users', 'contact_admins.username', '=', 'users.id')
+            ->select('contact_admins.*', 'users.username as user_name')
+            ->orderBy('contact_admins.created_at', 'desc')
+            ->get()
+        ]);
+    }
+    
     
 
     public function search(Request $request)

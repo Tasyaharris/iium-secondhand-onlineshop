@@ -16,6 +16,7 @@
 
 <div class="col-md-16" style="">
     <!-- Content for the second half of the page -->
+    <div class="discussion-container" style="max-height: 500px; overflow-y: auto;">
     @foreach ($discussions->take(5) as $discussion)
     <nav class="navbar bg-body-tertiary mt-3 " style="border:1px solid grey;border-radius:10px;width:auto;">
       <div class="row" >
@@ -55,6 +56,7 @@
     </div>
   </nav>
     @endforeach
+    </div>
     
 </div>
 @endsection

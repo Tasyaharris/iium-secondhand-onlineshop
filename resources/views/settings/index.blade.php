@@ -27,9 +27,9 @@
           <div class="card mt-5" style="border: none;">
             <div class="card-body" style="border: none;">             
                 <ul class="list-group" >
-                    <li class="list-group-item">
+                    {{-- <li class="list-group-item">
                         <a href="" style="text-decoration: none; color:black;">Reset Password</a>
-                    </li>
+                    </li> --}}
                     <li class="list-group-item">
                         <a href="/payment" style="text-decoration: none; color:black;">Add Bank Account Details</a>
                     </li>
@@ -92,17 +92,6 @@
                             <label for="last_name">Last Name</label>
                         </div>
 
-                          <!--phone-->
-                          <div class="form-floating mb-3 " style="margin-top: 40px;">
-                            <input type="text" name="phone_number" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number"  required value="{{ old('phone_number', isset($oldInput['phone_number']) ? $oldInput['phone_number'] : (isset($profiles[0]->phone_number) ? $profiles[0]->phone_number : '')) }}" maxlength="255" style="text-transform: capitalize;">
-                            @error('phone_number')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                            <label for="phone_number">Phone Number</label>
-                           </div>
-
                           <!--mahallah-->
                           <div class="form-floating mb-3 " style="margin-top: 40px;">
                             <input type="text" name="mahallah" class="form-control @error('mahallah') is-invalid @enderror" id="mahallah"  required value="{{ old('mahallah', isset($oldInput['mahallah']) ? $oldInput['mahallah'] : (isset($profiles[0]->mahallah) ? $profiles[0]->mahallah : '')) }}" maxlength="255" style="text-transform: capitalize;">
@@ -127,7 +116,7 @@
 
                             <!--bio-->
                           <div class="form-floating mb-3 " style="margin-top: 40px;">
-                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio"   name="bio" value="{{ old('bio', isset($oldInput['bio']) ? $oldInput['bio'] : (isset($profiles[0]->bio) ? $profiles[0]->bio : '')) }}" style="margin-top: 7px; height:180px;text-transform:uppercase;"></textarea>
+                            <textarea class="form-control @error('bio') is-invalid @enderror" id="bio"   name="bio" value="{{ old('bio', isset($oldInput['bio']) ? $oldInput['bio'] : (isset($profiles[0]->bio) ? $profiles[0]->bio : '')) }}" style="margin-top: 7px; height:180px;"></textarea>
                             @error('bio')
                                 <div class="invalid-feedback">
                                     {{ $message }}

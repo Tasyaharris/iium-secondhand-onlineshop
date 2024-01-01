@@ -2,7 +2,7 @@
 <section class="header border-bottom mt-0" id="header">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/homepage">
+      <a class="navbar-brand" href="/">
         <img src="/images/logo.png" alt="logo" width="40" height="40">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,14 +28,15 @@
         </ul>
 
         <ul class="navbar-nav ms-auto" >
-          
+{{--           
           <li class="nav-item mt-2" style="margin-right:6px;">
-            <a href="/chatpage">
+            {{-- <a href="/chatpage"> --}}
+            {{-- <a href="/chatpage">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chat-fill" viewBox="0 0 16 16">
                 <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15"/>
               </svg>
             </a>
-          </li>
+          </li>  --}}
 
           <li class="nav-item mt-2" style="margin-right:6px;">
             <a href="/cart">

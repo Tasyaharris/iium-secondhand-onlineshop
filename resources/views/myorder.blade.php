@@ -21,7 +21,16 @@
      </button>
       </div>
       @endif
-   
+
+      <!-- Modal -->
+      <div id="cancelOrderModal" style="display: none;">
+        <!-- Your modal content goes here -->
+        <p>Are you sure to cancel this order?</p>
+        <button onclick="confirmCancelOrder()">Yes</button>
+        <button onclick="closeCancelOrderModal()">No</button>
+    </div>
+
+
       <div class="row g-3">
         <div class="col-md-4">
           <div class="user-profile">
@@ -179,6 +188,16 @@
                                   </button>
                                 </form>
                               </div>
+
+                                   {{-- <div class="processBtn ms-auto" style="margin-top:10px; margin-bottom:20px;display:flex; ">
+                                    <form id="cancelOrderForm" action="{{ route('buy.destroy', $order_item->order->id) }}" method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="button" onclick="openCancelOrderModal()" style="margin-right:15px;border-radius: 5px; border: 1px solid #000;background: rgba(168, 184, 208, 0.80);  width:120px; display:flex; text-align:center; justify-content:center;text-decoration: none; color:black; height:30px;">
+                                            Cancel order
+                                        </button>
+                                    </form>
+                                </div> --}}
                           </div>
                           </div>
                          
@@ -191,15 +210,8 @@
                     @endforelse
                   </div>
             
-              
-                  
-        
                 </div>
           
-               
-            
-                
-      
               </div>
         
 
@@ -216,7 +228,20 @@
       @include('partials.footer')
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    
+    <script>
+    function openCancelOrderModal() {
+        document.getElementById('cancelOrderModal').style.display = 'block';
+    }
+
+    function closeCancelOrderModal() {
+        document.getElementById('cancelOrderModal').style.display = 'none';
+    }
+
+    function confirmCancelOrder() {
+        // You can perform additional actions here before submitting the form
+        document.getElementById('cancelOrderForm').submit();
+    }
+</script>
     
   </body>
 </html>

@@ -16,8 +16,9 @@
   <body style="min-height: 100vh;">
 
     @include('partials.header')
+    @include('fashion.filterfashion')
     <div class="wrapper">
-      @include('fashion.filterfashion')
+      
     
         @include('book.unfiltered')
       

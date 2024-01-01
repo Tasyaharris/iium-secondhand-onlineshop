@@ -48,6 +48,18 @@
               </li>
             </ul>
         </div>
+
+         <!--Grid column-->
+         <div class="col-lg-2 col-md-8 mb-4 mb-md-0">
+          <h6 class="text-uppercase">Contact Admin</h6>
+
+          <ul class="list-unstyled mb-0">
+            <li>
+              <a href="/contactadmin" class="text-white">Send Message Admin Here</a>
+            </li>
+          
+          </ul>
+      </div>
         <!--Grid column-->
 
 

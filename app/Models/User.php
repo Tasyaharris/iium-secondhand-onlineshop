@@ -16,12 +16,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable 
 {
-    use HasApiTokens;
-    use HasFactory;
+
+    use HasApiTokens, HasFactory, Notifiable;
+    //use HasApiTokens;
+    //use HasFactory;
     use HasProfilePhoto;
-    use Notifiable;
+    //use Notifiable;
     use TwoFactorAuthenticatable;
 
     /**
@@ -30,13 +32,15 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
 
-     protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $primaryKey = 'id';
+    //public $incrementing = false;
+protected $keyType = 'string';
     protected $fillable = [
         'username',
+        'phone_number',
         'email',
         'password',
+       
     ];
 
     /**
@@ -103,19 +107,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         return $granted;
     }
-
-//     public function canJoinRoom($roomId)
-// {
-//     $room = Room::find($roomId);
-
-//     if ($room) {
-//         $users = collect(explode(',', $room->users));
-//         return $users->contains($this->id);
-//     }
-
-//     return false;
-// }
-
 
 }
 

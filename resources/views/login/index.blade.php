@@ -32,7 +32,7 @@
             <p style="font-weight: bold">USER LOGIN</p>
         </div>
         
-        <form action="/login" method="post">
+        <form action="/login" method="post" >
           @csrf
             <div class="form-floating">
               <input type="username"  name="username" class="form-control @error('email') is-invalid @enderror" id="username" placeholder="username" autofocus required value="{{ old ('username') }}">
@@ -62,6 +62,65 @@
 
     
   </main>
+  
+  @vite('resources/js/app.jsx')
+  {{-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    function getCookie(name){
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift();
+        }
+    }
+
+    function request(url, options){
+        const csrfToken = getCookie('XSRF-TOKEN');
+        return fetch(url, {
+            headers: {
+                'content-type': '{{ csrf_token() }}',
+                'accept': '{{ csrf_token() }}',
+                'X-XSRF-TOKEN': decodeURIComponent(csrfToken),
+            },
+            credentials: 'include',
+            ...options,
+        })
+    }
+
+    // Make a request to get the CSRF token before the login request
+    axios.get('/sanctum/csrf-cookie', {
+        headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json'
+        },
+        credentials: 'include'
+    }).then(response => {
+        // Login...
+        login();
+    }).catch(error => {
+        console.error('Error getting CSRF token:', error);
+    });
+
+    function login(){
+        request('{{ route('login.trigger') }}', {
+            method: 'POST',
+            body: JSON.stringify({
+            username: username,
+            password: password
+            })
+        })
+        .then(response => {
+            // Handle the login response...
+        })
+        .catch(error => {
+            console.error('Login error:', error);
+        });
+    }
+</script> --}}
+ 
 @endsection
 
 

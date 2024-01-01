@@ -41,7 +41,6 @@ class UserProfileController extends Controller
             'profile_pic'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'first_name' => 'required',
             'last_name'=> 'required',
-            'phone_number' => 'required',
             'mahallah' => 'required',
             'kuliyyah' => 'required',
             'bio' => 'nullable|string'
@@ -55,7 +54,8 @@ class UserProfileController extends Controller
             $validatedData['profile_pic'] = $profilePicPath;
         }
         
-        $validatedData['gender']= " ";
+       
+        //$validatedData['bio']= " ";
         $validatedData['username'] = auth()->user()->id;
 
         // Check if the user already has a profile

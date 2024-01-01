@@ -16,38 +16,42 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
-     */
-    public function create(): Response
-    {
-        return Inertia::render('Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
+     */   public function index(){
+        return view('login.index',[
+            "title" => "Login",
         ]);
-    }
+    
+}
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+public function authenticate(Request $request){
+    $credentials = $request->validate([
+        'username'=> 'required',
+        'password'=> 'required'
+    ]);
 
+    if(Auth::attempt($credentials)){
+        $user = Auth::user();
         $request->session()->regenerate();
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return response()->json($user);
+        //return redirect()->intended('/homepage');
+       
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
+    return back()->with('loginError','Wrong username or password!');
 
-        $request->session()->invalidate();
+}
 
-        $request->session()->regenerateToken();
 
-        return redirect('/');
-    }
+
+
+public function logout(Request $request){
+    Auth::logout();
+
+    $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
+
+    return redirect('/');
+
+}
 }

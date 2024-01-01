@@ -39,20 +39,23 @@ class DatabaseSeeder extends Seeder
         User::create([
             'username'=> 'test1',
             'email' => 'test@gmail.com',
-            'password'=> bcrypt('test123')
+            'password'=> bcrypt('test123'),
+            'phone_number'=> '0192376534'
         ]);
 
         User::create([
             'username'=> 'tasya',
             'email' => 'tasya@gmail.com',
-            'password'=> bcrypt('tasya123')
+            'password'=> bcrypt('tasya123'),
+            'phone_number'=> '0192376534'
         ]);
 
         User::create([
          'username'=> 'admin',
          'email' => 'admin@gmail.com',
          'password'=> bcrypt('admin123'),
-         'usertype'=> '1'
+         'usertype'=> '1',
+         'phone_number'=> '0192395709'
       ]);
 
         Category::create([
@@ -355,8 +358,6 @@ class DatabaseSeeder extends Seeder
             'last_name'=> 'Harris',
             'mahallah' => 'Hafsa',
             'kuliyyah' => 'KICT',
-            'gender'=> 'Female',
-            'phone_number'=> '0143296789',
             'bio'=> 'lorem ipsum ....'
         ]);
         
@@ -367,8 +368,6 @@ class DatabaseSeeder extends Seeder
             'last_name'=> 'Laravel',
             'mahallah' => 'Hafsa',
             'kuliyyah' => 'KICT',
-            'gender'=> 'Female',
-            'phone_number'=> '0143296789',
             'bio'=> 'lorem ipsum ....'
         ]);
         

@@ -17,18 +17,26 @@ use App\Models\Room;
 |
 */
 
-// Broadcast::channel('chat.{roomId}', function (User $user, int $roomId) {
-//     return (int) $user->id === Room::findOrNew($roomId)->user_id;
-// });
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
 
-// Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-//     return (int) $user->id === (int) $id;
-// });
- 
-Broadcast::channel('chat.{roomId}', function ($user,$roomId) {
+Broadcast::channel('chat.${roomId}', function (User $user, int $roomId) {
+    Log::info('Channel authorized for user ' . $user->id);
     if ($user->canJoinRoom($roomId)) {
         return ['id' => $user->id, 'name' => $user->username];
     }
 });
+
+Broadcast::channel('messages{id}', function ($user, $id) {
+    return true;
+});
+
+
+
+// Broadcast::channel('chat.{roomId}', function (User $user, int $roomId) {
+//     if ($user->id === Room::findOrNew($roomId)->user_id)
+//     return true;    
+// });
 
 //Broadcast::routes(['middleware' => ['auth:sanctum']]);

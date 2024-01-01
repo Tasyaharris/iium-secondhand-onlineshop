@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
 
-use function RingCentral\Psr7\copy_to_stream;
-use function RingCentral\Psr7\copy_to_string;
-
 //use GuzzleHttp\Psr7\Request;
 
 class RoomController extends Controller

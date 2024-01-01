@@ -1,7 +1,10 @@
 <?php
 
 use App\Events\HelloEvent;
+use App\Events\MessageCreated;
+
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\MainpageController;
 use App\Http\Controllers\LoginController;
@@ -36,8 +39,7 @@ use App\Http\Controllers\ExploreController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChannelAuthorizationController;
 use App\Http\Controllers\OrderDashboardController;
-use App\Http\Controllers\PusherController;
-
+use App\Http\Controllers\ContactAdminController;
 use Chatify\Http\Controllers\Api\MessagesController;
 use Illuminate\Contracts\Cache\Store;
 
@@ -53,6 +55,10 @@ use Illuminate\Contracts\Cache\Store;
 |
 */
 
+
+Route::get('/app', function(){
+    return view('app');
+});
 
 
 Route::get('/', [MainpageController:: class, 'index']);
@@ -235,10 +241,12 @@ Route::resource('/chat',MessageController::class)->middleware('auth');
 Route::middleware("auth")->group(function (){
     // chat
     Route::prefix("chatpage")->name("chatpage")->group(function (){
-        Route::get("/", [ChatController::class, "index"])->name("index");
-        Route::post("/",[ChatController::class, "saveMessage"])->name('save');
-        Route::get("/load",[ChatController::class, "loadMessage"])->name('load');
+       
     });
+
+    Route::get("/chatpage", [ChatController::class, "index"])->name("index");
+    Route::post("/chatpage",[ChatController::class, "saveMessage"])->name('save');
+    Route::get("/load",[ChatController::class, "loadMessage"])->name('load');
     //room
     Route::post("/room", [RoomController::class, "create"])->name("room.create");
     //broadcast auth
@@ -248,6 +256,16 @@ Route::middleware("auth")->group(function (){
     Route::get("/logout", [LoginController::class, "logout"])->name("logout");
 });
 
+Route::get('/chats',function(){
+   // MessageCreated::dispatch('test channel');
+    return view ('chats');
+})->middleware('auth');
+
+Route::post('/chats-created',function(Illuminate\Http\Request $request){
+    //MessageCreated::dispatch('test channel');
+    event(new  MessageCreated($request->message));
+    return null;
+})->name("chat.create");
 
 
 Route::resource('/buy',OrderController::class)->middleware('auth');
@@ -291,6 +309,10 @@ Route::post('/register', [RegisterController:: class, 'store'] );
 
 Route::get('homepage',[HomePageController::class,'index'])->middleware('auth')->name('homepage');
 
+Route::middleware("guest")->group(function (){
+    Route::get("/login", [LoginController::class, "index"])->name("login.trigger");
+    Route::post("/login", [LoginController::class, "authenticate"])->name("login");
+});
 
 //Route::get('/sell', function(){
 //    return view('sell.index', [
@@ -314,13 +336,13 @@ Route::resource('/payment',BankController::class)->middleware('auth');
 
 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->get('/mainpage',function(){
-    return view('mainpage');
-})->name('mainpage');
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->get('/mainpage',function(){
+//     return view('mainpage');
+// })->name('mainpage');
 
 //for admin view
 Route::get('dashboard',[DashboardController::class,'index'])->middleware('auth');
@@ -331,8 +353,20 @@ Route::get('/customers',[DashboardController::class,'getUser'])->middleware('aut
 Route::get('/user/search',[DashboardController::class,'searchUser'])->middleware('auth');
 Route::get('/order/search',[OrderDashboardController::class,'searchOrder'])->middleware('auth');
 Route::get('/discussions',[DashboardController::class,'discussions'])->middleware('auth');
+Route::get('/adminmessage',[DashboardController::class,'responseMessage'])->middleware('auth');
+Route::post('/reply/store', [DashboardController::class, 'storeReply'])->name('reply.store')->middleware('auth');
+Route::get('/replied',[DashboardController::class,'repliedMessage'])->middleware('auth');
+
+
 Route::get('/viewusers/{id}', [DashboardController::class, 'viewUser'])->name('view.users')->middleware('auth');
 Route::delete('/deleteusers/{id}', [DashboardController::class, 'deleteUser'])->name('delete.users')->middleware('auth');
 Route::get('/contactusers/{id}', [DashboardController::class, 'viewUser'])->name('contact.users')->middleware('auth');
 Route::delete('/deleteproducts/{id}', [DashboardController::class, 'deleteProduct'])->name('delete.product')->middleware('auth');
 Route::delete('/deletediscussion/{id}', [DashboardController::class, 'deleteDiscussion'])->name('delete.discussion')->middleware('auth');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('/contactadmin', ContactAdminController::class)->middleware('auth');
+
+Route::get('/yourpost', [ContactAdminController::class, 'yourPost'])->middleware('auth');
+
+//Route::post('/discussion/{id}', ['CreateDiscController::class','destroy'])->name('createdisc.destroy');

@@ -27,13 +27,15 @@
         </ul>
 
         <ul class="navbar-nav ms-auto" >
-          <li class="nav-item mt-2" style="margin-right:6px;">
-            <a href="/chatpage">
+          
+          {{-- <li class="nav-item mt-2" style="margin-right:6px;">
+            {{-- <a href="/chatpage"> --}}
+            {{-- <a href="/chatpage">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chat-fill" viewBox="0 0 16 16">
                 <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15"/>
               </svg>
             </a>
-          </li>
+          </li>  --}}
 
           <li class="nav-item mt-2" style="margin-right:6px;">
             <a href="/cart">
@@ -57,14 +59,14 @@
                 {{ auth()->user()->username }}
              </a>
               <ul class="dropdown-menu">
-               <li><a class="dropdown-item" href="/profile" style="width:100px;">Profile</a></li>
+               <li><a class="dropdown-item" href="/profile">Profile</a></li>
                <li><hr class="dropdown-divider"></li>
-               <li><a class="dropdown-item" href="/settings" style="width:100px;">Settings</a></li>
+               <li><a class="dropdown-item" href="/settings">Settings</a></li>
                <li><hr class="dropdown-divider"></li>
                <li>
                   <form action="/logout" method="post">
                     @csrf
-                    <button type="submit" class="dropdown-item" style="width:100px;">
+                    <button type="submit" class="dropdown-item">
                       Logout
                     </button>
                   </form>
@@ -72,10 +74,11 @@
               </ul>
            </li>
           @else
-            <li class="nav-item">
-                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" >LOGIN</a>
+            <li class="nav-item mt-1">
+                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" style="margin-left:2px;">LOGIN</a>
             </li>
         
+          
           @endauth
           </ul>
             

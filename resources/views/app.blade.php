@@ -1,22 +1,64 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+       <title>Test Auth</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @routes
-        @viteReactRefresh
-        @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
-        @inertiaHead
     </head>
-    <body class="font-sans antialiased">
-        @inertia
+    <body >
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            
+         function getCookie(name){
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift();
+        }
+    }
+
+    function request(url, options){
+        // get cookie
+        const csrfToken = getCookie('XSRF-TOKEN');
+        return fetch(url, {
+            headers: {
+                'content-type': 'application/json',
+                'accept': 'application/json',
+                'X-XSRF-TOKEN': decodeURIComponent(csrfToken),
+            },
+            credentials: 'include',
+            ...options,
+        })
+    }
+
+    function logout(){
+        return request('/logout', {
+            method: 'POST'
+        });
+    }
+
+    function login(){
+        return request('/login', {
+            method: "POST",
+            body: JSON.stringify({
+                email: 'luz72@example.net',
+                'password': 'password'
+            })
+        })
+    }
+
+     
+            axios.get('/sanctum/csrf-cookie',{ header: {
+                    'content-type': 'application/json',
+                    'accept': 'application/json'
+                },
+                credentials : 'include'
+            }).then(response => {
+                // Login...
+            }).then(() => request('/api/v1/users'))
+
+        </script>
     </body>
 </html>

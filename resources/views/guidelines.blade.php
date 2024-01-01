@@ -42,12 +42,6 @@
          <li>A more detailed product description increases the likelihood of attracting potential buyers.</li>
      </ul>
      
-     <h4>Communication and Negotiation</h4>
-     <ul>
-         <li>Utilize the chat system for communication with other users to inquire about product details.</li>
-         <li>If the product is listed as negotiable, negotiate the price with the seller via the chat system.</li>
-     </ul>
-     
      <h4>Transaction Process</h4>
      <ul>
          <li>Payment methods include online bank transfer or cash.</li>
@@ -63,7 +57,6 @@
      </ol>
      
      <ul>
-         <li>Delivery details are not integrated into our system; therefore, users are advised to communicate via chat regarding delivery times.</li>
          <li>Sellers can update the order progress in the system to inform buyers about the status of their order.</li>
          <li>The completion status of the order depends on the buyer, who must update upon receiving their order.</li>
      </ul>
@@ -77,11 +70,9 @@
          <img src="/images/communityforum.png" alt="discussion" style=" margin-right: 25px;" class="mt-3">
 
          <li>Users are encouraged to offer suggestions for system improvements in this forum.</li>
+         <li>If you prefer a direct approach, you can contact the administrator for assistance. Use the "Contact Admin" feature or <a href="/contactadmin" style="color: black;">click here</a></li>
      </ul>
 
-     {{-- <h4>Contacting Admin</h4>
-    <p>If you encounter any issues, have concerns, or wish to provide feedback regarding the system, feel free to contact the administrator directly. Use the "Contact Admin" feature or send an email to admin@[yourwebsite].com. We are here to assist you and ensure a smooth experience for all users.</p> --}}
-     
      <h4>Guidelines for Responsible Selling and Buying</h4>
      <p>While engaging in transactions on this platform, we encourage users to uphold ethical practices. Sellers should accurately represent the condition of their items, and buyers are urged to communicate openly about their expectations.</p>
      
@@ -100,7 +91,7 @@
      <h4>Termination of Accounts</h4>
      <p>We reserve the right to terminate accounts that violate our guidelines or engage in fraudulent activities. Users are responsible for the accuracy of their listings and adherence to the community standards.</p>
      
-     <a type="button" class="btn btn-outline-secondary mb-4" href="javascript:history.back();" >Back</a>
+     <a type="button" class="btn btn-outline-secondary mb-4" href="/homepage" >Back</a>
     
 
     </div>

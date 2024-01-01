@@ -152,23 +152,23 @@ class OrderController extends Controller
             'productid' => $id,
           ]; 
         }
-      
 
+           //total order
+           $totalOrder = $request->input('totalOrder');    
+
+           $data = [];
+           foreach($totalOrder as $id) {
+             $data[] = [
+               'totalOrderProduct' => $id,
+             ]; 
+           }
+        
         $validatedData = $request->validate([
             'paymentoption_id.*' => 'required',
             'delivery_id.*' => 'required',
         ]);
 
-        //total order
-        $totalOrder = $request->input('totalOrder');    
-
-        $data = [];
-        foreach($totalOrder as $id) {
-          $data[] = [
-            'totalOrderProduct' => $id,
-          ]; 
-        }
-        
+     
         //payment
         $paymentoptionId = $request->input('paymentoption_id');
         $data1 = [];
@@ -336,7 +336,7 @@ class OrderController extends Controller
             //     // Send email to the seller
             //     Mail::to($seller)->send(new MailNotify());
             // }
-       
+                
   
         return redirect('/afterbuy');
      }
@@ -430,9 +430,9 @@ public function addorder(Request $request)
         Like::where('product_id', $productId)
             ->delete();
 
-            $seller = OrderItem::where('product_id', $productId)->get();
+            // $seller = OrderItem::where('product_id', $productId)->get();
    
-            Mail::to($seller)->send(new MailNotify());
+            // Mail::to($seller)->send(new MailNotify());
         
     }
     return redirect('/afterbuy1');

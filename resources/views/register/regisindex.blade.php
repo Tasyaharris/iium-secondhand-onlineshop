@@ -11,8 +11,8 @@
     </div>
 </div>
 
-<main class="form-signin">
-    <div class="center-regis">
+<main class="form-signin ">
+    <div class="center-regis"  style="height: auto;">
         <div class="title">
             <p style="font-weight: bold">SIGN UP</p>
         </div>
@@ -37,6 +37,17 @@
                  </div>
                 @enderror
               </div>
+
+              <div class="form-floating">
+                <input type="text" name="phone_number" id="phone_number" class="form-control @error('phone_number') is-invalid @enderror"  placeholder="0192834675" id="phone_number" required   value="{{ old('phone_number') }}">
+                <label for="phone_number">Whatsapp Phone Number</label>
+                @error('phone_number')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                 </div>
+                @enderror
+              </div>
+
             <div class="form-floating">
               <input type="password" name="password" id="password" class="form-control  @error('password') is-invalid @enderror"  placeholder="Password" required >
               <label for="password">Password</label>
@@ -62,7 +73,7 @@
             
           </form>
 
-          <div class="text1">
+          <div class="text1 mb-3">
             <small class="d-block text-center"> Already have an account?<a href="/login"> Login </a></small>
           </div>
 

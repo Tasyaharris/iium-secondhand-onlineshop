@@ -15,9 +15,9 @@ return [
     |
     */
 
-    'default' => env('BROADCAST_DRIVER'),
-    'authEndpoint' => '/broadcasting/auth',
-    'auth' => 'broadcasting/auth',
+    'default' => env('BROADCAST_DRIVER', 'null'),
+   " authEndpoint" => '/api/broadcasting/auth',
+    'auth' => '/broadcasting/auth',
 
 
     /*
@@ -42,10 +42,10 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'host'=> env('PUSHER_HOST'),
                 //'host' => env('PUSHER_HOST') ?: 'api-'.env('PUSHER_APP_CLUSTER', 'ap1').'.pusher.com',
-                'port' => env('PUSHER_PORT', 6001),
-                'scheme' => env('PUSHER_SCHEME', 'http'),
-                //'encrypted' => true,
-                'useTLS' => env('PUSHER_SCHEME', 'https') === 'https',
+                'port' => env('PUSHER_PORT', 443),
+                'scheme' => env('PUSHER_SCHEME', 'https'),
+                'encrypted' => false,
+                'useTLS' => false,
             ],
             'client_options' => [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
@@ -68,6 +68,17 @@ return [
 
         'null' => [
             'driver' => 'null',
+        ],
+        
+        'sanctum' => [
+            'driver' => 'pusher',
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => null,
+            'app_id' => env('PUSHER_APP_ID'),
+            'options' => [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ],
         ],
 
     ],
