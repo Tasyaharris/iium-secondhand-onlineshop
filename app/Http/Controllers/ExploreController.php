@@ -16,6 +16,7 @@ class ExploreController extends Controller
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'categories.name as categories_name','users.username as user_name')
             ->where('products.option_id','=',2)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -29,6 +30,7 @@ class ExploreController extends Controller
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('category_id','=',2)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -42,6 +44,7 @@ class ExploreController extends Controller
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('category_id','=',3)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -53,9 +56,10 @@ class ExploreController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('products_subcategories','products.id','=','products_subcategories.subcategorie_id')
-            ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+            ->join('products_subcategories','products.id','=','products_subcategories.product_id')
+            ->select('products.*', 'products_subcategories.*','conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('products_subcategories.subcategorie_id','=',2)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -67,9 +71,10 @@ class ExploreController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('products_subcategories','products.id','=','products_subcategories.subcategorie_id')
+            ->join('products_subcategories','products.id','=','products_subcategories.product_id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('products_subcategories.subcategorie_id','=',3)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -81,9 +86,10 @@ class ExploreController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('products_subcategories','products.id','=','products_subcategories.subcategorie_id')
+            // ->join('products_subcategories','products.id','=','products_subcategories.product_id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('category_id','=',5)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -95,9 +101,10 @@ class ExploreController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('products_subcategories','products.id','=','products_subcategories.subcategorie_id')
+
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('category_id','=',4)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -109,9 +116,10 @@ class ExploreController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('products_subcategories','products.id','=','products_subcategories.subcategorie_id')
+            ->join('products_subcategories','products.id','=','products_subcategories.product_id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('category_id','=',6)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);
@@ -123,9 +131,10 @@ class ExploreController extends Controller
             'products' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
-            ->join('products_subcategories','products.id','=','products_subcategories.subcategorie_id')
+            ->join('products_subcategories','products.id','=','products_subcategories.product_id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
-            ->where('products_subcategories.subcategorie_id','=',3)
+            ->where('products_subcategories.subcategorie_id','=',4)
+            ->where('products.productstatus_id','=',3)
             ->get(),
             'users'=> User::all()
         ]);

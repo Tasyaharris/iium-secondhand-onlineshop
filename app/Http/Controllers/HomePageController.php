@@ -60,6 +60,7 @@ class HomePageController extends Controller
                 ->where('option_id','=','1')
                 ->where('products.productstatus_id','!=','1')
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+                ->orderByRaw('products.created_at DESC')
                 ->get(),
                 //for free filtering
                 'products1' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
@@ -69,6 +70,7 @@ class HomePageController extends Controller
                 ->where('option_id','=','2')
                 ->where('products.productstatus_id','!=','1')
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name')
+                ->orderByRaw('products.created_at DESC')
                 ->get()
             ]);
         }

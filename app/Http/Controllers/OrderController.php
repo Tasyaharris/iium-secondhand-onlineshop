@@ -153,6 +153,7 @@ class OrderController extends Controller
           ]; 
         }
 
+
            //total order
            $totalOrder = $request->input('totalOrder');    
 
@@ -163,6 +164,7 @@ class OrderController extends Controller
              ]; 
            }
         
+     
         $validatedData = $request->validate([
             'paymentoption_id.*' => 'required',
             'delivery_id.*' => 'required',
@@ -282,6 +284,8 @@ class OrderController extends Controller
                 $data4Item
             );
         }, $totalOrder, $paymentoptionId, $deliveryId, $del_place, $data4);
+
+
     
         
         // Ensure 'username' is present in every $data item
@@ -290,60 +294,57 @@ class OrderController extends Controller
             $item['order_date'] = $order_date;
         }
 
+
         //Order::insert($data);
 
             // Retrieve the IDs of the recently inserted orders
         //$orderIds = Order::latest()->take(count($data))->pluck('id');
 
-        // Prepare data for the 'orderitems' table
-        $productIds = $request->input('product_id');
-        $orderItemsData = [];
-
-      
-        foreach ($data as $orderData) {
-            // Insert data into the 'orders' table and retrieve the ID
-            $orderId = Order::insertGetId($orderData);
-            
-            // Retrieve the product based on the ID
-            foreach ($productIds as $productId) {
-                $product = Product::find($productId);
-        
-                // Create order item for each product in the order
-                $orderItemsData[] = [
-                    'order_id' => $orderId,
-                    'product_id' => $productId,
-                    'email' => $product->user->email,
-                ];
-        
-                // Update product status
-                $product->productstatus_id = 1;
-                $product->save();
-        
-                // Delete cart entry for the current product and authenticated user
-                Cart::where('product_id', $productId)->delete();
-                Like::where('product_id', $productId)->delete();
-            }
-        }
-        
-             // Insert data into the 'orderitems' table
-             OrderItem::insert($orderItemsData);
-            //  foreach ($orderItemsData as $orderItemData) {
-            //     $orderId = $orderItemData['order_id'];
-            
-            //     // Retrieve the seller for the current product
-            //     $seller = OrderItem::where('order_id', $orderId)->get();
-            
-            //     // Send email to the seller
-            //     Mail::to($seller)->send(new MailNotify());
-            // }
-                
-  
-        return redirect('/afterbuy');
-     }
+             // Prepare data for the 'orderitems' table
+             $productIds = $request->input('product_id');
+             $orderItemsData = [];
      
-
-    
-    
+           
+             foreach ($data as $orderData) {
+                 // Insert data into the 'orders' table and retrieve the ID
+                 $orderId = Order::insertGetId($orderData);
+                 
+                 // Retrieve the product based on the ID
+                 foreach ($productIds as $productId) {
+                     $product = Product::find($productId);
+             
+                     // Create order item for each product in the order
+                     $orderItemsData[] = [
+                         'order_id' => $orderId,
+                         'product_id' => $productId,
+                         'email' => $product->user->email,
+                     ];
+             
+                     // Update product status
+                     $product->productstatus_id = 1;
+                     $product->save();
+             
+                     // Delete cart entry for the current product and authenticated user
+                     Cart::where('product_id', $productId)->delete();
+                     Like::where('product_id', $productId)->delete();
+                 }
+             }
+             
+                  // Insert data into the 'orderitems' table
+                  OrderItem::insert($orderItemsData);
+                 //  foreach ($orderItemsData as $orderItemData) {
+                 //     $orderId = $orderItemData['order_id'];
+                 
+                 //     // Retrieve the seller for the current product
+                 //     $seller = OrderItem::where('order_id', $orderId)->get();
+                 
+                 //     // Send email to the seller
+                 //     Mail::to($seller)->send(new MailNotify());
+                 // }
+                     
+       
+             return redirect('/afterbuy');
+          }
 
 public function addorder(Request $request)
 {

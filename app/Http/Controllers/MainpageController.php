@@ -28,16 +28,17 @@ class MainpageController extends Controller
                 ->where('option_id','=','1')
                 ->where('products.productstatus_id','!=','1')
                 ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
+                ->orderBy('products.created_at', 'desc')
                 ->get(),
                //for free filtering
                'products1' => Product::join('conditions', 'condition_id', '=', 'conditions.id')
                ->join('negos', 'nego_id', '=', 'negos.id')
                ->join('categories', 'category_id', '=', 'categories.id')
-              
                ->join('users', 'products.username', '=', 'users.id')
                ->where('option_id','=','2')
                ->where('products.productstatus_id','!=','1')
                ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name', 'categories.name as category_name')
+               ->orderBy('products.created_at', 'desc')
                ->get()  
             ]);
         

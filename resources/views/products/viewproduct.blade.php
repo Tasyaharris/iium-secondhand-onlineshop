@@ -122,12 +122,11 @@
             <div class="card" style="width: 20rem; height: 15rem; border-radius: 0; margin-left:200px">
              
               <div class="card-body">
-                <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
                 <a href="{{ route('sellerprofile.show',  ['id' => $product->user->id]) }}" style="color:black; text-decoration:none;">
-                  <h4 id="user" style="font-style: none;" >{{ $product->user->username }}</h4>
+                  <h4 id="user" style="font-style: none;margin-top:5px;margin-left:10px;" >{{ $product->user->username }}</h4>
                 </a>
                 
-                <div class="box ">
+                <div class="box mt-3">
                   @if($product->user->is(auth()->user()))
                   {{-- <a href="{{ route('chat.show',   $product->id) }}" class="button button0">View Chat</a>
                   <br><br> --}}

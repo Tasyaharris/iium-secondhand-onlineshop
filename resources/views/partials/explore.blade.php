@@ -49,6 +49,7 @@
 .text-pic {
   text-align: center;
   margin: 10px;
+ 
 }
 
 /* Additional media queries for responsive adjustments if needed */
@@ -62,7 +63,7 @@
   <div class="max-width">
     <div class="explore-content">
       <div class="text-1">
-        <p class= "p-3"  style ="font-weight: bold"> Click this to Quick Explore </p>
+        <p class= "p-3"  style ="font-weight: bold;font-size:20px;"> Click this to Quickly Explore </p>
       </div>
       <div class="parent" style="display: flex; align-items:center;margin-left:17px;justify-items:center;">
         <div class="pic" id="icons">

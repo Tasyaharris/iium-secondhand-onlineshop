@@ -30,7 +30,7 @@
     
     <!-- Modal for terms and conditions -->
     <div id="termsModal" class="modal">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Terms and Conditions</h5>
@@ -47,7 +47,7 @@
                 <input type="checkbox" id="acceptTerms"> I agree to the Terms and Conditions
                 <br>
                 <br>
-                <button id="acceptButton">Continue Order</button>
+                <button id="acceptButton"  class="btn btn-outline-secondary" style="color: black">Continue Order</button>
                
             </div>
         </div>
@@ -254,46 +254,46 @@
         const paymentError = $("#paymentError");
 
         showTermsBtn.on("click", function () {
-        // Loop through each unique username
-        $('[name^="paymentoption_id"]').each(function () {
-            const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
-            const paymentMethodSelected = $('[name="paymentoption_id[' + username + ']"]:checked').length > 0;
+            // Loop through each unique username
+            $('[name^="paymentoption_id"]').each(function () {
+                const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
+                const paymentMethodSelected = $('[name="paymentoption_id[' + username + ']"]:checked').length > 0;
+                const deliveryMethodSelected = $('[name="delivery_id[' + username + ']"]:checked').length > 0;
 
-            if (!paymentMethodSelected) {
-                //paymentError.show(); // Show an error if payment method is not selected
-                return false; // Exit the loop
-            } else {
-                paymentError.hide(); // Hide the error if payment method is selected
+                if (!paymentMethodSelected || !deliveryMethodSelected) {
+                    // Show an error if payment or delivery method is not selected
+                    //alert("Please select both payment and delivery methods.");
+                    return false; // Exit the loop
+                } else {
+                    // Get an array of product IDs from the checkboxes for the current username
+                    const productIds = $('[name="product_id[]"][name*=' + username + ']:checked').map(function () {
+                        return $(this).val();
+                    }).get();
 
-                // Get an array of product IDs from the checkboxes for the current username
-                const productIds = $('[name="product_id[]"][name*=' + username + ']:checked').map(function () {
-                    return $(this).val();
-                }).get();
+                    // Remove existing hidden inputs for the current username
+                    $('[name="product_id[]"][name*=' + username + ']').remove();
 
-                // Remove existing hidden inputs for the current username
-                $('[name="product_id[]"][name*=' + username + ']').remove();
-
-                // Append the product_ids as hidden inputs to the form for the current username
-                productIds.forEach(function (productId) {
-                    const productIdInput = $("<input>").attr({
-                        type: "hidden",
-                        name: "product_id[]",
-                        value: productId
+                    // Append the product_ids as hidden inputs to the form for the current username
+                    productIds.forEach(function (productId) {
+                        const productIdInput = $("<input>").attr({
+                            type: "hidden",
+                            name: "product_id[]",
+                            value: productId
+                        });
+                        myForm.append(productIdInput);
                     });
-                    myForm.append(productIdInput);
-                });
 
-                termsPopup.modal("show"); // Show the terms popup if payment method is selected
-            }
+                    termsPopup.modal("show"); // Show the terms popup if payment and delivery methods are selected
+                }
+            });
         });
-    });
-
        
       // Handle the change event of the payment options
       $('[name^="paymentoption_id"]').on("change", function () {
             const selectedPaymentId = $(this).val();
             const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
-        
+            const paymentProofInput = document.getElementById('paymentProof');
+
             // Hide all file upload containers initially
             $('[id^="fileUploadContainer"]').hide();
         
@@ -301,6 +301,7 @@
             if (selectedPaymentId == 2) {
                 // Show the corresponding file upload container
                 $(`#fileUploadContainer_${username}`).show();
+                paymentProofInput.setAttribute('required', 'required');
             }
         });
 
@@ -308,7 +309,9 @@
         $('[name^="delivery_id"]').on("change", function () {
             const selectedDeliveryId = $(this).val();
             const username = $(this).attr('name').match(/\[(.*?)\]/)[1];
-        
+            const delPlaceInput = document.getElementById('del_place');
+
+
             // Hide all address input containers and meeting points initially
             $('[id^="addressInputContainer"]').hide();
             $('[id^="meetup_point"]').hide();
@@ -317,6 +320,7 @@
             if (selectedDeliveryId == 1) {
                 // Show the corresponding address input container
                 $(`#addressInputContainer_${username}`).show();
+                delPlaceInput.setAttribute('required', 'required');
             }
         
                 // Check if the selected delivery option requires displaying a meeting point
@@ -326,30 +330,6 @@
                 }
             });
 
-
-        //     acceptButton.on("click",  async function () {
-        //     if (acceptTermsCheckbox.prop("checked")) {
-        //         let myRealForm = document.getElementById('myForm')
-
-        //       const data = new URLSearchParams(new FormData(myRealForm));
-        //         await fetch(myForm.attr("action"),{
-        //             method:'POST',
-        //             mode:'cors',
-        //             header:{
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //             },
-        //             redirect: "follow", 
-        //             body:data
-        //         }).then( data =>{
-        //             console.log(data)
-        //             termsPopup.modal("hide");
-        //             window.open(data.url,"_self")
-        //             console.debug("FORM SUCCESS")
-        //         }).catch(
-        //             err => console.error(err)
-        //         ) 
-        //     }
-        // });
 
         acceptButton.on("click", function () {
             // Check if the terms checkbox is checked
@@ -367,7 +347,7 @@
 
         myForm.on("submit", function (e) {
             console.log("Form submitted!");
-            if (!acceptTermsCheckbox.prop("checked") || !$("[name='paymentoption_id']:checked").length) {
+            if (!acceptTermsCheckbox.prop("checked") || !$("[name='paymentoption_id']:checked").length || !$("[name='delivery_id']:checked").length) {
                 e.preventDefault();
             }
         });

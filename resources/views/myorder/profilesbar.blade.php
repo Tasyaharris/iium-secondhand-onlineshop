@@ -11,9 +11,7 @@
             <div class="flex-container">
                 @if ($profile->profile_pic)
                     <img class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
-                @else
-                    <!-- Default image if profile_pic is not set -->
-                    <img class="profile-picture" src="{{ asset('images/default-profile-pic.png') }}" alt="Default Profile Picture">
+              
                 @endif
                 <div class="uname">
                     <div class="nameuser">
@@ -24,7 +22,7 @@
                 </div>
             </div>
             <br>
-            <div class="location">
+            <div class="location" style="margin-left:40px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                 </svg>

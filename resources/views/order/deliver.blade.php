@@ -119,37 +119,8 @@
        $(document).ready(function() {
           // Check the orderstatus_id when the document is ready
           checkOrderStatus();
-  
-          function checkOrderStatus() {
-              var orderStatus = {{ $order->orderstatus_id }};
-  
-              // Update the UI based on the orderstatus_id
-              if (orderStatus === 1) {
-                  var radioButton = document.getElementById('roundedButton');
-                  radioButton.classList.add('checked');
-                  var additionalButton = document.getElementById('additionalButton');
-                  var additionalButton1 = document.getElementById('additionalButton1');
-                  additionalButton.classList.remove('hidden');
-                  additionalButton.classList.add('displayed');
-                  additionalButton1.classList.remove('hidden');
-                  additionalButton1.classList.add('displayed');
-              }
 
-              if (orderStatus === 2) {
-                  var radioButton = document.getElementById('roundedButton');
-                  radioButton.classList.add('checked');
-                  var additionalButton = document.getElementById('additionalButton');
-                  var additionalButton1 = document.getElementById('additionalButton1');
-                  additionalButton.classList.add('checked');
-                  additionalButton.classList.add('displayed');
-                  additionalButton1.classList.add('displayed');
-              }
-
-
-
-          }
-
-      function showAdditionalButton(event) {
+          function showAdditionalButton(event) {
         event.preventDefault(); // Prevent the default link behavior
     
        var orderId = {{ $order->id }};
@@ -183,12 +154,43 @@
                     } 
                     }
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    // Handle errors here
-                    console.error('Error in jQuery $.ajax request:', textStatus, errorThrown);
-                }
+                // error: function(jqXHR, textStatus, errorThrown) {
+                //     // Handle errors here
+                //     console.error('Error in jQuery $.ajax request:', textStatus, errorThrown);
+                // }
             });
     }
+  
+          function checkOrderStatus() {
+              var orderStatus = {{ $order->orderstatus_id }};
+  
+              // Update the UI based on the orderstatus_id
+              if (orderStatus === 1) {
+                  var radioButton = document.getElementById('roundedButton');
+                  radioButton.classList.add('checked');
+                  var additionalButton = document.getElementById('additionalButton');
+                  var additionalButton1 = document.getElementById('additionalButton1');
+                  additionalButton.classList.remove('hidden');
+                  additionalButton.classList.add('displayed');
+                  additionalButton1.classList.remove('hidden');
+                  additionalButton1.classList.add('displayed');
+              }
+
+              if (orderStatus === 2) {
+                  var radioButton = document.getElementById('roundedButton');
+                  radioButton.classList.add('checked');
+                  var additionalButton = document.getElementById('additionalButton');
+                  var additionalButton1 = document.getElementById('additionalButton1');
+                  additionalButton.classList.add('checked');
+                  additionalButton.classList.add('displayed');
+                  additionalButton1.classList.add('displayed');
+              }
+
+
+
+          }
+
+     
 
     
           // Call the checkOrderStatus function when the document is ready

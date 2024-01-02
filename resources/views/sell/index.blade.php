@@ -122,7 +122,7 @@
             <h6>Do you allow the buyer to pay online?</h6>
             <div class="col-12" style="display:flex; align-items: center;">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="paymentOption" id="onlineTransferRadio" style="" value="online">
+                    <input class="form-check-input" type="radio" name="paymentOption" id="onlineTransferRadio" style="" value="online" required>
                     <label class="form-check-label" for="onlineTransferRadio" style="">Yes</label>
                 </div>
                 <div class="form-check">

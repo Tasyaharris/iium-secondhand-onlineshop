@@ -92,9 +92,9 @@
             </div>
             
             <div class="products-listing">
-              <div class="row g-2" >
+              <div class="row g-2" style="min-height: 50vh;" >
           
-                  <div container style=" background-color: white;  border: none;min-height: 50vh; justify-content: center;">
+                  <div container style=" background-color: white;  border: none;">
                     @forelse($order_items->groupBy('order.id') as $orderId => $orderGroup)
                       <div class="col">       
                           <div class="card-body d-flex flex-column">
@@ -204,9 +204,9 @@
                       </div>
                       
                       @empty
-                      <div class="col">
-                          <h6 style="color:grey;text-align:center;align-items:center;">No order</h6>
-                      </div>
+                      <div class="col  d-flex align-items-center justify-content-center">
+                        <h6 style="color:grey;text-align:center;align-items:center;">No order</h6>
+                    </div>
                     @endforelse
                   </div>
             

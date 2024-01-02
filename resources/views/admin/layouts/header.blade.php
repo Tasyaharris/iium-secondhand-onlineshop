@@ -4,7 +4,7 @@
         <img src="/images/logo.png" alt="logo" width="40" height="40">
       </a>
       
-      <a href="/homepage" class=" p-3 text-secondary text-decoration-none d-inline" style="font-weight: bold ">IIUM SECOND-HAND ONLINE SHOP</a>
+      <a href="/homepage" class=" p-3 text-decoration-none d-inline" style="font-weight: bold; color:black; ">IIUM SECOND-HAND ONLINE SHOP</a>
      
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto" >

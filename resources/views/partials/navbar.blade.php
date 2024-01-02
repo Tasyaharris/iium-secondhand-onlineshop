@@ -92,14 +92,15 @@
 
 <nav class="navbar bg-body-tertiary border-bottom mt-0">
   <div class="container-fluid">
-    <a href="/homepage" class=" p-3 text-secondary text-decoration-none d-inline" style="font-weight: bold ">IIUM SECOND-HAND ONLINE SHOP</a>
+    <a href="/homepage" class=" p-3  text-decoration-none d-inline" style="font-weight: bold; color:black;">IIUM SECOND-HAND ONLINE SHOP</a>
     
     <form action="/product/search" class="d-flex" style="margin-right:200px; width:500px" method="GET">
       <input class="form-control" type="search" name="search" placeholder="Search for Item" aria-label="Search">
     </form>
 
     <form action="/sell" class="d-flex">
-      <button class="btn btn-outline-success ms-auto p-2" type="submit" style="background-color: #A8B8D0; color: black; border: none; text-align: center;">SELL</button>
+      {{-- <button class="btn btn-outline-success ms-auto p-2" type="submit" style="background-color: #A8B8D0; color: black; border: none; text-align: center;">SELL</button> --}}
+      <button type="submit" class="btn  btn-outline-success ms-auto p-2 btn-lg" type="submit" style="background-color: #A8B8D0; color: black; border: 1px solid black; text-align: center;">SELL</button>
       @if (Route::has('sell'))
       <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
           @auth

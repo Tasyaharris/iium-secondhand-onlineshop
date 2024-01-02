@@ -108,7 +108,8 @@ public function getSubcategoriesAjax($categoryId)
 
         $validatedData['product_pic'] = json_encode($imagePaths); // Store paths as JSON
     
-        $validatedData['username'] = auth()->user()->id;
+        $validatedData['username'] =  auth()->user()->id;
+        
         $validatedData['productstatus_id']= 3;
     
           // Create a new Product record with the provided data

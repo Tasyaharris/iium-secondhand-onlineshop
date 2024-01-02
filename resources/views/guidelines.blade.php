@@ -71,6 +71,7 @@
 
          <li>Users are encouraged to offer suggestions for system improvements in this forum.</li>
          <li>If you prefer a direct approach, you can contact the administrator for assistance. Use the "Contact Admin" feature or <a href="/contactadmin" style="color: black;">click here</a></li>
+         <img src="/images/chatadmin.png" alt="discussion" style=" margin-right: 25px;" class="mt-2 mb-2">
      </ul>
 
      <h4>Guidelines for Responsible Selling and Buying</h4>

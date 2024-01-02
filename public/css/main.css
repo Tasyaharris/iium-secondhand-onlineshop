@@ -164,3 +164,7 @@ line-height: normal;
 .navbar-nav .dropdown-menu {
     width: 100px; /* Adjust the width as needed */
 }
+
+.nav-link{
+    font-weight: bold;
+}

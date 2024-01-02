@@ -22,6 +22,24 @@
         </div>
         @endif
 
+      <!-- Modal -->
+      <div class="modal fade" id="sellerModal" tabindex="-1" aria-labelledby="sellerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="sellerModalLabel">Cannot Checkout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              You can only checkout products from one seller at a time!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row g-3">
         @include('myorder.profilesbar')
 
@@ -58,11 +76,11 @@
            
             
             <div class="products-listing">
-              <div class="row g-2" >
+              <div class="row g-2">
 
-                <nav class="navbar bg-body-tertiary mt-0" style="border:1px solid grey;">
+                <nav class="navbar bg-body-tertiary mt-0" style="border:1px solid grey;min-height: 30vh;">
                   <div class="discussion-bar">
-                      @foreach($carts->groupBy('product.user.username') as $username => $cartGroup)
+                    @forelse($carts->groupBy('product.user.username') as $username => $cartGroup)
                           <!--seller profile-->
                           <div class="address1" style="display: inline-block; margin-bottom:20px; margin-top:10px; margin-left:10px;">
                               <div style="text-align: center;">
@@ -87,6 +105,7 @@
                                       <label class="form-check-label" for="flexCheckDefault"></label>
                                       <!-- Hidden to pass the productid data -->
                                       <input type="hidden" name="selected_products[]" value="{{ $cart->product->id }}">
+                                      <input type="hidden" name="selected_products[]" value="{{ $cart->product->username }}">
                                       <input type="hidden" name="priceProductSelected" id="priceProductSelected"
                                           value="{{ $cart->product->product_price }}">
                                   </div>
@@ -118,12 +137,22 @@
               
                               </div>
                           @endforeach
-                      @endforeach
+                          @empty
+                          <div class="col" style="align-content: center;">
+                            <h6 style="color: grey; margin-left:280px;">No product in the cart</h6>
+                        </div>
+                        
+                        @endforelse
                   </div>
               </nav>
               
               </div>
             </div>
+
+            <div class="col mt-3" style="display: flex;">
+            <h6>Please checkout products from one seller at a time</h6>
+            </div>
+         
 
                 <div class="col mt-3" style="display: flex;">
                   <div class="totalPrice d-flex align-items-center">
@@ -182,25 +211,42 @@
       });
     </script>
 
-    <script>
-      // JavaScript code to handle the Checkout button click event
-      document.getElementById('checkoutBtn').addEventListener('click', function() {
-          // Get all selected checkboxes
-          var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-  
-          // Extract product ids from selected checkboxes
-          var productIds = Array.from(selectedCheckboxes).map(function(checkbox) {
+<script>
+  // JavaScript code to handle the Checkout button click event
+  document.getElementById('checkoutBtn').addEventListener('click', function () {
+      // Get all selected checkboxes
+      var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+      // Extract product usernames from selected checkboxes
+      var usernames = Array.from(selectedCheckboxes).map(function (checkbox) {
+          return checkbox.nextElementSibling.nextElementSibling.nextElementSibling.value;
+      });
+
+      // Check if all selected products have the same username
+      if (areUsernamesEqual(usernames)) {
+          // If usernames are equal, proceed with checkout
+          var productIds = Array.from(selectedCheckboxes).map(function (checkbox) {
               return checkbox.nextElementSibling.nextElementSibling.value;
           });
-  
+
           // Construct the URL with the selected product ids
           var checkoutUrl = "{{ url('show_items') }}/" + productIds.join(',');
 
-          
           // Redirect to the checkout URL
           window.location.href = checkoutUrl;
+      } else {
+          // If usernames are different, display the modal
+          $('#sellerModal').modal('show');
+      }
+  });
+
+  // Function to check if all usernames in the array are equal
+  function areUsernamesEqual(usernames) {
+      return usernames.every(function (username) {
+          return username === usernames[0];
       });
-    </script>
-      
+  }
+</script>
+
   </body>
 </html>

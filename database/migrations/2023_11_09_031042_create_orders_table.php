@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreignId("delivery_id");
             $table->string("del_place");
             $table->timestamps();
-
             $table->unique('id');
         });
     }
