@@ -1,8 +1,8 @@
 <section class="header border-bottom mt-0" id="header">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
+  <nav class="navbar navbar-expand-lg navbar-dark mb-0" style="background-color: #006d77;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/homepage">
-        <img src="/images/logo.png" alt="logo" width="40" height="40">
+      <a class="navbar-brand" href="/">
+        <img src="/images/logo.png" alt="logo" width="50" height="50">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -12,23 +12,26 @@
           <li class="nav-item">
             <a class="nav-link {{ ($title === "Fashion") ? 'active' : ' ' }}" aria-current="page" href="/fashion">FASHION</a>
           </li>
-        <li class="nav-item">
-            <a class="nav-link {{ ($title === "Books") ? 'active' : ' ' }}" aria-current="page" href="/books">BOOKS</a>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('books') ? 'active' : ' ' }}"  aria-current="page" href="/books">BOOKS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Electronics") ? 'active' : ' ' }}"  aria-current="page" href="/electronics">ELECTRONICS</a>
+            <a class="nav-link {{ Request::is('electronics') ? 'active' : ' ' }}"  aria-current="page" href="/electronics">ELECTRONICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Cosmetics") ? 'active' : ' ' }}" aria-current="page" href="/cosmetics">COSMETICS</a>
+            <a class="nav-link {{ ($title === "Cosmetics") ? 'active' : ' ' }}"  aria-current="page" href="/cosmetics">COSMETICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ ($title === "Others") ? 'active' : ' ' }}" aria-current="page" href="/others">OTHERS</a>
+            <a class="nav-link {{ ($title === "Others") ? 'active' : ' ' }}"  aria-current="page" href="/others">OTHERS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('guidelines') ? 'active' : ' ' }}"  aria-current="page" href="/guidelines">ABOUT US</a>
           </li>
         </ul>
 
         <ul class="navbar-nav ms-auto" >
-          
-          {{-- <li class="nav-item mt-2" style="margin-right:6px;">
+{{--           
+          <li class="nav-item mt-2" style="margin-right:6px;">
             {{-- <a href="/chatpage"> --}}
             {{-- <a href="/chatpage">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chat-fill" viewBox="0 0 16 16">
@@ -55,7 +58,7 @@
 
           @auth
            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight:bold;">
                 {{ auth()->user()->username }}
              </a>
               <ul class="dropdown-menu">
@@ -75,15 +78,12 @@
            </li>
           @else
             <li class="nav-item mt-1">
-                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" style="margin-left:2px;">LOGIN</a>
+                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" style="margin-left:2px;color: white; font-weight:bold;">LOGIN</a>
             </li>
         
           
           @endauth
           </ul>
-            
-        
-        
       </div>
     </div>  
   </nav>

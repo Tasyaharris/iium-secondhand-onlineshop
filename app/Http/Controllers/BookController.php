@@ -25,6 +25,7 @@ class BookController extends Controller
             ->join('negos', 'nego_id', '=', 'negos.id')
             ->join('users', 'products.username', '=', 'users.id')
             ->where('category_id','=','2')
+            ->where('productstatus_id','=','3')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name');
            
             $products = $products->get();
@@ -64,7 +65,8 @@ class BookController extends Controller
             ->when($subCategoryInputs, function ($q) use ($subCategoryInputs) {
                 $q->whereIn('products_subcategories.subcategorie_id', $subCategoryInputs);
             })
-            ->where('category_id', '=', 2);
+            ->where('category_id', '=', 2)
+            ->where('productstatus_id','=','3');
     
         // Add price range criteria
         if ($minPrice && $maxPrice) {
@@ -107,7 +109,8 @@ class BookController extends Controller
     $products = Product::join('conditions', 'condition_id', '=', 'conditions.id')
         ->join('negos', 'nego_id', '=', 'negos.id')
         ->join('users', 'products.username', '=', 'users.id')
-        ->where('category_id', '=', 2);
+        ->where('category_id', '=', 2)
+        ->where('productstatus_id','=','3');
 
     switch ($sortingOption) {
         case 1:

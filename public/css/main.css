@@ -166,5 +166,6 @@ line-height: normal;
 }
 
 .nav-link{
-    font-weight: bold;
+font-weight: bold;
+   color: white;
 }

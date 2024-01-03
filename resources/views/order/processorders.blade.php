@@ -191,6 +191,12 @@
                             @endif
                           </div>
                         </div>
+
+                        <div style="text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                          <div style="text-align: left; display: flex;align-items:center">
+                          <h6 style="margin-top: 10px; margin-left: 15px; margin-right: 5px;">Buyer contact:</h6>  <a href="https://wa.me/{{ $order_item->order->user->phone_number }}" target="_blank" rel="noopener noreferrer">Click here</a>
+                          </div>
+                        </div>
                       
 
                   

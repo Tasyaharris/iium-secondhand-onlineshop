@@ -32,33 +32,7 @@
 
 
       <div class="row g-3">
-        <div class="col-md-4">
-          <div class="user-profile">
-            <div class="user-info">
-              @foreach ($profiles as $profile)
-              <div class="flex-container">
-                <img  class="profile-picture" src="images/books.png" alt="User Profile Picture">
-                <div class="uname">
-                  <div class="nameuser">
-                    <h6 >{{ $profile->first_name }} </h6>
-                    <h6>{{ $profile->last_name }}</h6>
-                  </div>
-                 
-                  <p>{{ auth()->user()->username }}</p>
-                </div>
-              </div>
-              <br>
-                <div class="location">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                </svg> 
-                <p>{{ $profile->mahallah }}</p>
-                </div>
-              @endforeach
-            </div>
-          </div>
-          
-        </div>
+        @include('myorder.profilesbar')
 
         <div class="col-md-8">
           <nav class="side-navbar">
@@ -66,18 +40,18 @@
             <div class="table-container">
             <table class="selection">
               <tr>
-                <td class="clickable-row  {{ Request::is('profile') ? 'active' : ' ' }}"  data-href="/listings">
+                  <td class="clickable-row {{ Request::is('listings') ? 'active' : ' ' }}" onclick="window.location='/profile'">
                   <a href="/profile">My Listings</a>
-                </td>
-                <td class="clickable-row {{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/productreview">
+              </td>
+              <td class="clickable-row {{ Request::is('productreview') ? 'active' : ' ' }}" onclick="window.location='/productreview'">
                   <a href="/productreview">Reviews</a>
-                </td>
-                <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
+              </td>
+              <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" onclick="window.location='/cart'">
                   <a href="/cart">My Cart</a>
-                </td>
-                <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" data-href="/myorder">
+              </td>
+              <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" onclick="window.location='/myorder'">
                   <a href="/myorder">My Order</a>
-                </td>
+              </td>
               </tr>
             </table>
             </div>
@@ -177,6 +151,14 @@
                                 @endif
                                 </div>
                               </div>
+
+                              <div style="text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                                <div style="text-align: left; display: flex;align-items:center">
+                                <h6 style="margin-top: 10px; margin-left: 15px; margin-right: 5px;">Seller contact:</h6>  <a href="https://wa.me/{{ $order_item->product->user->phone_number }}" target="_blank" rel="noopener noreferrer">Click here</a>
+                                </div>
+                              </div>
+
+
       
 
                               <div class="processBtn ms-auto" style="margin-top:10px; margin-bottom:20px;display:flex; ">

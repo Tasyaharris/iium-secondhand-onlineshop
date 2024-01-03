@@ -286,6 +286,7 @@ class ProcessOrderController extends Controller
                 $query->where('cancel_orders.orderstatus_id', '=', '7')
                     ->orWhere('cancel_orders.orderstatus_id', '=', '4');
             })
+            ->where('products.username','=',auth()->user()->id)
             ->select('cancel_items.*')
             ->get(),
             

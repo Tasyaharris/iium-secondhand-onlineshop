@@ -18,8 +18,10 @@ class ReviewController extends Controller
             'users' => User::where('id', auth()->user()->id)->get(),
             'profiles' => Profile::where('username', auth()->user()->id)->get(),
             'order_items' => OrderItem::join('products', 'order_items.product_id', '=', 'products.id')
+                ->join('users','products.username','=','users.id')
                 ->join('reviews', 'order_items.id', '=', 'reviews.order_item_id')
-                ->where('order_items.rstatus', '=', '1') 
+                ->where('order_items.rstatus', '=', '1')
+                ->where('users.id','=',auth()->user()->id)
                 ->select('order_items.*')
                 ->get()
         ]);

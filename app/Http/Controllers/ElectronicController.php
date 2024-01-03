@@ -28,6 +28,7 @@ class ElectronicController extends Controller
             ->join('users', 'products.username', '=', 'users.id')
             ->select('products.*', 'conditions.condition as condition_name', 'negos.option as nego_option', 'users.username as user_name')
             ->where('category_id','=',3)
+            ->where('productstatus_id','=','3')
             ->get(),
             'subcategories'=> Subcategorie::join('categories', 'category_id', '=', 'categories.id')
             ->select('subcategories.*','categories.name as categories_name')->
@@ -56,7 +57,8 @@ class ElectronicController extends Controller
             ->when($subCategoryInputs, function ($q) use ($subCategoryInputs) {
                 $q->whereIn('products_subcategories.subcategorie_id', $subCategoryInputs);
             })
-            ->where('category_id', '=', 3);
+            ->where('category_id', '=', 3)
+            ->where('productstatus_id','=','3');
     
         // Add price range criteria
         if ($minPrice && $maxPrice) {
@@ -99,7 +101,8 @@ class ElectronicController extends Controller
     $products = Product::join('conditions', 'condition_id', '=', 'conditions.id')
         ->join('negos', 'nego_id', '=', 'negos.id')
         ->join('users', 'products.username', '=', 'users.id')
-        ->where('category_id', '=', 3);
+        ->where('category_id', '=', 3)
+        ->where('productstatus_id','=','3');
 
     switch ($sortingOption) {
         case 1:

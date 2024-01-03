@@ -141,7 +141,7 @@
                         <br>
                         
                        
-                        <div class="options">
+                        {{-- <div class="options">
                            <div class="dropdown ms-auto">
                             <i class="fas fa-ellipsis-vertical" data-bs-toggle="dropdown" aria-expanded="false"></i>
                             <ul class="dropdown-menu">
@@ -160,7 +160,7 @@
                               </li> 
                             </ul>
                         </div>
-                        </div>
+                        </div> --}}
                           
 
                       </div> 

@@ -100,7 +100,7 @@
                 <nav class="navbar navbar-expand-lg " style="height: auto;border: 1px solid #000;">
                     <div  style="margin-left:30px;display:flex;align-items:center;">
                       <a  class=" p-3  text-decoration-none d-inline" style="color: #000">Comment:</a>
-                      <textarea class="form-control mt-3" id="comment"  name="comment[{{ $order_item->id }}]" placeholder="Type comment here" style="height: 50px;border:none;margin-left:7px;width:1100px;text-transform:uppercase"></textarea>
+                      <textarea class="form-control mt-3" id="comment"  name="comment[{{ $order_item->id }}]" placeholder="Type comment here" style="height: 50px;border:none;margin-left:7px;width:1100px;"></textarea>
                     </div>
                 </nav>
             </nav>

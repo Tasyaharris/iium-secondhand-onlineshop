@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title }}</title>
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link rel="stylesheet" href="/css/main.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="css/cart.css">
 
@@ -13,8 +14,7 @@
   </head>
   <body>
 
-      @include('partials.navbar')
-
+     
         <!--error messages-->
         @if(session()->has('error'))
         <div class="alert alert-danger" role="alert">
@@ -40,6 +40,8 @@
         </div>
       </div>
 
+      @include('partials.navbar')
+
       <div class="row g-3">
         @include('myorder.profilesbar')
 
@@ -49,18 +51,18 @@
             <div class="table-container">
             <table class="selection">
               <tr>
-                <td class="clickable-row  {{ Request::is('profile') ? 'active' : ' ' }}"  data-href="/listings">
+                <td class="clickable-row {{ Request::is('listings') ? 'active' : ' ' }}" onclick="window.location='/profile'">
                   <a href="/profile">My Listings</a>
-                </td>
-                <td class="clickable-row {{ Request::is('productreview') ? 'active' : ' ' }}" data-href="/productreview">
+              </td>
+              <td class="clickable-row {{ Request::is('productreview') ? 'active' : ' ' }}" onclick="window.location='/productreview'">
                   <a href="/productreview">Reviews</a>
-                </td>
-                <td class="clickable-row active {{ Request::is('cart') ? 'active' : ' ' }}" data-href="/cart">
+              </td>
+              <td class="clickable-row {{ Request::is('cart') ? 'active' : ' ' }}" onclick="window.location='/cart'">
                   <a href="/cart">My Cart</a>
-                </td>
-                <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" data-href="/myorder">
+              </td>
+              <td class="clickable-row {{ Request::is('myorder') ? 'active' : ' ' }}" onclick="window.location='/myorder'">
                   <a href="/myorder">My Order</a>
-                </td>
+              </td>
               </tr>
             </table>
             </div>

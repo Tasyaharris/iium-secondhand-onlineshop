@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/footer.css">
+  
   </head>
   <body>
 
@@ -16,11 +17,11 @@
         <div class="col-md-4">
           <div class="user-profile">
             <div class="user-info">
-              @if(!$profile) 
-              <h6 style="justify-content: center;text-align:center;">{{ $user->username }}</h6>
-              @endif
               <div class="flex-container" class="justify-content: center;">
-             
+                @if(!$profile) 
+                <h6 style="justify-content: center;text-align:center;margin-top:10px;margin-left:45px;">{{ $user->username }}</h6>
+                @endif
+
                 @if($profile)
                 <img  class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
                 <div class="uname">
@@ -42,10 +43,14 @@
               </div>
               @endif
             </div>
-
-            <a href="https://wa.me/{{ $user->phone_number }}" target="_blank" rel="noopener noreferrer" type="button" class="btn btn-secondary">Contact Seller</a>
+            <div class="d-flex justify-content-center">
+              <a href="https://wa.me/{{ $user->phone_number }}" target="_blank" rel="noopener noreferrer" type="button" class="btn " style="width:130px;height:50px;background-color:  #F9C784;font-size:13px;">
+                  Contact Seller via Whatsapp
+              </a>
+            </div>
 
           </div>  
+        
         </div>
 
         <div class="col-md-8">

@@ -73,9 +73,7 @@
             </div>
             @endforeach
         </div>
-        <div class="manage-address" style="margin-left: auto; margin-right:20px;">
-            <a href="/profile" style="color: black; font-size: 13px;">Manage Address</a>
-        </div>
+     
     </nav>
 
     

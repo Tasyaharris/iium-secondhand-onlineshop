@@ -49,7 +49,7 @@
           <table class="selection" style=" margin:0;padding:0;">
             <tr>
               <td class="clickable-row {{ Request::is('discussion') ? 'active' : ' ' }}"  data-href="/discussion">
-                <a href="/discussion">Recent</a>
+                <a href="/">Recent</a>
               </td>
               <td class="clickable-row active{{ Request::is('reviews') ? 'active' : ' ' }}" data-href="/yourpost">
                 <a href="/yourpost">Your Post</a>

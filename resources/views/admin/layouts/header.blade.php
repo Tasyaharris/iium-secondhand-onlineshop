@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
+<nav class="navbar navbar-expand-lg navbar-dark mb-0" style="background-color: #006d77;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/dashboard">
-        <img src="/images/logo.png" alt="logo" width="40" height="40">
+      <a class="navbar-brand1" href="/">
+        <img src="/images/logo.png" alt="logo" width="50" height="50">
       </a>
       
-      <a href="/homepage" class=" p-3 text-decoration-none d-inline" style="font-weight: bold; color:black; ">IIUM SECOND-HAND ONLINE SHOP</a>
+      <a href="/homepage" class=" p-3 text-decoration-none d-inline" style="font-weight: bold; color:white; ">IIUM SECOND-HAND ONLINE SHOP</a>
      
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto" >

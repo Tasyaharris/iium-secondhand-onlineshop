@@ -1,4 +1,4 @@
-<footer class="bg-dark  footer expand-lg text-center  text-white text-lg-start">
+<footer class="  footer expand-lg text-center  text-white text-lg-start" style="background-color: #006d77;">
     <!-- Grid container -->
     <div class="container p-4">
       <!--Grid row-->

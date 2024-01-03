@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
 
@@ -65,7 +66,7 @@
             <!-- Your container content under the table goes here -->
             <div class="products-listing">
                 <div class="row g-2" >
-                  <div container style=" background-color: white;  border: none;min-height: 50vh;display: flex; align-items: center; justify-content: center;">
+                  <div container style=" background-color: white;  border: none;min-height: 50vh;">
                    @forelse ($order_items as $order_item)
                   <div class="col">
                     <div class="card  text-center " style="width: 670px; height: auto;">

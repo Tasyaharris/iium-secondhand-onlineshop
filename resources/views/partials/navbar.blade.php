@@ -1,9 +1,9 @@
  
 <section class="header border-bottom mt-0" id="header">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
+  <nav class="navbar navbar-expand-lg navbar-dark mb-0" style="background-color: #006d77;">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <img src="/images/logo.png" alt="logo" width="40" height="40">
+        <img src="/images/logo.png" alt="logo" width="50" height="50">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -24,6 +24,9 @@
           </li>
           <li class="nav-item">
             <a class="nav-link {{ ($title === "Others") ? 'active' : ' ' }}"  aria-current="page" href="/others">OTHERS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ Request::is('guidelines') ? 'active' : ' ' }}"  aria-current="page" href="/guidelines">ABOUT US</a>
           </li>
         </ul>
 
@@ -56,11 +59,13 @@
 
           @auth
            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white; font-weight:bold;">
                 {{ auth()->user()->username }}
              </a>
               <ul class="dropdown-menu">
                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+               <li><hr class="dropdown-divider"></li>
+               <li><a class="dropdown-item" href="/myorder">My Order</a></li>
                <li><hr class="dropdown-divider"></li>
                <li><a class="dropdown-item" href="/settings">Settings</a></li>
                <li><hr class="dropdown-divider"></li>
@@ -76,7 +81,7 @@
            </li>
           @else
             <li class="nav-item mt-1">
-                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" style="margin-left:2px;">LOGIN</a>
+                    <a class="navbar-brand {{ ($title === "Login") ? 'active' : ' ' }}" href="/login" style="margin-left:2px;color: white; font-weight:bold;">LOGIN</a>
             </li>
         
           
@@ -92,7 +97,7 @@
 
 <nav class="navbar bg-body-tertiary border-bottom mt-0">
   <div class="container-fluid">
-    <a href="/homepage" class=" p-3  text-decoration-none d-inline" style="font-weight: bold; color:black;">IIUM SECOND-HAND ONLINE SHOP</a>
+    <a href="/homepage" class=" p-3  text-decoration-none d-inline" style="font-weight: bold; color:#006d77;">IIUM SECOND-HAND ONLINE SHOP</a>
     
     <form action="/product/search" class="d-flex" style="margin-right:200px; width:500px" method="GET">
       <input class="form-control" type="search" name="search" placeholder="Search for Item" aria-label="Search">
@@ -100,7 +105,7 @@
 
     <form action="/sell" class="d-flex">
       {{-- <button class="btn btn-outline-success ms-auto p-2" type="submit" style="background-color: #A8B8D0; color: black; border: none; text-align: center;">SELL</button> --}}
-      <button type="submit" class="btn  btn-outline-success ms-auto p-2 btn-lg" type="submit" style="background-color: #A8B8D0; color: black; border: 1px solid black; text-align: center;">SELL</button>
+      <button type="submit" class="btn  ms-auto p-2 btn-lg" type="submit" style="background-color:  #fcaf58; color: black; text-align: center; ">SELL</button>
       @if (Route::has('sell'))
       <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
           @auth
