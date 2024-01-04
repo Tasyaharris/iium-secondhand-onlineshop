@@ -23,7 +23,9 @@
                 @endif
 
                 @if($profile)
-                <img  class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
+                @if ($profile->profile_pic)
+                <img class="profile-picture" src="{{ asset('storage/' . $profile->profile_pic) }}" alt="User Profile Picture">
+            @endif
                 <div class="uname">
                   <div class="nameuser">
                     <h6 >{{ $profile->first_name }} </h6>

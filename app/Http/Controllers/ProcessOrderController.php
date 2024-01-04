@@ -121,14 +121,10 @@ class ProcessOrderController extends Controller
            $order->update(['orderstatus_id' => 1]);
        }
 
-       
-     
-
-
         $delivered = $order;
 
         // Return any data if needed
-        return response()->json(['status' => 'success', 'delivered'=> $delivered]);
+        return back()->with(['status' => 'success']);
     }
 
     
@@ -180,7 +176,7 @@ class ProcessOrderController extends Controller
         $received = $order;
 
         // Return any data if needed
-        return response()->json(['status' => 'success', 'received'=> $received]);
+        return back()->with(['status' => 'success', 'received' => $received]);
     }
 
     public function receivedbuyer($id)

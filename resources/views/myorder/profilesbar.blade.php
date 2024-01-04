@@ -4,7 +4,7 @@
         @if ($profiles->isEmpty())
         <!-- Show a button to fill profile details -->
         <p>{{ auth()->user()->username }}</p>
-        <a type="button" class="btn btn-secondary mt-3" href="/settings" >Please fill in your profile </a>
+        <a type="button" class="btn  mt-3" href="/settings" style="background-color:#fcaf58;">Please fill in your profile </a>
     @else
         {{-- Display profile information --}}
         @foreach ($profiles as $profile)
